@@ -21,6 +21,7 @@ define(function(require, exports, module) {
                     menuLi.addClass('active');
                 }
             }
+            
         },
         _init: function() {
             var me = this;
