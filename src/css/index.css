@@ -376,7 +376,8 @@ div.admin .main-fixed {
   top: 60px !important;
   bottom: 0;
   padding-right: 0;
-  padding-left: 52px !important; }
+  padding-left: 52px !important;
+  background: #fff !important; }
 
 /*sidebar style patch*/
 .admin.admin-min .sidebar-content {
@@ -527,12 +528,30 @@ div.admin .main-fixed {
 .error-tips {
   margin-left: 0; }
 
+/*按钮*/
+.btn-basic, .btn-basic-default, .btn-basic-large {
+  padding: 6px 20px;
+  border-radius: 4px;
+  background-color: #FB7762;
+  color: white;
+  cursor: pointer; }
+  .btn-basic:hover, .btn-basic-default:hover, .btn-basic-large:hover {
+    color: #fff;
+    text-decoration: none; }
+
+.btn-basic-large {
+  display: inline-block; }
+
 /*公共样式*/
 .ellipsis {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
+
+.td-a:hover {
+  text-decoration: none;
+  cursor: pointer; }
 
 .w-87 {
   width: 87%; }
@@ -573,6 +592,9 @@ div.admin .main-fixed {
 .w-200 {
   width: 200px; }
 
+.w-300 {
+  width: 300px !important; }
+
 .w-400 {
   width: 400px; }
 
@@ -581,6 +603,9 @@ div.admin .main-fixed {
 
 .w-600 {
   width: 600px; }
+
+.w-700 {
+  width: 700px; }
 
 .w-auto {
   width: auto !important; }
@@ -596,6 +621,15 @@ div.admin .main-fixed {
 
 .inline-block {
   display: inline-block; }
+
+.ml5 {
+  margin-left: 5px !important; }
+
+.ml10 {
+  margin-left: 10px !important; }
+
+.ml15 {
+  margin-left: 15px !important; }
 
 .f12 {
   font-size: 12px; }
@@ -617,6 +651,9 @@ div.admin .main-fixed {
 
 .mt20 {
   margin-top: 20px; }
+
+.mt10 {
+  margin-top: 10px; }
 
 .mr10 {
   margin-right: 10px; }
@@ -755,10 +792,647 @@ dl dd {
   height: 100%;
   width: 100%; }
 
+/* 地图样式 */
+.monitorList {
+  position: absolute;
+  left: 54px;
+  right: 0;
+  bottom: 0;
+  border-top: 1px solid #c9c9c9;
+  background-color: rgba(255, 255, 255, 0.98);
+  background-color: #fff \9;
+  font-size: 14px; }
+  .monitorList .monitorBar {
+    height: 36px;
+    line-height: 36px;
+    border-bottom: 1px solid #c9c9c9; }
+    .monitorList .monitorBar .monitorOrganizationText {
+      width: 120px;
+      vertical-align: top;
+      cursor: pointer;
+      color: #4f95ff;
+      text-align: left;
+      padding-left: 10px; }
+    .monitorList .monitorBar .monitorCarSummary {
+      color: #000000;
+      font-weight: bold; }
+      .monitorList .monitorBar .monitorCarSummary span {
+        margin: 0 5px; }
+      .monitorList .monitorBar .monitorCarSummary span.monitorCarNumberColor {
+        color: #ff6666; }
+    .monitorList .monitorBar .monitorCarSearch {
+      margin-left: 20px;
+      width: 900px; }
+      .monitorList .monitorBar .monitorCarSearch > div input[type="text"] {
+        height: 28px; }
+    .monitorList .monitorBar .fold, .monitorList .monitorBar .foldDown, .monitorList .monitorBar .foldUp {
+      display: inline-block;
+      margin-right: 20px;
+      cursor: pointer;
+      width: 14px;
+      height: 13px; }
+    .monitorList .monitorBar .foldDown {
+      background: url("./../img/fold_down.png") no-repeat; }
+    .monitorList .monitorBar .foldUp {
+      background: url("./../img/fold_up.png") no-repeat; }
+  .monitorList .monitorBody {
+    display: none;
+    height: 300px;
+    width: 100%; }
+  .monitorList .engine {
+    color: #7A7A7A; }
+  .monitorList .status, .monitorList .open, .monitorList .close {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    color: #fff;
+    border-radius: 4px;
+    text-align: center; }
+  .monitorList .open {
+    background-color: #4f95ff; }
+  .monitorList .close {
+    background-color: #ff6666; }
+
+.vehicle-box {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 53px;
+  bottom: 48px;
+  width: 340px;
+  overflow-y: auto;
+  border-right: 1px solid #c9c9c9;
+  border-bottom: 1px solid #c9c9c9;
+  background-color: rgba(255, 255, 255, 0.98);
+  background-color: #fff \9; }
+  .vehicle-box .vehicle-header {
+    border-bottom: 1px solid #eee; }
+    .vehicle-box .vehicle-header .vehicle-title {
+      width: 100px;
+      padding-left: 10px; }
+    .vehicle-box .vehicle-header .vehicle-close {
+      position: relative;
+      top: 6px;
+      right: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      color: #403d3d; }
+  .vehicle-box .vehicle-search {
+    padding: 10px 10px 0; }
+  .vehicle-box .vehicle-tree {
+    padding-top: 10px;
+    height: 85%;
+    overflow-y: auto; }
+
+.normalText {
+  display: inline-block;
+  width: 200px;
+  height: 30px;
+  padding: 3px 6px;
+  font-size: 12px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px; }
+
+.monitor-active {
+  background-color: #ddd; }
+
+/*地图信息框样式*/
+.point_info {
+  display: inline-block; }
+
+.point_info_title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #c9c9c9; }
+
+.point_title_left {
+  display: inline-block;
+  width: 200px;
+  padding-left: 10px; }
+
+.point_info_row {
+  margin: 12px 0;
+  color: #666;
+  line-height: 18px; }
+
+.point_info_row_s {
+  font-size: 12px;
+  color: #666; }
+
+.point_info_left {
+  display: inline-block;
+  width: 190px;
+  padding-left: 25px; }
+
+.point_info_right {
+  display: inline-block;
+  padding-left: 25px; }
+
+.point_info_addr {
+  padding: 10px 20px 10px 35px;
+  border-top: 1px solid #c9c9c9;
+  border-bottom: 1px solid #c9c9c9;
+  background: url(./../img/position.png) no-repeat scroll 10px 9px; }
+
+.point_btn {
+  margin-top: 11px;
+  line-height: 20px;
+  color: #777;
+  text-align: center; }
+
+.point_btn_info {
+  display: inline-block;
+  padding: 0 24px 0 26px;
+  cursor: pointer;
+  color: #4F95FF; }
+
+.point_btn_info.br {
+  border-right: 1px solid #c9c9c9; }
+
+/*轨迹样式*/
+.track-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%; }
+  .track-container #trackToolBar .track-back {
+    cursor: pointer;
+    position: absolute;
+    left: 100px;
+    background-image: url(./../img/icon_back.png);
+    background-repeat: no-repeat;
+    background-position: center 10px;
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 75px;
+    font-size: 14px;
+    top: 22px;
+    background-color: #F87261;
+    color: white; }
+  .track-container #trackToolBar .track-search {
+    position: absolute;
+    top: 22px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    line-height: 30px;
+    left: 10%;
+    padding: 10px; }
+  .track-container #trackToolBar .track-list {
+    position: absolute;
+    width: 100%;
+    bottom: 0; }
+    .track-container #trackToolBar .track-list .track-range {
+      height: 15px;
+      width: 100%;
+      background-repeat: repeat;
+      background-image: url(./../img/track_op_1.png); }
+      .track-container #trackToolBar .track-list .track-range .track-process {
+        height: 15px;
+        width: 1%;
+        position: relative;
+        z-index: 100;
+        background-color: #F87261; }
+        .track-container #trackToolBar .track-list .track-range .track-process .track-range-point {
+          width: 24px;
+          height: 24px;
+          background-image: url(./../img/icon_timenote.png);
+          background-repeat: no-repeat;
+          background-position: center;
+          right: -5px;
+          top: -5.5px;
+          position: absolute;
+          cursor: pointer; }
+    .track-container #trackToolBar .track-list .track-play {
+      width: 100%;
+      height: 58px;
+      background-repeat: repeat;
+      background-image: url(./../img/track_op_2.png);
+      position: relative; }
+      .track-container #trackToolBar .track-list .track-play .trackPlay-btn {
+        width: 54px;
+        height: 54px;
+        background-image: url(./../img/btn_play.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        left: 45px;
+        top: 2px;
+        display: block;
+        cursor: pointer; }
+      .track-container #trackToolBar .track-list .track-play .track-time {
+        color: white;
+        font-size: 16px;
+        margin-left: 15px;
+        line-height: 58px;
+        position: relative;
+        left: 112px; }
+      .track-container #trackToolBar .track-list .track-play .track-speed-slow {
+        left: 150px;
+        position: relative;
+        font-size: 14px;
+        color: #fff; }
+      .track-container #trackToolBar .track-list .track-play .track-speed-side {
+        display: inline-block;
+        width: 100px;
+        height: 8px;
+        border-radius: 10px;
+        position: relative;
+        left: 160px;
+        background-color: #B4B4B4; }
+        .track-container #trackToolBar .track-list .track-play .track-speed-side .track-speed-width {
+          position: absolute;
+          width: 50%;
+          height: 100%;
+          border-radius: 10px;
+          left: 0;
+          top: 0;
+          background-color: #F87261; }
+          .track-container #trackToolBar .track-list .track-play .track-speed-side .track-speed-width .track-speed-point {
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            background-image: url(./../img/icon_playspeed.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            right: -5px;
+            top: -4px;
+            cursor: pointer; }
+      .track-container #trackToolBar .track-list .track-play .track-speed-fast {
+        left: 170px;
+        position: relative;
+        font-size: 14px;
+        color: #fff; }
+  .track-container #trackToolBar .track-list-info {
+    height: auto;
+    width: 100%;
+    background-color: #fff; }
+    .track-container #trackToolBar .track-list-info .track-list-info-choice {
+      width: 100%;
+      height: 48px;
+      line-height: 48px;
+      position: relative;
+      border: 1px solid #ccc; }
+      .track-container #trackToolBar .track-list-info .track-list-info-choice span.track-list-info-choice-point {
+        cursor: pointer;
+        position: relative;
+        left: 50px;
+        padding-left: 20px;
+        background: url("./../img/icon_pathway2.png") no-repeat; }
+      .track-container #trackToolBar .track-list-info .track-list-info-choice span.track-list-info-toggle {
+        position: absolute;
+        right: 58px;
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background-position: center;
+        background-image: url(./../img/icon1_packup.png);
+        background-repeat: no-repeat;
+        cursor: pointer;
+        top: 9px; }
+      .track-container #trackToolBar .track-list-info .track-list-info-choice span.track-list-info-toggle.active {
+        background-image: url(./../img/icon1_more.png); }
+  .track-container #trackToolBar .track-list-data {
+    display: none;
+    height: 300px;
+    width: 100%; }
+
+/*ztree样式*/
+/*-------------------------------------
+zTree Style
+
+version:	3.5.19
+author:		Hunter.z
+email:		hunter.z@263.net
+website:	http://code.google.com/p/jquerytree/
+
+-------------------------------------*/
+.ztree * {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif; }
+
+.ztree {
+  margin: 0;
+  padding: 5px;
+  color: #333; }
+
+.ztree li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  line-height: 14px;
+  text-align: left;
+  white-space: nowrap;
+  outline: 0; }
+
+.ztree li ul {
+  margin: 0;
+  padding: 0 0 0 18px; }
+
+.ztree li ul.line {
+  background: url(./../img/line_conn.gif) 0 0 repeat-y; }
+
+.ztree li a {
+  padding: 1px 3px 0 0;
+  margin: 0;
+  cursor: pointer;
+  height: 17px;
+  color: #333;
+  background-color: transparent;
+  text-decoration: none;
+  vertical-align: top;
+  display: inline-block; }
+
+.ztree li a:hover {
+  text-decoration: underline; }
+
+.ztree li a.curSelectedNode {
+  padding-top: 0px;
+  background-color: #FFE6B0;
+  color: black;
+  height: 16px;
+  border: 1px #FFB951 solid;
+  opacity: 0.8; }
+
+.ztree li a.curSelectedNode_Edit {
+  padding-top: 0px;
+  background-color: #FFE6B0;
+  color: black;
+  height: 16px;
+  border: 1px #FFB951 solid;
+  opacity: 0.8; }
+
+.ztree li a.tmpTargetNode_inner {
+  padding-top: 0px;
+  background-color: #316AC5;
+  color: white;
+  height: 16px;
+  border: 1px #316AC5 solid;
+  opacity: 0.8;
+  filter: alpha(opacity=80); }
+
+.ztree li a input.rename {
+  height: 14px;
+  width: 80px;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  border: 1px #7EC4CC solid;
+  *border: 0px; }
+
+.ztree li span {
+  line-height: 16px;
+  margin-right: 2px; }
+
+.ztree li span.button {
+  line-height: 0;
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 0 none;
+  cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-image: url("./../img/zTreeStandard.png");
+  *background-image: url("./../img/zTreeStandard.gif"); }
+
+.ztree li span.button.chk {
+  width: 13px;
+  height: 13px;
+  margin: 0 3px 0 0;
+  cursor: auto; }
+
+.ztree li span.button.chk.checkbox_false_full {
+  background-position: 0 0; }
+
+.ztree li span.button.chk.checkbox_false_full_focus {
+  background-position: 0 -14px; }
+
+.ztree li span.button.chk.checkbox_false_part {
+  background-position: 0 -28px; }
+
+.ztree li span.button.chk.checkbox_false_part_focus {
+  background-position: 0 -42px; }
+
+.ztree li span.button.chk.checkbox_false_disable {
+  background-position: 0 -56px; }
+
+.ztree li span.button.chk.checkbox_true_full {
+  background-position: -14px 0; }
+
+.ztree li span.button.chk.checkbox_true_full_focus {
+  background-position: -14px -14px; }
+
+.ztree li span.button.chk.checkbox_true_part {
+  background-position: -14px -28px; }
+
+.ztree li span.button.chk.checkbox_true_part_focus {
+  background-position: -14px -42px; }
+
+.ztree li span.button.chk.checkbox_true_disable {
+  background-position: -14px -56px; }
+
+.ztree li span.button.chk.radio_false_full {
+  background-position: -28px 0; }
+
+.ztree li span.button.chk.radio_false_full_focus {
+  background-position: -28px -14px; }
+
+.ztree li span.button.chk.radio_false_part {
+  background-position: -28px -28px; }
+
+.ztree li span.button.chk.radio_false_part_focus {
+  background-position: -28px -42px; }
+
+.ztree li span.button.chk.radio_false_disable {
+  background-position: -28px -56px; }
+
+.ztree li span.button.chk.radio_true_full {
+  background-position: -42px 0; }
+
+.ztree li span.button.chk.radio_true_full_focus {
+  background-position: -42px -14px; }
+
+.ztree li span.button.chk.radio_true_part {
+  background-position: -42px -28px; }
+
+.ztree li span.button.chk.radio_true_part_focus {
+  background-position: -42px -42px; }
+
+.ztree li span.button.chk.radio_true_disable {
+  background-position: -42px -56px; }
+
+.ztree li span.button.switch {
+  width: 18px;
+  height: 18px; }
+
+.ztree li span.button.root_open {
+  background-position: -92px -54px; }
+
+.ztree li span.button.root_close {
+  background-position: -74px -54px; }
+
+.ztree li span.button.roots_open {
+  background-position: -92px 0; }
+
+.ztree li span.button.roots_close {
+  background-position: -74px 0; }
+
+.ztree li span.button.center_open {
+  background-position: -92px -18px; }
+
+.ztree li span.button.center_close {
+  background-position: -74px -18px; }
+
+.ztree li span.button.bottom_open {
+  background-position: -92px -36px; }
+
+.ztree li span.button.bottom_close {
+  background-position: -74px -36px; }
+
+.ztree li span.button.noline_open {
+  background-position: -92px -72px; }
+
+.ztree li span.button.noline_close {
+  background-position: -74px -72px; }
+
+.ztree li span.button.root_docu {
+  background: none; }
+
+.ztree li span.button.roots_docu {
+  background-position: -56px 0; }
+
+.ztree li span.button.center_docu {
+  background-position: -56px -18px; }
+
+.ztree li span.button.bottom_docu {
+  background-position: -56px -36px; }
+
+.ztree li span.button.noline_docu {
+  background: none; }
+
+.ztree li span.button.ico_open {
+  margin-right: 2px;
+  background-position: -110px -16px;
+  vertical-align: top;
+  *vertical-align: middle; }
+
+.ztree li span.button.ico_close {
+  margin-right: 2px;
+  background-position: -110px 0;
+  vertical-align: top;
+  *vertical-align: middle; }
+
+.ztree li span.button.ico_docu {
+  margin-right: 2px;
+  background-position: -110px -32px;
+  vertical-align: top;
+  *vertical-align: middle; }
+
+.ztree li span.button.edit {
+  margin-right: 2px;
+  background-position: -110px -48px;
+  vertical-align: top;
+  *vertical-align: middle; }
+
+.ztree li span.button.remove {
+  margin-right: 2px;
+  background-position: -110px -64px;
+  vertical-align: top;
+  *vertical-align: middle; }
+
+.ztree li span.button.ico_loading {
+  margin-right: 2px;
+  background: url(./../img/loading.gif) no-repeat scroll 0 0 transparent;
+  vertical-align: top;
+  *vertical-align: middle; }
+
+.ztree li span.button.p1_ico_open {
+  margin-right: 2px;
+  background: url(./../img/diy/open.png) no-repeat scroll 0 0 transparent;
+  vertical-align: top;
+  *vertical-align: middle; }
+
+.ztree li span.button.p1_ico_close {
+  margin-right: 2px;
+  background: url(./../img/diy/close.png) no-repeat scroll 0 0 transparent;
+  vertical-align: top;
+  *vertical-align: middle; }
+
+.ztree li span.button.p1_ico_docu {
+  margin-right: 2px;
+  background: url(./../img/diy/close.png) no-repeat scroll 0 0 transparent;
+  vertical-align: top;
+  *vertical-align: middle; }
+
+ul.tmpTargetzTree {
+  background-color: #FFE6B0;
+  opacity: 0.8;
+  filter: alpha(opacity=80); }
+
+span.tmpzTreeMove_arrow {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  padding: 0;
+  margin: 2px 0 0 1px;
+  border: 0 none;
+  position: absolute;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: -110px -80px;
+  background-image: url("./../img/zTreeStandard.png");
+  *background-image: url("./../img/zTreeStandard.gif"); }
+
+ul.ztree.zTreeDragUL {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+  background-color: #cfcfcf;
+  border: 1px #00B83F dotted;
+  opacity: 0.8;
+  filter: alpha(opacity=80); }
+
+.zTreeMask {
+  z-index: 10000;
+  background-color: #cfcfcf;
+  opacity: 0.0;
+  filter: alpha(opacity=0);
+  position: absolute; }
+
+/* level style*/
+/*.ztree li span.button.level0 {
+	display:none;
+}
+.ztree li ul.level0 {
+	padding:0;
+	background:none;
+}*/
 /*登录样式*/
 body {
   width: 100%;
   height: 100%;
+  background-color: #fff; }
+
+.logn-bg {
   background-image: url("./../img/loginBg.jpg");
   background-size: 100%; }
 
