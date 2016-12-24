@@ -47,7 +47,7 @@ define(function(require, exports, module) {
         getData: function() {
             var me = this;
             var param = this.searchParam;
-            if (this.searchParam && !_.isEmpty(this.searchParam)) {
+            //if (this.searchParam && !_.isEmpty(this.searchParam)) {
                 param = $.extend({}, param, this.sortParam ? this.sortParam : {});
                 // 将查询条件保存到localStorage里面
                 common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
@@ -68,7 +68,7 @@ define(function(require, exports, module) {
                     }
                     common.loading();
                 });
-            }
+            //}
         },
         stopCar: function(truckId, confirmText, callback) {
             var me = this;
