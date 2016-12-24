@@ -3,11 +3,13 @@ define(function(require, exports, module) {
     // 引入模块
     var common = require('common');
     var api = require('api');
+    var map = require('map');
     require('lodash');
     // 模板
     var tpls = {
-        carIndex: require('../../tpl/carManager/index'),
-        carList: require('../../tpl/carManager/list')
+        carIndex: require('../../tpl/orderManager/index'),
+        carList: require('../../tpl/orderManager/list'),
+        map: require('../../tpl/orderManager/map')
     };
 
     function carList() {}
@@ -30,18 +32,22 @@ define(function(require, exports, module) {
                 me.sortParam = sortParam;
                 me.getData();
             });
+            common.initDateTime('input[name="start"]', 'Y/m/d H:i', false, false, true, new Date());
+            common.initDateTime('input[name="end"]', 'Y/m/d H:i', false, false, true, new Date());
         },
         // 获取查询条件
         getParams: function(param) {
             this.sortParam = {};
             var newParams = {
-                orgId: common.getElValue(':hidden[name="orgId"]'),
-                orgName: common.getElValue('input[name="orgName"]'),
-                plateNumber: common.getElValue('input[name="plateNumber"]'),
-                uniqueId: common.getElValue('input[name="uniqueId"]')
+                OrderNum: common.getElValue('input[name="OrderNum"]'), //订单编号
+                start: common.getElValue('input[name="start"]'),
+                end: common.getElValue('input[name="end"]'),
+                phone: common.getElValue('input[name="phone"]'),
+                plateNo: common.getElValue('input[name="plateNo"]'),
+                OrderType: common.getElValue('input[name="OrderType"]')
             };
-            if (newParams.beginTime) newParams.beginTime = newParams.beginTime + ' 00:00:00';
-            if (newParams.endTime) newParams.endTime = newParams.endTime + ' 00:00:00';
+            if (newParams.start) newParams.start = newParams.start;
+            if (newParams.end) newParams.end = newParams.end;
             this.searchParam = common.getParams('carSearchParams', param, newParams, true);
         },
         getData: function() {
@@ -52,15 +58,15 @@ define(function(require, exports, module) {
                 // 将查询条件保存到localStorage里面
                 common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
                 common.loading('show');
-                common.ajax(api.carManager.list, param, function(res) {
-                    if (res.status === 'OK') {
+                common.ajax(api.orderManager.list, param, function(res) {
+                    if (res.status === 'SUCCESS') {
                         var data = res.content;
                         $('#carList').empty().html(template.compile(tpls.carList)({
-                            data: data.result || []
+                            data: data.Page || []
                         }));
-                        common.page(data.totalCount, param.pageSize, param.pageNumber, function(currPage) {
+                        common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
                             me.searchParam.pageNumber = currPage;
-                            common.changeHash('#carManager/index/', me.searchParam);
+                            common.changeHash('#orderManager/index/', me.searchParam);
                         });
                     } else {
                         var msg = res.errorMsg || '系统出错，请联系管理员！';
@@ -109,7 +115,7 @@ define(function(require, exports, module) {
             // 查询-事件监听
             $('.panel-toolbar').on('click', '.js_list_search', function() {
                 me.getParams(true);
-                common.changeHash('#carManager/index/', me.searchParam);
+                common.changeHash('#orderManager/index/', me.searchParam);
             });
             // 事件监听
             $('#main-content').on('click', '.js_list_add', function() {
@@ -127,12 +133,17 @@ define(function(require, exports, module) {
                 .on('click', '.js_list_export', function() {
                     me.exportCarList($(this));
                 })
+                //查看位置
                 .on('click', '.js_list_detail', function() {
-                    var tr = $(this).closest('tr');
-                    var truckId = tr.data('truckid');
-                    var orgId = tr.data('orgid');
-                    var uniqueIds = tr.data('uniqueids');
-                    common.changeHash('#carManager/detail/', { truckId: truckId, orgId: orgId, uniqueIds: uniqueIds });
+                    common.autoAdaptionDialog(template.compile(tpls.map)(),null,function(){
+                        map.init('mymap');
+                    });
+                    // var tr = $(this).closest('tr');
+                    // var truckId = tr.data('truckid');
+                    // var orgId = tr.data('orgid');
+                    // var uniqueIds = tr.data('uniqueids');
+                    // common.changeHash('#carManager/detail/', { truckId: truckId, orgId: orgId, uniqueIds: uniqueIds });
+
                 })
                 .on('click', '.js_list_stop', function() {
                     var truckId = $(this).closest('tr').data('truckid');

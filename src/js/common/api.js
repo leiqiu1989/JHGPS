@@ -33,6 +33,9 @@ define(function(require, exports, module) {
             sendGPS: remoteUrl + '/web/cmd/send',
             getGPSNumByOrgId: remoteUrl + '/avl/info/get-avlinfo-list-by-orgid'
         },
+        orderManager:{
+            list: remoteUrl + '/Order/QueryAllOrder',
+        },
         gpsDevice: {
             list: remoteUrl + '/avl/get-avl-info-list', //GPS设备列表
             detail: remoteUrl + '/avl/info/get-avl-info-detail', //设备详情
