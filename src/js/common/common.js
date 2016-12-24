@@ -593,14 +593,14 @@ define(function(require, exports, module) {
 
             .on('input propertychange', 'input[name="orgName"]', function(e) {
                 var value = $.trim($(this).val());
-                common.setElValue(':hidden[name="orgId"]', '');
+                common.setElValue(':hidden[name="OnlyOrgNo"]', '');
                 if (value.length >= 3) {
                     me.getOrganizationList(value);
                 }
             }).on('click', 'ul.ul-select a', function() {
                 var orgId = $(this).data('orgid');
                 var orgName = $(this).data('name');
-                common.setElValue(':hidden[name="orgId"]', orgId);
+                common.setElValue(':hidden[name="OnlyOrgNo"]', orgId);
                 common.setElValue('input[name="orgName"]', orgName);
                 $(this).closest('ul.ul-select').addClass('hidden');
                 callback && callback(orgId, orgName);
@@ -615,14 +615,14 @@ define(function(require, exports, module) {
                 return false;
             }
             common.ajax(api.carManager.orgList, {
-                companyName: value
+                OnlyOrgName: value
             }, function(res) {
-                if (res.status === 'OK') {
+                if (res.status === 'SUCCESS') {
                     var data = res.content;
                     var html = '';
                     if (data && data.length > 0) {
                         $.each(data, function(i, item) {
-                            html += '<li><a href="javascript:" data-name="' + item.fullName + '" data-orgid="' + item.orgId + '">' + item.fullName + '</a></li>';
+                            html += '<li><a href="javascript:" data-name="' + item.Name + '" data-orgid="' + item.Id + '">' + item.Name + '</a></li>';
                         });
                     } else {
                         html = '<li><span>未找到相关数据项！</span></li>';
@@ -706,6 +706,33 @@ define(function(require, exports, module) {
                     $(this).removeClass('desc').addClass('asc');
                 }
                 if (callback) callback(params);
+            });
+        },
+        getSelect: function(opt){
+            var obj = {
+                url: opt.url,
+                params: opt.params || {},
+                errorMsg: opt.errorMsg || '请求错误，未请求到数据',
+                key: opt.key || ['id','name'],
+                $objs: opt.obj,
+                selected: opt.selected,
+                isall: opt.isall
+            };
+            common.ajax(obj.url, obj.params, function(res) {
+                if (res.status === 'SUCCESS') {
+                    var data = res.content;
+                    var html = obj.isall ? '<option value="0">全部</option>' : '';
+                    if (data && data.length > 0) {
+                        $.each(data, function(i, item) {
+                            html += '<option value="' + item[obj.key[0]] + '">' + item[obj.key[1]] + '</option>';
+                        });
+                    }
+                    obj.$objs.html(html);
+                    obj.selected && obj.$objs.val(obj.selected);
+                }else{
+                    var msg = res.errorMsg || obj.errorMsg;
+                    common.toast(msg);
+                }
             });
         }
     };

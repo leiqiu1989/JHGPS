@@ -30,25 +30,18 @@ define(function(require, exports, module) {
                 me.sortParam = sortParam;
                 me.getData();
             });
-            common.getSelect({
-                url: api.carManager.carType,
-                obj: $('#vehicleType'),
-                key: ['PKey','PValue'],
-                selected: me.searchParam.VehicleType,
-                isall: true
-            });
         },
         // 获取查询条件
         getParams: function(param) {
             this.sortParam = {};
             var newParams = {
-                OnlyOrgNo: common.getElValue(':hidden[name="OnlyOrgNo"]'), //所属机构
-                VehicleType: common.getElValue('select[name="VehicleType"]'), //车辆类型
-                Condition: common.getElValue('input[name="Condition"]') //关键字
-                // uniqueId: common.getElValue('input[name="uniqueId"]')
+                orgId: common.getElValue(':hidden[name="orgId"]'),
+                orgName: common.getElValue('input[name="orgName"]'),
+                plateNumber: common.getElValue('input[name="plateNumber"]'),
+                uniqueId: common.getElValue('input[name="uniqueId"]')
             };
-            // if (newParams.beginTime) newParams.beginTime = newParams.beginTime + ' 00:00:00';
-            // if (newParams.endTime) newParams.endTime = newParams.endTime + ' 00:00:00';
+            if (newParams.beginTime) newParams.beginTime = newParams.beginTime + ' 00:00:00';
+            if (newParams.endTime) newParams.endTime = newParams.endTime + ' 00:00:00';
             this.searchParam = common.getParams('carSearchParams', param, newParams, true);
         },
         getData: function() {
@@ -60,10 +53,10 @@ define(function(require, exports, module) {
                 common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
                 common.loading('show');
                 common.ajax(api.carManager.list, param, function(res) {
-                    if (res.status === 'SUCCESS') {
+                    if (res.status === 'OK') {
                         var data = res.content;
                         $('#carList').empty().html(template.compile(tpls.carList)({
-                            data: data.Page || []
+                            data: data.result || []
                         }));
                         common.page(data.totalCount, param.pageSize, param.pageNumber, function(currPage) {
                             me.searchParam.pageNumber = currPage;
@@ -77,15 +70,14 @@ define(function(require, exports, module) {
                 });
             //}
         },
-        //删除车辆
         stopCar: function(truckId, confirmText, callback) {
             var me = this;
             common.confirm(confirmText, function() {
                 common.loading('show', '数据正在处理中...');
                 common.ajax(api.carManager.stop, {
-                    ArrVid: truckId
+                    truckIds: truckId
                 }, function(res) {
-                    if (res.status === 'SUCCESS') {
+                    if (res.status === 'OK') {
                         if (callback) {
                             callback();
                         } else {
@@ -123,12 +115,11 @@ define(function(require, exports, module) {
             $('#main-content').on('click', '.js_list_add', function() {
                     common.changeHash('#carManager/edit');
                 })
-                //编辑车辆
                 .on('click', '.js_list_edit', function() {
                     var tr = $(this).closest('tr');
                     var truckId = tr.data('truckid');
                     var orgId = tr.data('orgid');
-                    common.changeHash('#carManager/edit/', { truckId: truckId });
+                    common.changeHash('#carManager/edit/', { truckId: truckId, orgId: orgId });
                 })
                 .on('click', '.js_list_import', function() {
                     common.changeHash('#carManager/import');
@@ -136,27 +127,25 @@ define(function(require, exports, module) {
                 .on('click', '.js_list_export', function() {
                     me.exportCarList($(this));
                 })
-                // //查看车辆详情：暂时不做
-                // .on('click', '.js_list_detail', function() {
-                //     var tr = $(this).closest('tr');
-                //     var truckId = tr.data('truckid');
-                //     var orgId = tr.data('orgid');
-                //     var uniqueIds = tr.data('uniqueids');
-                //     common.changeHash('#carManager/detail/', { truckId: truckId, orgId: orgId, uniqueIds: uniqueIds });
-                // })
-                //批量、单个删除车辆
+                .on('click', '.js_list_detail', function() {
+                    var tr = $(this).closest('tr');
+                    var truckId = tr.data('truckid');
+                    var orgId = tr.data('orgid');
+                    var uniqueIds = tr.data('uniqueids');
+                    common.changeHash('#carManager/detail/', { truckId: truckId, orgId: orgId, uniqueIds: uniqueIds });
+                })
                 .on('click', '.js_list_stop', function() {
                     var truckId = $(this).closest('tr').data('truckid');
                     var confirmText = '';
                     if (truckId) {
-                        confirmText = '确定要删除该车辆吗？';
+                        confirmText = '确定要停用该车辆吗？';
                     } else {
                         var chks = $('.datatable-content table > tbody input[name="checkItem"]:checked');
                         if (chks.size() < 1) {
-                            common.toast('请选择要删除的车辆！');
+                            common.toast('请选择要停用的车辆！');
                             return false;
                         }
-                        confirmText = '已选择&nbsp;<span class="red">' + chks.size() + '</span>&nbsp;辆车，是否对车辆进行删除？';
+                        confirmText = '已选择&nbsp;<span class="red">' + chks.size() + '</span>&nbsp;辆车，是否对车辆停止使用？';
                         var array = [];
                         $.each(chks, function(i, item) {
                             array.push($(item).closest('tr').data('truckid'));

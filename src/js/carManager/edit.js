@@ -24,51 +24,66 @@ define(function(require, exports, module) {
             this.truckId = truckId;
             this.orgId = orgId || null;
             this.isEdit = !!truckId;
+            this.obj = {
+                Driver: {},
+                Equipment: {},
+                Simcard: {},
+                Vehicle: {} 
+            };
             if (orgId) this.oldOrgId = orgId;
-            var title = this.isEdit ? '编辑车辆' : '新增车辆';
-            $('#main-content').empty().html(template.compile(tpls.add)({ title: title }));
-            this.initControl();
-            this.validate();
-            this.event();
+            //var title = this.isEdit ? '编辑车辆' : '新增车辆';
+            // $('#main-content').empty().html(template.compile(tpls.add)({ title: title }));
+            this.initPage();
+            
             $('html').css('overflow','auto');
         },
         bindEditValue: function(data) {
             // 先绑定值，然后初始化编辑控件
-            common.setFormData('#frmaddCar', data);
+            //common.setFormData('#frmaddCar', data);
+            $.extend(this.obj,{
+                Driver: data.Driver || {},
+                Equipment: data.Equipment || {},
+                Simcard: data.Simcard || {},
+                Vehicle: data.Vehicle || {} 
+            });
+            $('#main-content').empty().html(template.compile(tpls.add)({ title: (this.isEdit ? '编辑车辆' : '新增车辆'),data: this.obj }));
             // checkbox单独处理
             $('input[name="needExamined"]').attr('checked', data.needExamined == 1 ? true : false);
-            this.initEditControl(data);
+            this.initSelect();
+            this.validate();
+            this.event();
+            //this.initEditControl(data);
         },
         initEditValue: function() {
             var me = this;
             common.ajax(api.carManager.detail, {
-                truckId: this.truckId,
+                Vid: this.truckId,
                 orgId: this.orgId
             }, function(res) {
-                if (res.status === 'OK') {
+                if (res.status === 'SUCCESS') {
                     var data = res.content;
-                    if (data.orgId) {
-                        me.getDriverList(data.orgId, function() {
-                            // 把当前司机填充到下拉框里面
-                            var masterHtml = '',
-                                copilotHtml = '';
-                            if (data.masterDriverId && data.masterName) {
-                                masterHtml = '<option value="' + (data.masterDriverId || '') + '" ' +
-                                    'data-mobile="' + (data.masterTelephone || '') + '" ' +
-                                    'data-permittype="' + (data.masterCardType || '') + '" ' +
-                                    'data-card="' + (data.masterIdCard || '') + '">' + (data.masterName || '') + '</option>';
-                            }
-                            if (data.copilotName && data.copilotDriverId) {
-                                copilotHtml = '<option value="' + (data.copilotDriverId || '') + '" ' +
-                                    'data-mobile="' + (data.copilotTelephone || '') + '" ' +
-                                    'data-permittype="' + (data.copilotCardType || '') + '" ' +
-                                    'data-card="' + (data.copilotIdCard || '') + '">' + (data.copilotName || '') + '</option>';
-                            }
-                            $('#master_DriverId').append(masterHtml);
-                            $('#copilot_DriverId').append(copilotHtml);
-                            me.bindEditValue(data);
-                        });
-                    }
+                    // if (data.orgId) {
+                        // me.getDriverList(data.orgId, function() {
+                        //     // 把当前司机填充到下拉框里面
+                        //     var masterHtml = '',
+                        //         copilotHtml = '';
+                        //     if (data.masterDriverId && data.masterName) {
+                        //         masterHtml = '<option value="' + (data.masterDriverId || '') + '" ' +
+                        //             'data-mobile="' + (data.masterTelephone || '') + '" ' +
+                        //             'data-permittype="' + (data.masterCardType || '') + '" ' +
+                        //             'data-card="' + (data.masterIdCard || '') + '">' + (data.masterName || '') + '</option>';
+                        //     }
+                        //     if (data.copilotName && data.copilotDriverId) {
+                        //         copilotHtml = '<option value="' + (data.copilotDriverId || '') + '" ' +
+                        //             'data-mobile="' + (data.copilotTelephone || '') + '" ' +
+                        //             'data-permittype="' + (data.copilotCardType || '') + '" ' +
+                        //             'data-card="' + (data.copilotIdCard || '') + '">' + (data.copilotName || '') + '</option>';
+                        //     }
+                        //     $('#master_DriverId').append(masterHtml);
+                        //     $('#copilot_DriverId').append(copilotHtml);
+                        //     me.bindEditValue(data);
+                        // });
+                    //}
                     me.bindEditValue(data);
                 }
             });
@@ -128,50 +143,78 @@ define(function(require, exports, module) {
                 }
             });
         },
-        initControl: function() {
+        initPage: function() {
+            var me = this;
             //获取车辆类型
-            this.getCarType();
+            //this.getCarType();
             //获取车辆品牌
-            this.getCarBrand();
+            //this.getCarBrand();
             // 编辑
             if (this.isEdit) {
                 this.initEditValue();
             } else {
+                $('#main-content').empty().html(template.compile(tpls.add)({ title: '' ,data: this.obj}));
                 $('.js_edit_control').remove();
+                this.initSelect();
+                this.validate();
+                this.event();
             }
+        },
+        initSelect: function(){
             common.initDateTime('#_outStockTime', 'Y-m-d', false, false, false, new Date());
+            common.initDateTime('#gpsStartTime', 'Y-m-d', false, false, false, new Date());
+            common.initDateTime('#gpsEndTime', 'Y-m-d', false, false, false, new Date());
+            //获取车辆类型
+            this.getSelect({
+                url: api.carManager.carType,
+                obj: $('#truck_Type'),
+                key: ['PKey','PValue']
+            });
+            //获取车辆品牌
+            this.getSelect({
+                url: api.carManager.carBrand,
+                obj: $('#vehicle_Brand'),
+                key: ['PKey','PValue']
+            });
+            //车牌颜色
+            this.getSelect({
+                url: api.carManager.plateNumberColor,
+                obj: $('#plateNumber_Color'),
+                key: ['PKey','PValue']
+            });
+            //设备类型
+            this.getSelect({
+                url: api.carManager.equipmentType,
+                obj: $('#equipmentType'),
+                key: ['PKey','PValue']
+            });
         },
-        getCarType: function() {
+        getSelect: function(opt){
             var me = this;
-            // common.ajax(api.carManager.carType, {}, function(res) {
-            //     if (res.status === 'OK') {
-            //         var data = res.content;
-            //         var html = '';
-            //         if (data && data.length > 0) {
-            //             $.each(data, function(i, item) {
-            //                 html += '<option value="' + item.name + '" data-code="' + item.code + '">' + item.name + '</option>';
-            //             });
-            //         }
-            //         me.truckTypeIsLoaded = true;
-            //         $('#truck_Type').html(html);
-            //     }
-            // });
-        },
-        getCarBrand: function() {
-            var me = this;
-            // common.ajax(api.carManager.carBrand, {}, function(res) {
-            //     if (res.status === 'OK') {
-            //         var data = res.content;
-            //         var html = '';
-            //         if (data && data.length > 0) {
-            //             $.each(data, function(i, item) {
-            //                 html += '<option value="' + item.name + '">' + item.name + '</option>';
-            //             });
-            //         }
-            //         me.vehicleBrandIsLoaded = true;
-            //         $('#vehicle_Brand').html(html);
-            //     }
-            // });
+            var obj = {
+                url: opt.url,
+                params: opt.params || {},
+                errorMsg: opt.errorMsg || '请求错误，未请求到数据',
+                key: opt.key || ['id','name'],
+                $objs: opt.obj
+            };
+            me.truckTypeIsLoaded = false;
+            common.ajax(obj.url, obj.params, function(res) {
+                if (res.status === 'SUCCESS') {
+                    var data = res.content;
+                    var html = '';
+                    if (data && data.length > 0) {
+                        $.each(data, function(i, item) {
+                            html += '<option value="' + item[obj.key[0]] + '">' + item[obj.key[1]] + '</option>';
+                        });
+                    }
+                    me.truckTypeIsLoaded = true;
+                    obj.$objs.html(html);
+                }else{
+                    var msg = res.errorMsg || obj.errorMsg;
+                    common.toast(msg);
+                }
+            });
         },
         // 司机事件绑定
         eventDriver: function() {
@@ -222,24 +265,28 @@ define(function(require, exports, module) {
                 promptPos: 'inline',
                 submit: function() {
                     me.submitForm();
-                },
-                reg: {
-                    'letternum': /^[0-9a-zA-Z]*$/
-                },
-                errorMsg: {
-                    'letternum': '只能输入字母和数字'
                 }
+                // reg: {
+                //     'letternum': /^[0-9a-zA-Z]*$/
+                // },
+                // errorMsg: {
+                //     'letternum': '只能输入字母和数字'
+                // }
             });
         },
         submitForm: function() {
             var me = this;
             var url = this.isEdit ? api.carManager.update : api.carManager.submit;
             var params = common.getFormData('#frmaddCar');
-            if (this.isEdit && this.orgId) {
-                params.oldOrgId = this.oldOrgId;
+            if (this.isEdit) {
+                params.Vid = me.truckId;
             }
+            params.OnlyOrgNo = me.orgId;
+            alert('pass');
+            console.log(params);
+            //return;
             common.ajax(url, params, function(res) {
-                if (res && res.status === 'OK') {
+                if (res && res.status === 'SUCCESS') {
                     common.alert('数据操作成功', 'success', true, function() {
                         common.changeHash('#carManager/index');
                     });
@@ -257,11 +304,11 @@ define(function(require, exports, module) {
             // 所属机构事件监听
             common.listenOrganization(function(orgId, orgName) {
                 me.orgId = orgId;
-                me.getDriverList(orgId);
-                me.clearDriveInfo();
-                if (me.isEdit) {
-                    $('.js_updateGPS').removeClass('disabled');
-                }
+                //me.getDriverList(orgId);
+                //me.clearDriveInfo();
+                // if (me.isEdit) {
+                //     $('.js_updateGPS').removeClass('disabled');
+                // }
             });
             // add event listen
             $('#main-content')
