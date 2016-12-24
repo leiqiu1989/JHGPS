@@ -6,6 +6,18 @@
     padding: 4px 12px;
 }
 
+.btn-primary,
+.btn-default {
+    background-color: #FB7762 !important;
+    border-color: #ea7865 !important;
+    color: #fff;
+    &:hover {
+        background-color: #FB7762 !important;
+        border-color: #ea7865 !important;
+        color: #fff;
+    }
+}
+
 .table-form-horizontal td .control-label-patch {
     width: 100px;
     margin-left: -110px;
