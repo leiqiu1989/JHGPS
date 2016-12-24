@@ -30,6 +30,7 @@ define(function(require, exports, module) {
             this.initControl();
             this.validate();
             this.event();
+            $('html').css('overflow','auto');
         },
         bindEditValue: function(data) {
             // 先绑定值，然后初始化编辑控件
@@ -138,38 +139,39 @@ define(function(require, exports, module) {
             } else {
                 $('.js_edit_control').remove();
             }
+            common.initDateTime('#_outStockTime', 'Y-m-d', false, false, false, new Date());
         },
         getCarType: function() {
             var me = this;
-            common.ajax(api.carManager.carType, {}, function(res) {
-                if (res.status === 'OK') {
-                    var data = res.content;
-                    var html = '';
-                    if (data && data.length > 0) {
-                        $.each(data, function(i, item) {
-                            html += '<option value="' + item.name + '" data-code="' + item.code + '">' + item.name + '</option>';
-                        });
-                    }
-                    me.truckTypeIsLoaded = true;
-                    $('#truck_Type').html(html);
-                }
-            });
+            // common.ajax(api.carManager.carType, {}, function(res) {
+            //     if (res.status === 'OK') {
+            //         var data = res.content;
+            //         var html = '';
+            //         if (data && data.length > 0) {
+            //             $.each(data, function(i, item) {
+            //                 html += '<option value="' + item.name + '" data-code="' + item.code + '">' + item.name + '</option>';
+            //             });
+            //         }
+            //         me.truckTypeIsLoaded = true;
+            //         $('#truck_Type').html(html);
+            //     }
+            // });
         },
         getCarBrand: function() {
             var me = this;
-            common.ajax(api.carManager.carBrand, {}, function(res) {
-                if (res.status === 'OK') {
-                    var data = res.content;
-                    var html = '';
-                    if (data && data.length > 0) {
-                        $.each(data, function(i, item) {
-                            html += '<option value="' + item.name + '">' + item.name + '</option>';
-                        });
-                    }
-                    me.vehicleBrandIsLoaded = true;
-                    $('#vehicle_Brand').html(html);
-                }
-            });
+            // common.ajax(api.carManager.carBrand, {}, function(res) {
+            //     if (res.status === 'OK') {
+            //         var data = res.content;
+            //         var html = '';
+            //         if (data && data.length > 0) {
+            //             $.each(data, function(i, item) {
+            //                 html += '<option value="' + item.name + '">' + item.name + '</option>';
+            //             });
+            //         }
+            //         me.vehicleBrandIsLoaded = true;
+            //         $('#vehicle_Brand').html(html);
+            //     }
+            // });
         },
         // 司机事件绑定
         eventDriver: function() {

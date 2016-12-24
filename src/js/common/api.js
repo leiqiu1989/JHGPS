@@ -11,7 +11,8 @@ define(function(require, exports, module) {
         carPositionList: remoteUrl + '/Position/QueryLastPosition',
         carTrackHistory: remoteUrl + '/Position/QueryHistory',
         carManager: {
-            list: remoteUrl + '/vehicle/get-vehicle-list',
+            list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo',//'/vehicle/get-vehicle-list', //车辆管理列表
+
             exportCarList: remoteUrl + '/vehicle/get-vehicle-list-export',
             orgList: remoteUrl + '/company/get-company-list',
             stop: remoteUrl + '/vehicle/disable-vehicle',

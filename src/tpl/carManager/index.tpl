@@ -14,14 +14,16 @@
 						<ul class="ul-select hidden"></ul>
 					</td>
 					<td>
-						<label class="control-label">车牌号码</label>
-						<input type="text" class="form-control w-200" name="plateNumber" placeholder="请输入车牌号码"
+						<label class="control-label">关键字</label>
+						<input type="text" class="form-control w-200" name="plateNumber" placeholder="车牌、司机、SIM卡号、设备编号搜索"
 						value="<%= searchValue.plateNumber %>" />
 					</td>
 					<td>
-						<label class="control-label">GPS设备编号</label>
-						<input type="text" class="form-control w-200" name="uniqueId" placeholder="请输入GPS设备编号"
-						value="<%= searchValue.uniqueId %>" />
+						<label class="control-label">车辆类型</label>
+						<select class="form-control w-200" id="plateNumber_Color" name="plateNumberColor" required>
+							<option value="0">黄牌</option>
+							<option value="1">蓝牌</option>
+						</select>
 					</td>
 					<td class="pl20">
 						<a href="javascript:" class="btn btn-primary js_list_search mr10">查 询</a>
@@ -74,8 +76,8 @@
 								<th class="sortable string asc" data-sortfield="plateNumber">车牌号码</th>
 								<th class="sortable string asc" data-sortfield="plateNumberColor">车牌颜色</th>
 								<th class="sortable string asc" data-sortfield="orgName">所属机构</th>
-								<th class="sortable string asc" data-sortfield="state">车辆状态</th>
-								<th class="sortable string asc" data-sortfield="uniqueId">GPS设备号码</th>
+								<!-- <th class="sortable string asc" data-sortfield="state">车辆状态</th> -->
+								<th class="sortable string asc" data-sortfield="uniqueId">GPS设备编号</th>
 								<th class="sortable string asc" data-sortfield="needExamined">是否年审</th>
 								<th class="sortable date asc" data-sortfield="gpsEndTime">服务到期时间</th>
 								<th class="sortable string asc" data-sortfield="status">是否停用</th>
