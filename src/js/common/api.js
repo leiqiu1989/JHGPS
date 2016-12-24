@@ -7,6 +7,9 @@ define(function(require, exports, module) {
     var api = {
         //登录
         login: remoteUrl + '/Account/Login',
+        vehicleList: remoteUrl + '/Home/QueryZtree',
+        carPositionList: remoteUrl + '/Position/QueryLastPosition',
+        carTrackHistory: remoteUrl + '/Position/QueryHistory',
         carManager: {
             list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo',//'/vehicle/get-vehicle-list', //车辆管理列表
 

@@ -7,6 +7,7 @@ define(function(require, exports, module) {
 
     $.extend(login.prototype, {
         init: function() {
+            $('body').addClass('logn-bg');
             $('#contentBody').empty().html(template.compile(tpl)());
             $('input[name="username"]').focus();
             this.setloginData();
@@ -47,8 +48,10 @@ define(function(require, exports, module) {
         },
         submit: function() {
             //清除IE的cookie
-            common.setCookie('sid', '', -1);
-            common.setCookie('st', '', -1);
+            common.setCookie('accountid', '', -1);
+            common.setCookie('usertype', '', -1);
+            common.setCookie('orgno', '', -1);
+            common.setCookie('token', '', -1);
             $('#btn-login').attr('disabled', 'disabled');
             var username = $.trim($('input[name="username"]').val());
             var userpwd = $.trim($('input[name="password"]').val());
@@ -65,7 +68,13 @@ define(function(require, exports, module) {
                         if (isRemember) {
                             common.setCookie('password', userpwd, 1);
                         }
-                        common.changeHash('#carManager/index');
+                        // 存储后台返回状态
+                        var data = res.content;
+                        common.setCookie('accountid', data.AccountId);
+                        common.setCookie('usertype', data.UserType);
+                        common.setCookie('orgno', data.OrgNo);
+                        common.setCookie('token', data.Token);
+                        common.changeHash('#carMonitor/index');
                     } else {
                         $('#btn-login').removeAttr('disabled', 'disabled');
                         var msg = res.errorMsg;

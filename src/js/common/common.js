@@ -9,6 +9,9 @@ define(function(require, exports, module) {
     var page = require('page');
     require('lodash');
     require('chosen');
+    // 全局变量
+    var nodeList;
+    var outNodeList;
 
     /*js对象扩展*/
     Date.prototype.format = function(format) {
@@ -52,6 +55,28 @@ define(function(require, exports, module) {
         }
         return processDesc;
     });
+    // 地图方向转换
+    template.helper('directForm', function(direction) {
+        var flags;
+        if (direction < 23 || direction > 338) {
+            flags = "北";
+        } else if (direction < 68) {
+            flags = "东北";
+        } else if (direction < 113) {
+            flags = "东";
+        } else if (direction < 157) {
+            flags = "东南";
+        } else if (direction < 203) {
+            flags = "南";
+        } else if (direction < 248) {
+            flags = "西南";
+        } else if (direction < 293) {
+            flags = "西";
+        } else {
+            flags = "西北";
+        }
+        return flags;
+    });
     template.helper('userStatus', function(key) {
         return key == 0 ? '停用' : key == 1 ? '启用' : '';
     });
@@ -94,7 +119,7 @@ define(function(require, exports, module) {
         // 初始化日期
         initDateTime: function(el, formatStyle, hasDefValue, timePickerBool, minDate, maxDate) {
             formatStyle = formatStyle || 'Y/m/d H:i';
-            var currentDate = new Date().format('yyyy/MM/dd H:m');
+            var currentDate = new Date().format('yyyy/MM/dd h:m');
             timePickerBool = (timePickerBool === undefined || timePickerBool === null) ? true : timePickerBool;
             var opts = {
                 lang: 'ch',
@@ -171,6 +196,39 @@ define(function(require, exports, module) {
             $(el).on('change', function(evt, params) {
                 if (callback) callback(params);
             });
+        },
+        directForm: function(data) {
+            var direction = data.Directio;
+            var directionDesc = '',
+                degrees = 0;
+            if (direction < 23 || direction > 338) {
+                directionDesc = "北";
+                degrees = 0;
+            } else if (direction < 68) {
+                directionDesc = "东北";
+                degrees = 45;
+            } else if (direction < 113) {
+                directionDesc = "东";
+                degrees = 90;
+            } else if (direction < 157) {
+                directionDesc = "东南";
+                degrees = 135;
+            } else if (direction < 203) {
+                directionDesc = "南";
+                degrees = 180;
+            } else if (direction < 248) {
+                directionDesc = "西南";
+                degrees = 225;
+            } else if (direction < 293) {
+                directionDesc = "西";
+                degrees = 270;
+            } else {
+                directionDesc = "西北";
+                degrees = 315;
+            }
+            data.DirectionDesc = directionDesc;
+            data.Degrees = degrees;
+            return data;
         },
         // 区间日期,intervals间隔的天数
         initBetweenDateTime: function(startEl, endEl, interVals) {
@@ -480,6 +538,13 @@ define(function(require, exports, module) {
             var me = this;
             param = param || {};
             opts = opts || {};
+            // 不是登录，则需要传递sid,st参数
+            if (opts.action !== 'login') {
+                param.AccountId = this.getCookie('accountid');
+                param.UserType = this.getCookie('usertype');
+                param.OrgNo = this.getCookie('orgno');
+                param.Token = this.getCookie('token');
+            }
             return $.ajax({
                 type: "POST",
                 url: url,
@@ -565,6 +630,61 @@ define(function(require, exports, module) {
                     $('ul.ul-select').removeClass('hidden').empty().html(html);
                 }
             });
+        },
+        // ztree查询
+        searchTree: function() {
+            var me = this;
+            $('#searchTreeText').bind("input propertychange", function() {
+                var treeText = $(this).val();
+                me.treefilter('vehicleTree', treeText);
+            });
+        },
+        treefilter: function(treeId, treeText) {
+            var zTree = $.fn.zTree.getZTreeObj(treeId);
+            if (treeText) {
+                nodeList = zTree.getNodes();
+                nodeList = zTree.transformToArray(nodeList);
+                zTree.hideNodes(nodeList); //先隐藏所有节点
+                nodeList = zTree.getNodesByParamFuzzy("Name", treeText);
+                outNodeList = zTree.getNodesByParamFuzzy("Name", treeText);
+                for (var i = 0; i < nodeList.length; i++) {
+                    this.findParent(zTree, nodeList[i]); //递归获取父节点
+                    this.findChild(zTree, nodeList[i]); //递归获取子节点
+                }
+            } else {
+                outNodeList = zTree.transformToArray(zTree.getNodes());
+            }
+            zTree.showNodes(outNodeList); //再展示匹配到的节点
+        },
+        findParent: function(zTree, node) {
+            var pNode = node.getParentNode();
+            if (pNode) {
+                outNodeList.push(pNode);
+                this.findParent(zTree, pNode);
+            }
+        },
+        findChild: function(zTree, node) {
+            var pNodes = node.children;
+            if (pNodes) {
+                for (var i = 0; i < pNodes.length; i++) {
+                    outNodeList.push(pNodes[i]);
+                    this.findChild(zTree, pNodes[i]);
+                }
+            }
+        },
+        // 获取选择组织value
+        getTreeNodeSelected: function(treeId) {
+            var arrVids = [];
+            //获取被选中项
+            var treeObj = $.fn.zTree.getZTreeObj(treeId);
+            var nodes = treeObj.getCheckedNodes(true);
+            //重新填充数据
+            for (var i = 0; i < nodes.length; i++) {
+                if (!nodes[i].isParent) {
+                    arrVids.push(nodes[i].Id);
+                }
+            }
+            return arrVids.join(",");
         },
         tableSort: function(callback) {
             var me = this;
