@@ -118,7 +118,7 @@ define(function(require, exports, module) {
                 "</div>" +
                 "<div class='point_info_addr'>位置：" + data.Location + "</div>" +
                 "<div class='point_btn'>" +
-                "<div class='point_btn_info br' onclick='showVehicleInfo(" + data.Vid + ")'>车辆详细资料</div>" +
+                "<div class='point_btn_info br' onclick='showCarInfo(" + data.Vid + ")'>车辆详细资料</div>" +
                 "<div class='point_btn_info' onclick=\"showVehicleTrack('" + data.Vid + "','" + data.PlateNo + "')\">轨迹回放</div>" +
                 "</div>";
         },
@@ -138,8 +138,10 @@ define(function(require, exports, module) {
                 borderRadius: "4px"
             });
             label.setContent(data.PlateNo);
+            var onlineIcon = new BMap.Icon(window.DOMAIN + "img/green_north.png", new BMap.Size(45, 45));
+            var offLineIcon = new BMap.Icon(window.DOMAIN + "img/grey_north.png", new BMap.Size(45, 45));
             var marker = new BMap.Marker(new BMap.Point(data.Lng, data.Lat), {
-                icon: new BMap.Icon(window.DOMAIN + "img/sm_blue.png", new BMap.Size(45, 45))
+                icon: (data.IsOnline ? onlineIcon : offLineIcon)
             });
             // 创建标注
             marker.setLabel(label);

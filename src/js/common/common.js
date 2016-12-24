@@ -117,13 +117,14 @@ define(function(require, exports, module) {
     /*公共js*/
     var common = {
         // 初始化日期
-        initDateTime: function(el, formatStyle, hasDefValue, timePickerBool, minDate, maxDate) {
+        initDateTime: function(el, formatStyle, hasDefValue, defValueformat, timePickerBool, minDate, maxDate) {
             formatStyle = formatStyle || 'Y/m/d H:i';
-            var currentDate = new Date().format('yyyy/MM/dd h:m');
+            defValueformat = defValueformat || 'yyyy/MM/dd h:m';
+            var currentDate = new Date().format(defValueformat);
             timePickerBool = (timePickerBool === undefined || timePickerBool === null) ? true : timePickerBool;
             var opts = {
                 lang: 'ch',
-                defaultDate: hasDefValue ? currentDate : null,
+                value: hasDefValue ? currentDate : null,
                 timepicker: timePickerBool,
                 format: formatStyle,
                 minDate: minDate || false,
