@@ -71,21 +71,7 @@
                                 </thead>
                             </table>
                         </div>
-                        <div id="track-history-list" class="datatable-content panel-body no-padding grow">
-                            <table class="table table-hover no-margin">
-                                <colgroup>
-                                    <col width="50px">
-                                    <col width="10%">
-                                    <col width="10%">
-                                    <col width="10%">
-                                    <col width="10%">
-                                    <col width="22">
-                                    <col width="35%">
-                                </colgroup>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
+                        <div id="track-history-list" class="datatable-content panel-body no-padding grow">                            
                         </div>
                     </div>
                 </div>

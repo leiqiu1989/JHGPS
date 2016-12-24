@@ -12,8 +12,8 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">车牌号码</label>
                             <div class="col-sm-7">
-                                <label class="control-label-text-bootstrap" title="<%= carInfo.orgName %>">
-                                    大幅度发顺丰
+                                <label class="control-label-text-bootstrap">
+                                    <%= data.Vehicle.PlateNo %>
                                 </label>
                             </div>
                         </div>
@@ -23,7 +23,7 @@
                             <label class="col-sm-5 control-label">车牌颜色</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    水电费水电费等
+                                    <%= data.Vehicle.Color %>
                                 </label>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                             <label class="col-sm-5 control-label">车辆品牌</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    上发斯蒂芬
+                                    <%= data.Vehicle.Brand %>
                                 </label>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                             <label class="col-sm-5 control-label">车辆类型</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    打发打发
+                                    <%= data.Vehicle.VehicleType %>
                                 </label>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             <label class="col-sm-5 control-label">购车日期</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    2012/12/12 23:43:24
+                                    <%= data.Vehicle.BuyDate %>
                                 </label>
                             </div>
                         </div>
@@ -79,8 +79,8 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">司机姓名</label>
                             <div class="col-sm-7">
-                                <label class="control-label-text-bootstrap" title="<%= carInfo.orgName %>">
-                                    大幅度发顺丰
+                                <label class="control-label-text-bootstrap">
+                                    <%= data.Driver.DriverName %>
                                 </label>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                             <label class="col-sm-5 control-label">联系电话</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    水电费水电费等
+                                    <%= data.Driver.PhoneNo %>
                                 </label>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                             <label class="col-sm-5 control-label">紧急联系电话</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    上发斯蒂芬
+                                    <%= data.Driver.UrgencyContactPhone %>
                                 </label>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                             <label class="col-sm-5 control-label">身份证</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    打发打发
+                                    <%= data.Driver.IDCard %>
                                 </label>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                             <label class="col-sm-5 control-label">家庭住址</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    2012/12/12 23:43:24
+                                    <%= data.Driver.HomeAddress %>
                                 </label>
                             </div>
                         </div>
@@ -146,8 +146,8 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">设备编号</label>
                             <div class="col-sm-7">
-                                <label class="control-label-text-bootstrap" title="<%= carInfo.orgName %>">
-                                    大幅度发顺丰
+                                <label class="control-label-text-bootstrap">
+                                    <%= data.Equipment.EquipmentNo %>
                                 </label>
                             </div>
                         </div>
@@ -157,7 +157,7 @@
                             <label class="col-sm-5 control-label">设备类型</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    水电费水电费等
+                                    <%= data.Equipment.EquipmentTypeId %>
                                 </label>
                             </div>
                         </div>
@@ -169,7 +169,7 @@
                             <label class="col-sm-5 control-label">设备名称</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    上发斯蒂芬
+                                    <%= data.Equipment.DeviceName %>
                                 </label>
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                             <label class="col-sm-5 control-label">SIM卡号</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    打发打发
+                                    <%= data.Simcard.SimCardNo %>
                                 </label>
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                             <label class="col-sm-5 control-label">入网时间</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    2012/12/12 23:43:24
+                                    <%= data.Simcard.STime %>
                                 </label>
                             </div>
                         </div>
@@ -201,7 +201,7 @@
                             <label class="col-sm-5 control-label">到期时间</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    2012/12/12 23:43:24
+                                    <%= data.Simcard.ETime %>
                                 </label>
                             </div>
                         </div>
@@ -212,8 +212,7 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">备注</label>
                             <div class="col-sm-7">
-                                <label class="control-label-text-bootstrap">
-                                    2012/12/12 23:43:24
+                                <label class="control-label-text-bootstrap">                                    
                                 </label>
                             </div>
                         </div>

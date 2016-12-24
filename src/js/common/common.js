@@ -334,10 +334,11 @@ define(function(require, exports, module) {
         },
         // 清除locationStorage
         clearData: function() {
-            common.removeLocationStorage('carSearchParams');
-            common.removeLocationStorage('gpsSearchParams');
-            common.removeLocationStorage('deviceFaultSearchParams');
-            common.removeLocationStorage('tplSearchParams');
+            common.setCookie('accountid', '', -1);
+            common.setCookie('usertype', '', -1);
+            common.setCookie('orgno', '', -1);
+            common.setCookie('token', '', -1);
+            common.setCookie('arrVids', '', -1);
         },
         // 根据key获取查询条件，param:历史查询参数(传递true则更新为新的查询参数)，
         // newParam：新的查询参数，hasDefaultPage：参数默认传递page参数，默认为true
@@ -678,7 +679,7 @@ define(function(require, exports, module) {
             var arrVids = [];
             //获取被选中项
             var treeObj = $.fn.zTree.getZTreeObj(treeId);
-            var nodes = treeObj.getCheckedNodes(true);
+            var nodes = treeObj.getCheckedNodes(true) || [];
             //重新填充数据
             for (var i = 0; i < nodes.length; i++) {
                 if (!nodes[i].isParent) {
