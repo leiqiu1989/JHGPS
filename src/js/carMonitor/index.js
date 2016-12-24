@@ -25,8 +25,8 @@ define(function(require, exports, module) {
         // 初始化控件
         initControl: function() {
             var me = this;
-            this.event();
             this.initZTree();
+            this.event();
         },
         initZTree: function() {
             //组织列表树设置
@@ -82,6 +82,7 @@ define(function(require, exports, module) {
         getCarPositionList: function() {
             var me = this;
             var arrVid = common.getTreeNodeSelected('vehicleTree');
+            common.setCookie('arrVids', arrVid);
             common.ajax(api.carPositionList, { ArrVid: arrVid }, function(res) {
                 if (res && res.status === 'SUCCESS') {
                     var data = res.content || [];
@@ -108,11 +109,6 @@ define(function(require, exports, module) {
         },
         event: function() {
             var me = this;
-            // 查询-事件监听
-            $('.panel-toolbar').on('click', '.js_list_search', function() {
-                me.getParams(true);
-                common.changeHash('#carManager/index/', me.searchParam);
-            });
             // 事件监听
             $('#main-content')
                 // 组织列表隐藏
@@ -140,6 +136,7 @@ define(function(require, exports, module) {
                 })
                 // 车辆详情
                 .on('click', '.js_car_info', function() {
+                    alert('1111');
                     common.autoAdaptionDialog(tpls.carDetail, {
                         title: '车辆详情'
                     }, function(_dialog) {
@@ -150,7 +147,9 @@ define(function(require, exports, module) {
                 })
                 // 轨迹回放
                 .on('click', '.js_track_replay', function() {
-                    common.changeHash('#carMonitor/track');
+                    var id = $(this).data('id');
+                    var plateNo = $(this).data('plate');
+                    common.changeHash('#carMonitor/track/', { id: id, plateNo: plateNo });
                 })
                 // 已选组织-确认
                 .on('click', '.js-vehicle-ok', function() {

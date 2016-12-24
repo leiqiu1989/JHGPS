@@ -83,39 +83,7 @@
                                     <col width="35%">
                                 </colgroup>
                                 <tbody>
-                                    <% if(data && data.length >	0) {
-                                        for(var i = 0, len = data.length; i < len; i++) {
-                                            var item = data[i];
-                                            var statusDesc='';
-                                            if(item.Status.indexOf('ACC开;') > -1) {
-                                                statusDesc='<span class='engine'>发动机</span>&nbsp;<span class='open'>开</span>';
-                                            }else{
-                                                statusDesc='<span class='engine'>发动机</span>&nbsp;<span class='close'>关</span>';
-                                            }
-                                    %>
-                                    <tr>
-                                        <td>
-                                            <%= i+1 %>
-                                        </td>
-                                        <td>
-                                            <%= item.GpsTime %>
-                                        </td>
-                                        <td>
-                                            <%= item.Speed %>
-                                        </td>
-                                        <td>
-                                            <%= statusDesc %>
-                                        </td>
-                                        <td>
-                                            <%= item.TotalDistance %>
-                                        </td>
-                                        <td>                                            
-                                        </td>
-                                        <td>
-                                            <%= item.Location %>
-                                        </td>		
-                                    </tr>
-                                    <% } } %>
+                                    
                                 </tbody>
                             </table>
                         </div>
