@@ -1,1 +1,1 @@
-define(function(){return '<div style="width: 200px;height:200px;"> <div id="mymap"></div> </div>'});
+define(function(){return '<div style="width: 600px;height:400px;"> <div id="mymap" class="full"></div> </div>'});

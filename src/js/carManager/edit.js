@@ -28,25 +28,21 @@ define(function(require, exports, module) {
                 Driver: {},
                 Equipment: {},
                 Simcard: {},
-                Vehicle: {} 
+                Vehicle: {}
             };
             if (orgId) this.oldOrgId = orgId;
-            //var title = this.isEdit ? '编辑车辆' : '新增车辆';
-            // $('#main-content').empty().html(template.compile(tpls.add)({ title: title }));
             this.initPage();
-            
-            $('html').css('overflow','auto');
         },
         bindEditValue: function(data) {
             // 先绑定值，然后初始化编辑控件
             //common.setFormData('#frmaddCar', data);
-            $.extend(this.obj,{
+            $.extend(this.obj, {
                 Driver: data.Driver || {},
                 Equipment: data.Equipment || {},
                 Simcard: data.Simcard || {},
-                Vehicle: data.Vehicle || {} 
+                Vehicle: data.Vehicle || {}
             });
-            $('#main-content').empty().html(template.compile(tpls.add)({ title: (this.isEdit ? '编辑车辆' : '新增车辆'),data: this.obj }));
+            $('#main-content').empty().html(template.compile(tpls.add)({ title: (this.isEdit ? '编辑车辆' : '新增车辆'), data: this.obj }));
             // checkbox单独处理
             $('input[name="needExamined"]').attr('checked', data.needExamined == 1 ? true : false);
             this.initSelect();
@@ -63,26 +59,26 @@ define(function(require, exports, module) {
                 if (res.status === 'SUCCESS') {
                     var data = res.content;
                     // if (data.orgId) {
-                        // me.getDriverList(data.orgId, function() {
-                        //     // 把当前司机填充到下拉框里面
-                        //     var masterHtml = '',
-                        //         copilotHtml = '';
-                        //     if (data.masterDriverId && data.masterName) {
-                        //         masterHtml = '<option value="' + (data.masterDriverId || '') + '" ' +
-                        //             'data-mobile="' + (data.masterTelephone || '') + '" ' +
-                        //             'data-permittype="' + (data.masterCardType || '') + '" ' +
-                        //             'data-card="' + (data.masterIdCard || '') + '">' + (data.masterName || '') + '</option>';
-                        //     }
-                        //     if (data.copilotName && data.copilotDriverId) {
-                        //         copilotHtml = '<option value="' + (data.copilotDriverId || '') + '" ' +
-                        //             'data-mobile="' + (data.copilotTelephone || '') + '" ' +
-                        //             'data-permittype="' + (data.copilotCardType || '') + '" ' +
-                        //             'data-card="' + (data.copilotIdCard || '') + '">' + (data.copilotName || '') + '</option>';
-                        //     }
-                        //     $('#master_DriverId').append(masterHtml);
-                        //     $('#copilot_DriverId').append(copilotHtml);
-                        //     me.bindEditValue(data);
-                        // });
+                    // me.getDriverList(data.orgId, function() {
+                    //     // 把当前司机填充到下拉框里面
+                    //     var masterHtml = '',
+                    //         copilotHtml = '';
+                    //     if (data.masterDriverId && data.masterName) {
+                    //         masterHtml = '<option value="' + (data.masterDriverId || '') + '" ' +
+                    //             'data-mobile="' + (data.masterTelephone || '') + '" ' +
+                    //             'data-permittype="' + (data.masterCardType || '') + '" ' +
+                    //             'data-card="' + (data.masterIdCard || '') + '">' + (data.masterName || '') + '</option>';
+                    //     }
+                    //     if (data.copilotName && data.copilotDriverId) {
+                    //         copilotHtml = '<option value="' + (data.copilotDriverId || '') + '" ' +
+                    //             'data-mobile="' + (data.copilotTelephone || '') + '" ' +
+                    //             'data-permittype="' + (data.copilotCardType || '') + '" ' +
+                    //             'data-card="' + (data.copilotIdCard || '') + '">' + (data.copilotName || '') + '</option>';
+                    //     }
+                    //     $('#master_DriverId').append(masterHtml);
+                    //     $('#copilot_DriverId').append(copilotHtml);
+                    //     me.bindEditValue(data);
+                    // });
                     //}
                     me.bindEditValue(data);
                 }
@@ -153,14 +149,14 @@ define(function(require, exports, module) {
             if (this.isEdit) {
                 this.initEditValue();
             } else {
-                $('#main-content').empty().html(template.compile(tpls.add)({ title: '' ,data: this.obj}));
+                $('#main-content').empty().html(template.compile(tpls.add)({ title: '', data: this.obj }));
                 $('.js_edit_control').remove();
                 this.initSelect();
                 this.validate();
                 this.event();
             }
         },
-        initSelect: function(){
+        initSelect: function() {
             common.initDateTime('#_outStockTime', 'Y-m-d', false, false, false, new Date());
             common.initDateTime('#gpsStartTime', 'Y-m-d', false, false, false, new Date());
             common.initDateTime('#gpsEndTime', 'Y-m-d', false, false, false, new Date());
@@ -168,34 +164,34 @@ define(function(require, exports, module) {
             this.getSelect({
                 url: api.carManager.carType,
                 obj: $('#truck_Type'),
-                key: ['PKey','PValue']
+                key: ['PKey', 'PValue']
             });
             //获取车辆品牌
             this.getSelect({
                 url: api.carManager.carBrand,
                 obj: $('#vehicle_Brand'),
-                key: ['PKey','PValue']
+                key: ['PKey', 'PValue']
             });
             //车牌颜色
             this.getSelect({
                 url: api.carManager.plateNumberColor,
                 obj: $('#plateNumber_Color'),
-                key: ['PKey','PValue']
+                key: ['PKey', 'PValue']
             });
             //设备类型
             this.getSelect({
                 url: api.carManager.equipmentType,
                 obj: $('#equipmentType'),
-                key: ['PKey','PValue']
+                key: ['PKey', 'PValue']
             });
         },
-        getSelect: function(opt){
+        getSelect: function(opt) {
             var me = this;
             var obj = {
                 url: opt.url,
                 params: opt.params || {},
                 errorMsg: opt.errorMsg || '请求错误，未请求到数据',
-                key: opt.key || ['id','name'],
+                key: opt.key || ['id', 'name'],
                 $objs: opt.obj
             };
             me.truckTypeIsLoaded = false;
@@ -210,7 +206,7 @@ define(function(require, exports, module) {
                     }
                     me.truckTypeIsLoaded = true;
                     obj.$objs.html(html);
-                }else{
+                } else {
                     var msg = res.errorMsg || obj.errorMsg;
                     common.toast(msg);
                 }
@@ -264,14 +260,14 @@ define(function(require, exports, module) {
                 subBtn: '.js_add_save',
                 promptPos: 'inline',
                 submit: function() {
-                    me.submitForm();
-                }
-                // reg: {
-                //     'letternum': /^[0-9a-zA-Z]*$/
-                // },
-                // errorMsg: {
-                //     'letternum': '只能输入字母和数字'
-                // }
+                        me.submitForm();
+                    }
+                    // reg: {
+                    //     'letternum': /^[0-9a-zA-Z]*$/
+                    // },
+                    // errorMsg: {
+                    //     'letternum': '只能输入字母和数字'
+                    // }
             });
         },
         submitForm: function() {

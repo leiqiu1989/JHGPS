@@ -1,6 +1,6 @@
-<form id="frmaddCar" style="margin-bottom:200px;">
+<form id="frmaddCar" class="full">
 	<input type="hidden" name="truckId" />
-	<div id="carAdd" class="panel panel-transparent">
+	<div class="panel panel-transparent no-margin">
 		<div class="panel-heading">
 			<h3 class="panel-title js_add_title">
 				<ol class="breadcrumb no-padding no-margin bg-white">
@@ -29,11 +29,6 @@
 							<div class='form-group'>
 								<label for="plate_Number" class="required">车牌号码</label>
 								<input class="form-control inline-text" maxlength="20" id="plate_Number" name="PlateNo" required type="text" value="<%= data.Vehicle.PlateNo%>" />
-								<!-- <div class="checkbox inline-checkbox">
-									<label>
-										<input type="checkbox" data-chkvalue="1" data-unchkvalue="0" name="needExamined">需要年审
-									</label>
-								</div> -->
 							</div>
 						</div>
 						<div class='col-sm-3'>
@@ -76,34 +71,8 @@
 								<input type="hidden" name="OnlyOrgNo" />
 								<ul class="ul-select hidden"></ul>
 							</div>
-						</div>
-						<!-- <div class='col-sm-3'>
-							<div class='form-group'>
-								<label for="engine_No">发动机号</label>
-								<input class="form-control" id="engine_No" data-type='letternum' name="engineNo" type="text" />
-							</div>
-						</div> -->
-					</div>
-				<!-- 	<div class='row'>
-						<div class='col-sm-3'>
-							<div class='form-group'>
-								<label for="frame_Number">车架号</label>
-								<input class="form-control" id="frame_Number" data-type='letternum' name="frameNumber" type="text" />
-							</div>
-						</div>
-						<div class='col-sm-3'>
-							<div class='form-group'>
-								<label for="oil_Card">油卡卡号</label>
-								<input class="form-control" id="oil_Card" data-type='integer' name="oilCard" type="text" />
-							</div>
-						</div>
-						<div class="col-sm-3">
-							<div class="form-group">
-								<label for="monitor_Phone">监管电话</label>
-								<input class="form-control" id="monitor_Phone" data-type="tel" name="monitorPhone" type="text" />
-							</div>
-						</div>
-					</div> -->
+						</div>						
+					</div>				
 				</div>
 			</div>
 			<div id="driveInfo" class="panel panel-transparent">
@@ -150,58 +119,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="panel panel-transparent">
+			<div class="panel panel-transparent no-margin">
 				<div class="panel-heading">
 					<h3 class="panel-title">
 						<i class="fa fa-wifi" aria-hidden="true"></i>
 						GPS设备资料
 					</h3>
 				</div>
-				<!-- <div class="panel-body">
-					<div class='row'>
-						<div class='col-sm-3 js_add_control'>
-							<div class='form-group'>
-								<label for="unique_Id" class="required">绑定GPS设备</label>
-								<input class="form-control inline-text w-87" required data-type='letterNum' id="unique_Id" name="uniqueId" type="text" />
-								<div class="checkbox inline-checkbox">
-									<label>
-										<a class="check js_add_check">校 验</a>
-									</label>
-								</div>
-								<i class="js_gps_text"></i>
-							</div>
-						</div>
-						<div class='col-sm-3 hidden js_edit_control'>
-							<div class='form-group'>
-								<label for="unique_Id" class="required">GPS设备编号</label>
-								<select name="uniqueId" class="form-control inline-text" required></select>
-								<div class="checkbox inline-checkbox">
-									<label>
-										<a class="check disabled js_updateGPS">同步编号</a>
-									</label>
-								</div>
-							</div>
-						</div>
-						<div class='col-sm-3 hidden js_edit_control'>
-							<div class='form-group'>
-								<label for="unique_Id">GPS设备类型</label>
-								<input type="text" name="gpsBrand" data-nosubmit="true" class="form-control" disabled />
-							</div>
-						</div>
-						<div class='col-sm-3 hidden js_edit_control'>
-							<div class='form-group'>
-								<label for="unique_Id">服务到期时间</label>
-								<input type="text" name="gpsEndTime" data-nosubmit="true" class="form-control" disabled />
-							</div>
-						</div>
-						<div class='col-sm-3 hidden js_edit_control'>
-							<div class='form-group'>
-								<label for="unique_Id">SIM卡号码</label>
-								<input type="text" name="simmcard" data-nosubmit="true" class="form-control" disabled />
-							</div>
-						</div>
-					</div>
-				</div> -->
 				<div class="panel-body">
 					<div class='row'>
 						<div class='col-sm-3'>
@@ -244,26 +168,18 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="panel panel-transparent">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						<i class="fa fa-wifi" aria-hidden="true"></i>
-						GPS设备资料
-					</h3>
-				</div>
-				<div class="panel-body">
-					<div class='row'>
-						<div class='form-group'>
-  							<label for="_remark">备注</label>
-  							<textarea class="form-control" maxlength="100" name="Remark" rows="5" id="_remark">
-  							<%= data.Vehicle.Remark%></textarea>
- 						</div>
+					<div class="row">
+						<div class='col-sm-6'>
+							<div class='form-group'>
+								<label for="_remark">备注</label>
+								<textarea class="form-control" maxlength="100" name="Remark" rows="3" id="_remark">
+								<%= data.Vehicle.Remark%></textarea>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="panel-footer panel-footer-patch" style="margin-bottom:200px;bottom:200px;">
+			<div class="panel-footer panel-footer-patch">
 				<a class="btn btn-primary mr10 js_add_save">
 					<i class="fa fa-check"></i>
 					保 存

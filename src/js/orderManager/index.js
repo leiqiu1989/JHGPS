@@ -54,26 +54,26 @@ define(function(require, exports, module) {
             var me = this;
             var param = this.searchParam;
             //if (this.searchParam && !_.isEmpty(this.searchParam)) {
-                param = $.extend({}, param, this.sortParam ? this.sortParam : {});
-                // 将查询条件保存到localStorage里面
-                common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
-                common.loading('show');
-                common.ajax(api.orderManager.list, param, function(res) {
-                    if (res.status === 'SUCCESS') {
-                        var data = res.content;
-                        $('#carList').empty().html(template.compile(tpls.carList)({
-                            data: data.Page || []
-                        }));
-                        common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
-                            me.searchParam.pageNumber = currPage;
-                            common.changeHash('#orderManager/index/', me.searchParam);
-                        });
-                    } else {
-                        var msg = res.errorMsg || '系统出错，请联系管理员！';
-                        common.toast(msg);
-                    }
-                    common.loading();
-                });
+            param = $.extend({}, param, this.sortParam ? this.sortParam : {});
+            // 将查询条件保存到localStorage里面
+            common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
+            common.loading('show');
+            common.ajax(api.orderManager.list, param, function(res) {
+                if (res.status === 'SUCCESS') {
+                    var data = res.content;
+                    $('#carList').empty().html(template.compile(tpls.carList)({
+                        data: data.Page || []
+                    }));
+                    common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
+                        me.searchParam.pageNumber = currPage;
+                        common.changeHash('#orderManager/index/', me.searchParam);
+                    });
+                } else {
+                    var msg = res.errorMsg || '系统出错，请联系管理员！';
+                    common.toast(msg);
+                }
+                common.loading();
+            });
             //}
         },
         stopCar: function(truckId, confirmText, callback) {
@@ -135,8 +135,11 @@ define(function(require, exports, module) {
                 })
                 //查看位置
                 .on('click', '.js_list_detail', function() {
-                    common.autoAdaptionDialog(template.compile(tpls.map)(),null,function(){
+                    common.autoAdaptionDialog(template.compile(tpls.map)(), {
+                        title: '位置查看'
+                    }, function() {
                         map.init('mymap');
+                        map.removeOverView();
                     });
                     // var tr = $(this).closest('tr');
                     // var truckId = tr.data('truckid');
