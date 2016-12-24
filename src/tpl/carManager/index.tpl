@@ -7,22 +7,22 @@
 			<tbody>
 				<tr>
 					<td>
-						<input type="hidden" name="orgId" value="<%= searchValue.orgId %>" />
+						<input type="hidden" name="OnlyOrgNo" value="<%= searchValue.OnlyOrgNo %>" />
 						<label class="control-label">所属机构</label>
 						<input type="text" class="form-control w-200" name="orgName" placeholder="至少输入3个字符搜索"
-						value="<%= searchValue.orgName %>" />
+						value="<%= searchValue.orgName%>" />
 						<ul class="ul-select hidden"></ul>
 					</td>
 					<td>
 						<label class="control-label">关键字</label>
-						<input type="text" class="form-control w-200" name="plateNumber" placeholder="车牌、司机、SIM卡号、设备编号搜索"
+						<input type="text" class="form-control w-200" name="Condition" placeholder="车牌、司机、SIM卡号、设备编号搜索"
 						value="<%= searchValue.plateNumber %>" />
 					</td>
 					<td>
 						<label class="control-label">车辆类型</label>
-						<select class="form-control w-200" id="plateNumber_Color" name="plateNumberColor" required>
-							<option value="0">黄牌</option>
-							<option value="1">蓝牌</option>
+						<select class="form-control w-200" id="vehicleType" name="VehicleType">
+							<!-- <option value="0">黄牌</option>
+							<option value="1">蓝牌</option> -->
 						</select>
 					</td>
 					<td class="pl20">
@@ -38,7 +38,7 @@
 				新 增
 			</a>
 			<a class="btn btn-primary js_list_stop"> <i class="fa fa-times"></i>
-				停 用
+				删 除
 			</a>
 			<a class="btn btn-primary js_list_import">
 				<i class="fa fa-upload"></i>
@@ -58,30 +58,35 @@
 						<table class="table no-margin">
 							<colgroup>
 							<col width="50px" />
-							<col width="11%" />
-							<col width="11%" />
-							<col width="13%" />
-							<col width="13%" />
-							<col width="13%" />
 							<col width="8%" />
-							<col width="11%" />
+							<col width="6%" />
+							<col width="8%" />
+							<col width="8%" />
+							<col width="8%" />
+							<col width="8%" />
+							<col width="8%" />
 							<col width="8%" />
 							<col width="9%" />
+							<col width="12%" />
+							<col width="12%" />
 						</colgroup>
 						<thead class="thin-border-bottom">
 							<tr>
 								<th class="align-center">
 									<input type="checkbox" name="checkAll" />
 								</th>
-								<th class="sortable string asc" data-sortfield="plateNumber">车牌号码</th>
-								<th class="sortable string asc" data-sortfield="plateNumberColor">车牌颜色</th>
-								<th class="sortable string asc" data-sortfield="orgName">所属机构</th>
-								<!-- <th class="sortable string asc" data-sortfield="state">车辆状态</th> -->
-								<th class="sortable string asc" data-sortfield="uniqueId">GPS设备编号</th>
-								<th class="sortable string asc" data-sortfield="needExamined">是否年审</th>
-								<th class="sortable date asc" data-sortfield="gpsEndTime">服务到期时间</th>
-								<th class="sortable string asc" data-sortfield="status">是否停用</th>
 								<th>操 作</th>
+								<th class="sortable string asc" data-sortfield="plateNumber">车牌号码</th>
+								<th>车牌颜色</th>
+								<th>所属机构</th>
+								<!-- <th class="sortable string asc" data-sortfield="state">车辆状态</th> -->
+								<th>GPS设备编号</th>
+								<th>SIM卡号码</th>
+								<th>司机姓名</th>
+								<th>联系电话</th>
+								<th>车辆类型</th>
+								<th>到期时间</th>
+								<th>备注</th>
 							</tr>
 						</thead>
 					</table>

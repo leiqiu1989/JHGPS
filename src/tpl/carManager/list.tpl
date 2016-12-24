@@ -1,15 +1,17 @@
 <table class="table table-hover no-margin">
 	<colgroup>
 	<col width="50px" />
-	<col width="11%" />
-	<col width="11%" />
-	<col width="13%" />
-	<col width="13%" />
-	<col width="13%" />
 	<col width="8%" />
-	<col width="11%" />
+	<col width="6%" />
+	<col width="8%" />
+	<col width="8%" />
+	<col width="8%" />
+	<col width="8%" />
+	<col width="8%" />
 	<col width="8%" />
 	<col width="9%" />
+	<col width="12%" />
+	<col width="12%" />
 </colgroup>
 <tbody>
 	<% if(data && data.length >	0) {
@@ -19,35 +21,9 @@
 			var endTimeCls= dateTimeCls(item.gpsEndTime);
 			var carStatusDesc = (item.stateDesc ? item.stateDesc + ';' : '') +''+ (item.accStatus ? item.accStatus : '');
 	%>
-	<tr data-truckid="<%= item.truckId %>" data-orgid="<%= item.orgId %>" data-uniqueids="<%= item.uniqueId %>">
+	<tr data-truckid="<%= item.Vid %>" data-orgid="<%= item.orgId %>" data-uniqueids="<%= item.uniqueId %>">
 		<td class="align-center">
 			<input type="checkbox" name="checkItem" />
-		</td>
-		<td title="<%= item.plateNumber %>">
-			<a href="javascript:" class="js_list_detail">
-				<%= item.plateNumber %>
-			</a>
-		</td>
-		<td title="<%= item.plateNumberColorDesc %>">
-			<%= item.plateNumberColorDesc %>
-		</td>
-		<td title="<%= item.orgName %>">
-			<%= item.orgName %>
-		</td>
-		<td title="<%= carStatusDesc %>">
-			<%= carStatusDesc %>
-		</td>
-		<td title="<%= item.uniqueId %>">
-			<%= item.uniqueId %>
-		</td>
-		<td title="<%= item.needExaminedDesc %>">
-			<%= item.needExaminedDesc %>
-		</td>
-		<td title="<%= formateDate(item.gpsEndTime) %>" class="<%= endTimeCls %">
-			<%= formateDate(item.gpsEndTime) %>
-		</td>
-		<td title="<%= item.statusDesc %>" class="<%= stopCls %>">
-			<%= item.statusDesc %>
 		</td>
 		<td>
 			<a class="td-operator js_list_edit">
@@ -56,8 +32,41 @@
 			</a>
 			<a class="td-operator js_list_stop">
 				<i class="fa fa-star-o"></i>
-				停 用
+				删 除
 			</a>
+		</td>
+		<td title="<%= item.PlateNo %>">
+			<!-- <a href="javascript:" class="js_list_detail">
+				<%= item.PlateNo %>
+			</a> -->
+			<%= item.PlateNo %>
+		</td>
+		<td title="<%= item.ColorString %>">
+			<%= item.ColorString %>
+		</td>
+		<td title="<%= item.OrgNo %>">
+			<%= item.OrgNo %>
+		</td>
+		<td title="<%= EquipmentNo %>">
+			<%= EquipmentNo %>
+		</td>
+		<td title="<%= item.SimCardNo %>">
+			<%= item.SimCardNo %>
+		</td>
+		<td title="<%= item.DriverName %>">
+			<%= item.DriverName %>
+		</td>
+		<td title="<%= item.PhoneNo %>">
+			<%= item.PhoneNo %>
+		</td>
+		<td title="<%= item.VehicleTypeString %>" class="<%= stopCls %>">
+			<%= item.VehicleTypeString %>
+		</td>
+		<td title="<%= formateDate(item.ETime) %>" class="<%= endTimeCls %">
+			<%= formateDate(item.ETime) %>
+		</td>
+		<td title="<%= item.Remark %>">
+			<%= item.Remark %>
 		</td>
 	</tr>
 	<% } } %>

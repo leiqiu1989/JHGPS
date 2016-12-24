@@ -15,15 +15,17 @@ define(function(require, exports, module) {
             list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo', //'/vehicle/get-vehicle-list', //车辆管理列表
 
             exportCarList: remoteUrl + '/vehicle/get-vehicle-list-export',
-            orgList: remoteUrl + '/company/get-company-list',
-            stop: remoteUrl + '/vehicle/disable-vehicle',
-            carType: remoteUrl + '/vehicle/type/get-all-vehicle-type',
-            carBrand: remoteUrl + '/vehicle/brand/get-all-vehicle-brand',
+            orgList: remoteUrl + '/Home/QueryOrgZtree', //'/company/get-company-list', //获取组织树结构
+            stop: remoteUrl + '/Vehicle/DeleteVehicleAbbrInfo', //'/vehicle/disable-vehicle', //删除车辆
+            carType: remoteUrl + '/Vehicle/VehicleType', //'/vehicle/type/get-all-vehicle-type', //车辆类型
+            carBrand: remoteUrl + '/Vehicle/VehicleBrand', //'/vehicle/brand/get-all-vehicle-brand', //车辆品牌
+            plateNumberColor: remoteUrl + '/Vehicle/VehicleColor', //车牌颜色
+            equipmentType: remoteUrl + '/Vehicle/EquipmentType', //设备类型
             carDriverList: remoteUrl + '/driver/get-drivers-by-orgid',
             checkGPS: remoteUrl + '/avl/check-gpsno',
-            submit: remoteUrl + '/vehicle/save-vehicle',
-            detail: remoteUrl + '/Vehicle/QueryVehicleAbbrInfo',
-            update: remoteUrl + '/vehicle/update-vehicle',
+            submit: remoteUrl + '/Vehicle/CreateVehicleAbbrInfo', //'/vehicle/save-vehicle',  增加车辆
+            detail: remoteUrl + '/Vehicle/QueryVehicleAbbrInfo', //'/vehicle/get-vehicle-detail', //查看车辆详情
+            update: remoteUrl + '/Vehicle/EditVehicleAbbrInfo', //'/vehicle/update-vehicle', //编辑车辆
             lastLocation: remoteUrl + '/vehicle/get-last-location',
             historyLocation: remoteUrl + '/vehicle/get-history-location',
             alarmList: remoteUrl + '/alarm/get-alarm-event-by-gpsno',
