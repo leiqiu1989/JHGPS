@@ -10,8 +10,9 @@ define(function(require, exports, module) {
         vehicleList: remoteUrl + '/Home/QueryZtree',
         carPositionList: remoteUrl + '/Position/QueryLastPosition',
         carTrackHistory: remoteUrl + '/Position/QueryHistory',
+        modifypwd: remoteUrl + '/Account/ModifyPwd',
         carManager: {
-            list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo',//'/vehicle/get-vehicle-list', //车辆管理列表
+            list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo', //'/vehicle/get-vehicle-list', //车辆管理列表
 
             exportCarList: remoteUrl + '/vehicle/get-vehicle-list-export',
             orgList: remoteUrl + '/company/get-company-list',
@@ -21,7 +22,7 @@ define(function(require, exports, module) {
             carDriverList: remoteUrl + '/driver/get-drivers-by-orgid',
             checkGPS: remoteUrl + '/avl/check-gpsno',
             submit: remoteUrl + '/vehicle/save-vehicle',
-            detail: remoteUrl + '/vehicle/get-vehicle-detail',
+            detail: remoteUrl + '/Vehicle/QueryVehicleAbbrInfo',
             update: remoteUrl + '/vehicle/update-vehicle',
             lastLocation: remoteUrl + '/vehicle/get-last-location',
             historyLocation: remoteUrl + '/vehicle/get-history-location',

@@ -5,10 +5,13 @@
     <div class="pull-right userinfo-container">
         <div class="userinfo">
             欢迎您，&nbsp;&nbsp;<span class="ja_userName"></span>
-            <span class="dropdown"></span>
+        </div>        
+        <div class="logout js_changpwd">
+            <img src="http://dev.demo.cn/JHGPS-Git/src/img/changpwd.png" alt="">
+            <span>修改密码</span>
         </div>
         <div class="logout js_logout">
-            <img src="http://dev.demo.cn/JHGPS/src/img/logout.png" alt="">
+            <img src="http://dev.demo.cn/JHGPS-Git/src/img/logout.png" alt="">
             <span>退出</span>
         </div>
     </div>

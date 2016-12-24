@@ -15,20 +15,25 @@ define(function(require, exports, module) {
         carDetail: require('../../tpl/carMonitor/carDetail')
     };
 
-    function carMonitor() {}
+    function carMonitor() {
+        this.monitorTimer = null;
+    }
+
     $.extend(carMonitor.prototype, {
         init: function(param) {
+            // 赋值为null是为了,地图infowindow里面的轨迹回放返回,重新加载导致timer计时器未clear
+            this.monitorTimer = null;
             $('#main-content').empty().html(template.compile(tpls.index)());
             map.init('monitorMap');
             this.initControl();
         },
         // 初始化控件
         initControl: function() {
-            var me = this;
-            this.initZTree();
             this.event();
+            this.initZTree();
         },
         initZTree: function() {
+            var me = this;
             //组织列表树设置
             var ztreeSetting = {
                 check: {
@@ -52,60 +57,112 @@ define(function(require, exports, module) {
 
                 }
             };
-            common.ajax(api.vehicleList, {}, function(data) {
-                $.fn.zTree.init($("#vehicleTree"), ztreeSetting, data);
-                //展开节点
-                var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
-                treeObj.expandAll(true);
-                common.searchTree();
-            });
-        },
-        // 统计车辆信息
-        monitorSummary: function(data) {
-            var stopCount = 0;
-            var offLineCount = 0;
-            for (var i = 0; i < data.length; i++) {
-                var item = data[i];
-                if (item.IsOnline === 0) { //车辆离线
-                    offLineCount++;
-                } else {
-                    if (item.Status.indexOf("ACC关") > -1) {
-                        stopCount++;
-                    }
-                }
-            }
-            $('.js-carTotal').text(data.length);
-            $('.js-onLineTotal').text(data.length - stopCount - offLineCount);
-            $('.js-offLineTotal').text(offLineCount);
-        },
-        // 获取车辆位置列表
-        getCarPositionList: function() {
-            var me = this;
-            var arrVid = common.getTreeNodeSelected('vehicleTree');
-            common.setCookie('arrVids', arrVid);
-            common.ajax(api.carPositionList, { ArrVid: arrVid }, function(res) {
+            common.ajax(api.vehicleList, {}, function(res) {
                 if (res && res.status === 'SUCCESS') {
                     var data = res.content || [];
-                    $('#carMonitorList').empty().html(template.compile(tpls.carList)({
-                        data: data
-                    }));
-                    if (data.length > 0) {
-                        map.clearOverlays();
-                        for (var i = 0; i < data.length; i++) {
-                            data[i] = common.directForm(data[i]);
-                            map.addTrackMark(data[i]);
+                    $.fn.zTree.init($("#vehicleTree"), ztreeSetting, data);
+                    //展开节点
+                    var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
+                    treeObj.expandAll(true);
+                    var arrVids = common.getCookie('arrVids');
+                    if (arrVids) {
+                        // 取值默认选中tree
+                        var ids = arrVids.split(',');
+                        for (var i = 0; i < ids.length; i++) {
+                            var node = treeObj.getNodeByParam('Id', ids[i]);
+                            treeObj.checkNode(node, true, true);
                         }
-                        // 绑定监控表格行单击事件
-                        map.bindMonitorListEvent();
-                        // 统计
-                        me.monitorSummary(data);
+                        // 获取列表
+                        me.getCarPositionList(arrVids);
                     }
-
+                    // tree查询
+                    common.searchTree();
                 } else {
                     var msg = res.errorMsg || '系统出错，请联系管理员！';
                     common.toast(msg);
                 }
             });
+        },
+        // 统计车辆信息
+        monitorSummary: function(data) {
+            var onlineCount = 0;
+            var offLineCount = 0;
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                if (item.VehicleStatus === '离线') {
+                    offLineCount += 1;
+                } else {
+                    onlineCount += 1;
+                }
+            }
+            $('.js-carTotal').text(data.length);
+            $('.js-onLineTotal').text(onlineCount);
+            $('.js-offLineTotal').text(offLineCount);
+        },
+        startMonitorTimer: function() {
+            var me = this;
+            if (!this.monitorTimer) {
+                this.monitorTimer = setInterval(function() {
+                    me.getCarPositionList();
+                }, 30000);
+            }
+        },
+        stopMonitorTimer: function() {
+            clearInterval(this.monitorTimer);
+        },
+        carDetailInfo: function(id) {
+            var me = this;
+            common.ajax(api.carManager.detail, { vid: id }, function(res) {
+                if (res && res.status === 'SUCCESS') {
+                    var data = res.content;
+                    var html = template.compile(tpls.carDetail)({
+                        data: data
+                    });
+                    common.autoAdaptionDialog(html, {
+                        title: '车辆详情'
+                    }, function(_dialog) {
+                        $('#btnCancel').on('click', function() {
+                            _dialog.close();
+                        });
+                    });
+                } else {
+                    var msg = res.errorMsg || '系统出错，请联系管理员！';
+                    common.toast(msg);
+                }
+            });
+        },
+        // 获取车辆位置列表
+        getCarPositionList: function(arrVids) {
+            var me = this;
+            var arrVid = arrVids ? arrVids : common.getTreeNodeSelected('vehicleTree');
+            common.setCookie('arrVids', arrVid);
+            if (arrVid) {
+                common.ajax(api.carPositionList, { ArrVid: arrVid }, function(res) {
+                    if (res && res.status === 'SUCCESS') {
+                        var data = res.content || [];
+                        $('#carMonitorList').empty().html(template.compile(tpls.carList)({
+                            data: data
+                        }));
+                        if (data.length > 0) {
+                            // 清除数据
+                            map.clearData();
+                            for (var i = 0; i < data.length; i++) {
+                                data[i] = common.directForm(data[i]);
+                                map.addTrackMark(data[i]);
+                            }
+                            // 绑定监控表格行单击事件
+                            map.bindMonitorListEvent();
+                            // 统计
+                            me.monitorSummary(data);
+                            // 开启监控
+                            me.startMonitorTimer();
+                        }
+                    } else {
+                        var msg = res.errorMsg || '系统出错，请联系管理员！';
+                        common.toast(msg);
+                    }
+                });
+            }
         },
         event: function() {
             var me = this;
@@ -136,85 +193,40 @@ define(function(require, exports, module) {
                 })
                 // 车辆详情
                 .on('click', '.js_car_info', function() {
-                    alert('1111');
-                    common.autoAdaptionDialog(tpls.carDetail, {
-                        title: '车辆详情'
-                    }, function(_dialog) {
-                        $('#btnCancel').on('click', function() {
-                            _dialog.close();
-                        });
-                    });
+                    var id = $(this).data('id');
+                    common.carDetailInfo();
                 })
                 // 轨迹回放
                 .on('click', '.js_track_replay', function() {
                     var id = $(this).data('id');
                     var plateNo = $(this).data('plate');
+                    me.stopMonitorTimer();
                     common.changeHash('#carMonitor/track/', { id: id, plateNo: plateNo });
                 })
                 // 已选组织-确认
                 .on('click', '.js-vehicle-ok', function() {
                     $('.vehicle-box').hide();
                     $('.monitorBody').show();
+                    me.stopMonitorTimer();
                     me.getCarPositionList();
-                })
-                .on('click', '.js_list_edit', function() {
-                    var tr = $(this).closest('tr');
-                    var truckId = tr.data('truckid');
-                    var orgId = tr.data('orgid');
-                    common.changeHash('#carManager/edit/', { truckId: truckId, orgId: orgId });
-                })
-                .on('click', '.js_list_import', function() {
-                    common.changeHash('#carManager/import');
-                })
-                .on('click', '.js_list_export', function() {
-                    me.exportCarList($(this));
-                })
-                .on('click', '.js_list_detail', function() {
-                    var tr = $(this).closest('tr');
-                    var truckId = tr.data('truckid');
-                    var orgId = tr.data('orgid');
-                    var uniqueIds = tr.data('uniqueids');
-                    common.changeHash('#carManager/detail/', { truckId: truckId, orgId: orgId, uniqueIds: uniqueIds });
-                })
-                .on('click', '.js_list_stop', function() {
-                    var truckId = $(this).closest('tr').data('truckid');
-                    var confirmText = '';
-                    if (truckId) {
-                        confirmText = '确定要停用该车辆吗？';
-                    } else {
-                        var chks = $('.datatable-content table > tbody input[name="checkItem"]:checked');
-                        if (chks.size() < 1) {
-                            common.toast('请选择要停用的车辆！');
-                            return false;
-                        }
-                        confirmText = '已选择&nbsp;<span class="red">' + chks.size() + '</span>&nbsp;辆车，是否对车辆停止使用？';
-                        var array = [];
-                        $.each(chks, function(i, item) {
-                            array.push($(item).closest('tr').data('truckid'));
-                        });
-                        truckId = array.join(',');
-                    }
-                    me.stopCar(truckId, confirmText);
-                }).on('click', 'input[name="checkAll"]', function() {
-                    var isChecked = $(this).is(':checked');
-                    if (isChecked) {
-                        $('.datatable-content table > tbody input[name="checkItem"]').prop('checked', isChecked);
-                    } else {
-                        $('.datatable-content table > tbody input[name="checkItem"]').removeAttr('checked');
-                    }
-                }).on('click', 'input[name="checkItem"]', function() {
-                    var chks = $('.datatable-content table > tbody input[name="checkItem"]:checked').size();
-                    var totalChks = $('.datatable-content table > tbody input[name="checkItem"]').size();
-                    if (chks == totalChks) {
-                        $('.datatable-header table > thead input[name="checkAll"]').prop('checked', true);
-                    } else {
-                        $('.datatable-header table > thead input[name="checkAll"]').removeAttr('checked');
-                    }
                 });
         }
     });
 
+    var monitor = new carMonitor();
+
     exports.init = function(param) {
-        new carMonitor().init(param);
+        monitor.init(param);
+    };
+
+    // 地图infowindow事件
+    //地图信息框点击事件-车辆详细信息
+    window.showVehicleInfo = function(id) {
+        monitor.carDetailInfo(id);
+    };
+    //地图信息框点击事件-车辆轨迹
+    window.showVehicleTrack = function(id, plateNo) {
+        monitor.stopMonitorTimer();
+        common.changeHash('#carMonitor/track/', { id: id, plateNo: plateNo });
     };
 });

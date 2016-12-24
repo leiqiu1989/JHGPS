@@ -20,7 +20,7 @@
 			<%= i+1 %>
 		</td>
 		<td>
-            <a class="td-a js_car_info">查看资料</a>
+            <a class="td-a js_car_info" data-id="<%= item.Vid %>">查看资料</a>
             |
             <a class="td-a js_track_replay" data-id="<%= item.Vid %>" data-plate="<%= item.PlateNo %>">轨迹回放</a>
         </td>
@@ -34,7 +34,17 @@
 			<%= item.Speed %>
 		</td>
 		<td>
-            未知
+            <%
+				if(item.VehicleStatus === '离线'){ 
+			%>
+				<span class="engine" style="display: inline-block;padding: 3px 15px;border: 1px dashed #808080;"><%= item.VehicleStatus %></span>
+			<% } else if(item.VehicleStatus.indexOf('ACC开')){ %>
+				<span class="engine">发动机</span>&nbsp;<span class="carOpen">开</span>
+			<% } else if(item.VehicleStatus.indexOf('ACC关')){ %>
+				<span class="engine">发动机</span>&nbsp;<span class="carClose">关</span>
+			<% } else{ %>
+				<span class="engine">未知状态</span>
+			<% } %>
 		</td>
 		<td title="<%= directForm(item.Direction) %>">
 			<%= directForm(item.Direction) %>

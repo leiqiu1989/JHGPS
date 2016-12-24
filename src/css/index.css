@@ -345,7 +345,7 @@
         display: inline-block; }
     .index-header .userinfo-container .logout {
       cursor: pointer;
-      width: 80px;
+      width: 100px;
       display: inline-block;
       position: relative;
       padding-left: 10px;
@@ -841,7 +841,7 @@ dl dd {
     width: 100%; }
   .monitorList .engine {
     color: #7A7A7A; }
-  .monitorList .status, .monitorList .open, .monitorList .close {
+  .monitorList .status, .monitorList .carOpen, .monitorList .carClose {
     display: inline-block;
     width: 22px;
     height: 22px;
@@ -849,9 +849,9 @@ dl dd {
     color: #fff;
     border-radius: 4px;
     text-align: center; }
-  .monitorList .open {
+  .monitorList .carOpen {
     background-color: #4f95ff; }
-  .monitorList .close {
+  .monitorList .carClose {
     background-color: #ff6666; }
 
 .vehicle-box {
@@ -900,6 +900,9 @@ dl dd {
 
 .monitor-active {
   background-color: #ddd; }
+
+.pause {
+  background-image: url(./../img/btn_Paused.png) !important; }
 
 /*地图信息框样式*/
 .point_info {
