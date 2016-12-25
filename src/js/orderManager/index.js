@@ -146,11 +146,23 @@ define(function(require, exports, module) {
                 })
                 //查看位置
                 .on('click', '.js_list_detail', function() {
+                    var $this = $(this);
+
                     common.autoAdaptionDialog(template.compile(tpls.map)(), {
                         title: '位置查看'
                     }, function() {
-                        map.init('mymap');
-                        map.removeOverView();
+                        map.init('mymap',new BMap.Point($this.data('Lat'), $this.data('Lng')),null,function(mymap){
+                           
+                            setTimeout(function(){
+                                map.removeOverView();
+                                var new_point = new BMap.Point($this.data('Lat'), $this.data('Lng'));
+                                var marker = new BMap.Marker(new_point);  // 创建标注
+                                mymap.addOverlay(marker);              // 将标注添加到地图中
+                                mymap.panTo(new_point);      
+                            },500);
+                            
+                        });
+                        
                     });
                     // var tr = $(this).closest('tr');
                     // var truckId = tr.data('truckid');

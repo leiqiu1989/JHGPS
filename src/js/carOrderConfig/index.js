@@ -117,9 +117,7 @@ define(function(require, exports, module) {
                 common.changeHash('#carOrderConfig/index/', me.searchParam);
             });
             // 事件监听
-            $('#main-content').on('click', '.js_list_add', function() {
-                    common.changeHash('#carOrderConfig/edit');
-                })
+            $('#main-content').off()
                 //配置
                 .on('click', '.js_list_config', function() {
                     var tr = $(this).closest('tr');
