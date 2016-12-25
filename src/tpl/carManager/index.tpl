@@ -21,8 +21,6 @@
 					<td>
 						<label class="control-label">车辆类型</label>
 						<select class="form-control w-200" id="vehicleType" name="VehicleType">
-							<!-- <option value="0">黄牌</option>
-							<option value="1">蓝牌</option> -->
 						</select>
 					</td>
 					<td class="pl20">
@@ -40,14 +38,14 @@
 			<a class="btn btn-primary js_list_stop"> <i class="fa fa-times"></i>
 				删 除
 			</a>
-			<a class="btn btn-primary js_list_import">
+			<!--<a class="btn btn-primary js_list_import">
 				<i class="fa fa-upload"></i>
 				导 入
 			</a>
 			<a class="btn btn-primary js_list_export">
 				<i class="fa fa-download"></i>
 				导 出
-			</a>
+			</a>-->
 		</div>
 	</div>
 	<div class="panel-body row-container grow">

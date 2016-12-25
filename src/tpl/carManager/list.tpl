@@ -30,8 +30,8 @@
 				<i class="fa fa-pencil-square-o"></i>
 				编 辑
 			</a>
-			<a class="td-operator js_list_stop">
-				<i class="fa fa-star-o"></i>
+			<a class="td-operator js_list_delete">
+				<i class="fa fa-times"></i>
 				删 除
 			</a>
 		</td>

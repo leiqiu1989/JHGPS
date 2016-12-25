@@ -339,6 +339,8 @@ define(function(require, exports, module) {
             common.setCookie('orgno', '', -1);
             common.setCookie('token', '', -1);
             common.setCookie('arrVids', '', -1);
+            common.removeLocationStorage('carManagerParams'); // 车辆管理
+            common.removeLocationStorage('complaintManagerParams'); // 投诉管理
         },
         // 根据key获取查询条件，param:历史查询参数(传递true则更新为新的查询参数)，
         // newParam：新的查询参数，hasDefaultPage：参数默认传递page参数，默认为true
@@ -357,12 +359,12 @@ define(function(require, exports, module) {
                 }
             }
             if (!_.isEmpty(searchParam)) {
-                searchParam.pageNumber = searchParam.pageNumber || 1;
-                searchParam.pageSize = 20;
+                searchParam.PageIndex = searchParam.PageIndex || 1;
+                searchParam.PageSize = 20;
             } else {
                 if (hasDefaultPage) {
-                    searchParam.pageNumber = 1;
-                    searchParam.pageSize = 20;
+                    searchParam.PageIndex = 1;
+                    searchParam.PageSize = 20;
                 }
             }
             return searchParam;
@@ -710,12 +712,12 @@ define(function(require, exports, module) {
                 if (callback) callback(params);
             });
         },
-        getSelect: function(opt){
+        getSelect: function(opt) {
             var obj = {
                 url: opt.url,
                 params: opt.params || {},
                 errorMsg: opt.errorMsg || '请求错误，未请求到数据',
-                key: opt.key || ['id','name'],
+                key: opt.key || ['id', 'name'],
                 $objs: opt.obj,
                 selected: opt.selected,
                 isall: opt.isall
@@ -731,7 +733,7 @@ define(function(require, exports, module) {
                     }
                     obj.$objs.html(html);
                     obj.selected && obj.$objs.val(obj.selected);
-                }else{
+                } else {
                     var msg = res.errorMsg || obj.errorMsg;
                     common.toast(msg);
                 }

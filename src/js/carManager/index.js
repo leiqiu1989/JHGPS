@@ -33,7 +33,7 @@ define(function(require, exports, module) {
             common.getSelect({
                 url: api.carManager.carType,
                 obj: $('#vehicleType'),
-                key: ['PKey','PValue'],
+                key: ['PKey', 'PValue'],
                 selected: me.searchParam.VehicleType,
                 isall: true
             });
@@ -45,44 +45,39 @@ define(function(require, exports, module) {
                 OnlyOrgNo: common.getElValue(':hidden[name="OnlyOrgNo"]'), //所属机构
                 VehicleType: common.getElValue('select[name="VehicleType"]'), //车辆类型
                 Condition: common.getElValue('input[name="Condition"]') //关键字
-                // uniqueId: common.getElValue('input[name="uniqueId"]')
             };
-            // if (newParams.beginTime) newParams.beginTime = newParams.beginTime + ' 00:00:00';
-            // if (newParams.endTime) newParams.endTime = newParams.endTime + ' 00:00:00';
-            this.searchParam = common.getParams('carSearchParams', param, newParams, true);
+            this.searchParam = common.getParams('carManagerParams', param, newParams, true);
         },
         getData: function() {
             var me = this;
             var param = this.searchParam;
-            //if (this.searchParam && !_.isEmpty(this.searchParam)) {
-                param = $.extend({}, param, this.sortParam ? this.sortParam : {});
-                // 将查询条件保存到localStorage里面
-                common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
-                common.loading('show');
-                common.ajax(api.carManager.list, param, function(res) {
-                    if (res.status === 'SUCCESS') {
-                        var data = res.content;
-                        $('#carList').empty().html(template.compile(tpls.carList)({
-                            data: data.Page || []
-                        }));
-                        common.page(data.totalCount, param.pageSize, param.pageNumber, function(currPage) {
-                            me.searchParam.pageNumber = currPage;
-                            common.changeHash('#carManager/index/', me.searchParam);
-                        });
-                    } else {
-                        var msg = res.errorMsg || '系统出错，请联系管理员！';
-                        common.toast(msg);
-                    }
-                    common.loading();
-                });
-            //}
+            param = $.extend({}, param, this.sortParam ? this.sortParam : {});
+            // 将查询条件保存到localStorage里面
+            common.setlocationStorage('carManagerParams', JSON.stringify(this.searchParam));
+            common.loading('show');
+            common.ajax(api.carManager.list, param, function(res) {
+                if (res.status === 'SUCCESS') {
+                    var data = res.content;
+                    $('#carList').empty().html(template.compile(tpls.carList)({
+                        data: data.Page || []
+                    }));
+                    common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
+                        me.searchParam.PageIndex = currPage;
+                        common.changeHash('#carManager/index/', me.searchParam);
+                    });
+                } else {
+                    var msg = res.errorMsg || '系统出错，请联系管理员！';
+                    common.toast(msg);
+                }
+                common.loading();
+            });
         },
         //删除车辆
-        stopCar: function(truckId, confirmText, callback) {
+        deleteCar: function(truckId, confirmText, callback) {
             var me = this;
             common.confirm(confirmText, function() {
                 common.loading('show', '数据正在处理中...');
-                common.ajax(api.carManager.stop, {
+                common.ajax(api.carManager.delete, {
                     ArrVid: truckId
                 }, function(res) {
                     if (res.status === 'SUCCESS') {
@@ -145,7 +140,7 @@ define(function(require, exports, module) {
                 //     common.changeHash('#carManager/detail/', { truckId: truckId, orgId: orgId, uniqueIds: uniqueIds });
                 // })
                 //批量、单个删除车辆
-                .on('click', '.js_list_stop', function() {
+                .on('click', '.js_list_delete', function() {
                     var truckId = $(this).closest('tr').data('truckid');
                     var confirmText = '';
                     if (truckId) {
@@ -163,7 +158,7 @@ define(function(require, exports, module) {
                         });
                         truckId = array.join(',');
                     }
-                    me.stopCar(truckId, confirmText);
+                    me.deleteCar(truckId, confirmText);
                 }).on('click', 'input[name="checkAll"]', function() {
                     var isChecked = $(this).is(':checked');
                     if (isChecked) {
@@ -183,9 +178,7 @@ define(function(require, exports, module) {
         }
     });
 
-    var _carObj = new carList();
-
     exports.init = function(param) {
-        _carObj.init(param);
+        new carList().init(param);
     };
 });

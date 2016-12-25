@@ -7,25 +7,29 @@ define(function(require, exports, module) {
     var api = {
         //登录
         login: remoteUrl + '/Account/Login',
-        vehicleList: remoteUrl + '/Home/QueryZtree',
-        carPositionList: remoteUrl + '/Position/QueryLastPosition',
-        carTrackHistory: remoteUrl + '/Position/QueryHistory',
+        // 修改密码
         modifypwd: remoteUrl + '/Account/ModifyPwd',
+        // 组织树
+        vehicleList: remoteUrl + '/Home/QueryZtree',
+        // 获取车辆监控列表
+        carPositionList: remoteUrl + '/Position/QueryLastPosition',
+        // 获取车辆轨迹列表
+        carTrackHistory: remoteUrl + '/Position/QueryHistory',
+        // 车辆管理
         carManager: {
-            list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo', //'/vehicle/get-vehicle-list', //车辆管理列表
-
+            list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo', //车辆管理列表
             exportCarList: remoteUrl + '/vehicle/get-vehicle-list-export',
-            orgList: remoteUrl + '/Home/QueryOrgZtree', //'/company/get-company-list', //获取组织树结构
-            stop: remoteUrl + '/Vehicle/DeleteVehicleAbbrInfo', //'/vehicle/disable-vehicle', //删除车辆
-            carType: remoteUrl + '/Vehicle/VehicleType', //'/vehicle/type/get-all-vehicle-type', //车辆类型
-            carBrand: remoteUrl + '/Vehicle/VehicleBrand', //'/vehicle/brand/get-all-vehicle-brand', //车辆品牌
+            orgList: remoteUrl + '/Home/QueryOrgZtree', //获取组织树结构
+            delete: remoteUrl + '/Vehicle/DeleteVehicleAbbrInfo', //删除车辆
+            carType: remoteUrl + '/Vehicle/VehicleType', //车辆类型
+            carBrand: remoteUrl + '/Vehicle/VehicleBrand', //车辆品牌
             plateNumberColor: remoteUrl + '/Vehicle/VehicleColor', //车牌颜色
             equipmentType: remoteUrl + '/Vehicle/EquipmentType', //设备类型
             carDriverList: remoteUrl + '/driver/get-drivers-by-orgid',
             checkGPS: remoteUrl + '/avl/check-gpsno',
-            submit: remoteUrl + '/Vehicle/CreateVehicleAbbrInfo', //'/vehicle/save-vehicle',  增加车辆
-            detail: remoteUrl + '/Vehicle/QueryVehicleAbbrInfo', //'/vehicle/get-vehicle-detail', //查看车辆详情
-            update: remoteUrl + '/Vehicle/EditVehicleAbbrInfo', //'/vehicle/update-vehicle', //编辑车辆
+            submit: remoteUrl + '/Vehicle/CreateVehicleAbbrInfo', // 增加车辆
+            detail: remoteUrl + '/Vehicle/QueryVehicleAbbrInfo', //查看车辆详情
+            update: remoteUrl + '/Vehicle/EditVehicleAbbrInfo', //编辑车辆
             lastLocation: remoteUrl + '/vehicle/get-last-location',
             historyLocation: remoteUrl + '/vehicle/get-history-location',
             alarmList: remoteUrl + '/alarm/get-alarm-event-by-gpsno',
@@ -34,20 +38,16 @@ define(function(require, exports, module) {
             sendGPS: remoteUrl + '/web/cmd/send',
             getGPSNumByOrgId: remoteUrl + '/avl/info/get-avlinfo-list-by-orgid'
         },
-        orderManager:{
+        // 订单管理
+        orderManager: {
             list: remoteUrl + '/Order/QueryAllOrder',
         },
-        gpsDevice: {
-            list: remoteUrl + '/avl/get-avl-info-list', //GPS设备列表
-            detail: remoteUrl + '/avl/info/get-avl-info-detail', //设备详情
-            addgps: remoteUrl + '/avl/save-avl-info', //新增设置
-            updateGps: remoteUrl + '/avl/info/update-avl-info-by-id', // 编辑保存GPS
-            sellgps: remoteUrl + '/sales/records/batch-sales', //设备售卖
-            unbind: remoteUrl + '/sales/records/unbind', //解绑设备
+        // 投诉管理
+        complaintManager: {
+            list: remoteUrl + '/Complaint/GetAll', //列表
             export: remoteUrl + '/avl/get-avl-info-list-export', //导出列表
-            checkFile: remoteUrl + '/avl/check-import-avl-data', //导入校验
-            importFile: remoteUrl + '/avl/import-avl-data', //导入
         },
+        // 用户管理
         userManager: {
             list: remoteUrl + '/sys/user/get-sys-user-page', // 列表
             add: remoteUrl + '/sys/user/save-sys-user', // 添加

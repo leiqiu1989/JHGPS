@@ -88,7 +88,7 @@
                                             </a>
                                             <ul class="submenu">
                                                 <li> 
-                                                    <a href="">投诉管理</a> 
+                                                    <a href="#complaintManager/index">投诉管理</a> 
                                                 </li>
                                             </ul> 
                                         </li>
