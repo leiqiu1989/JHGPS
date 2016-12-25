@@ -1,7 +1,7 @@
 define("base", [], function() {
     var basicUrl = './js';
 
-    window.DOMAIN = 'http://dev.demo.cn/JHGPS/src/'; //'http://120.25.212.193';
+    window.DOMAIN = 'http://120.25.212.193:8082/JHGPS/src/'; //'http://120.25.212.193';
 
     seajs.config({
         base: basicUrl,
