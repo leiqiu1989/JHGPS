@@ -69,8 +69,8 @@
                                                     <a href="">组织用户</a> 
                                                 </li>
                                             </ul> 
-                                        </li>
-                                        <li>-->
+                                        </li>-->
+                                        <li>
                                             <a href="javascript:" class="dropdown-toggle">
                                                 <i class="menu-icon fa fa-list"></i> 
                                                 <span class="menu-text">订单管理</span> 
