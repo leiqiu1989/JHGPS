@@ -20,7 +20,7 @@
 						<label class="control-label">被投诉人</label>
 						<input type="text" class="form-control w-200" name="To" placeholder="请输入被投诉人查询"
 							value="<%= searchValue.To %>" />
-					</td>											
+					</td>
 				</tr>
 				<tr>
 					<td>
