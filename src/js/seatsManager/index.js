@@ -7,13 +7,12 @@ define(function(require, exports, module) {
     require('lodash');
     // 模板
     var tpls = {
-        carIndex: require('../../tpl/orderManager/index'),
-        carList: require('../../tpl/orderManager/list'),
-        map: require('../../tpl/orderManager/map')
+        carIndex: require('../../tpl/satsManager/index'),
+        carList: require('../../tpl/satsManager/list')
     };
 
-    function carList() {}
-    $.extend(carList.prototype, {
+    function seatsList() {}
+    $.extend(seatsList.prototype, {
         init: function(param) {
             // 初始化查询条件参数
             this.getParams(param);
@@ -182,7 +181,7 @@ define(function(require, exports, module) {
         }
     });
 
-    var _carObj = new carList();
+    var _carObj = new seatsList();
 
     exports.init = function(param) {
         _carObj.init(param);

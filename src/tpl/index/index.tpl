@@ -121,7 +121,7 @@
                                             </a>
                                             <ul class="submenu">
                                                 <li> 
-                                                    <a href="">车辆订单配置</a> 
+                                                    <a href="#carOrderConfig/index">车辆订单配置</a> 
                                                 </li>
                                             </ul> 
                                         </li>

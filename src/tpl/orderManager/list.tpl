@@ -45,7 +45,7 @@
 				<% if(item.OrderType == 1||item.OrderType == 4){ %>
 				 <a href="javascript:" class="js_list_detail">查看位置</a>
 				<% }else if(item.OrderType == 2){%>
-					<audio src="<%= item.FilePath%>" controls="controls">你的浏览器不支持此音频格式&nbsp;<a target="_blank" href='<%= item.FilePath%>'>下载</a></audio>
+					<audio src="<%= item.FilePath%>" controls="controls">你的浏览器不支持此音频格式</audio>
 				<% } %>
 			</a>
 		</td>

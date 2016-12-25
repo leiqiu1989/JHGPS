@@ -68,6 +68,12 @@ define(function(require, exports, module) {
             basicTplList: remoteUrl + '/web/contract/basic-templates', // 获取基础模板列表
             basicTplDetail: remoteUrl + '', // 获取基础模板详情
             detail: remoteUrl + '/web/contract/template-detail' // 模板详情
+        },
+        //车辆订单配置模块
+        carOrderConfig: {
+            list: remoteUrl + '/VehicleOrderType/QueryAllVehicleOrderTypeInfo', //列表
+            editVehicleOrder: remoteUrl + '/VehicleOrderType/EditVehicleOrderTypeInfo', //对车辆可接收的订单信息进行配置 
+            queryVehicelOrder: remoteUrl + '/VehicleOrderType/QueryVehicleOrderTypeInfoByVid' //根据车辆vid编号获取车辆详情 
         }
     };
     return api;
