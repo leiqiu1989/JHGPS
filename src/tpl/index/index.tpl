@@ -55,7 +55,7 @@
                                             </a>
                                             <ul class="submenu">
                                                 <li> 
-                                                    <a href="#gpsDevice/index">角色管理</a> 
+                                                    <a href="#roleManager/index">角色管理</a> 
                                                 </li>
                                             </ul> 
                                         </li>
@@ -99,7 +99,7 @@
                                             </a>
                                             <ul class="submenu">
                                                 <li> 
-                                                    <a href="">坐席管理</a> 
+                                                    <a href="#seatsManager/index">坐席管理</a> 
                                                 </li>
                                             </ul> 
                                         </li>

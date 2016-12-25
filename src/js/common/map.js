@@ -66,8 +66,9 @@ define(function(require, exports, module) {
                 anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
                 offset: new BMap.Size(0, 37)
             });
+
             this._map.addControl(this.overView);
-            if (callback) callback();
+            if (callback) callback(this._map);
         },
         // 清除所有覆盖物
         clearOverlays: function() {
