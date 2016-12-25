@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     var common = require('common');
     var api = require('api');
     var map = require('map');
+    require('draw');
 
     // 模板
     var tpls = {
@@ -13,10 +14,12 @@ define(function(require, exports, module) {
     };
 
     var historyLocation = function() {
-
+        this.initMapTime = null;
+        this.drawManager = null;
     };
     $.extend(historyLocation.prototype, {
         init: function(param) {
+            var me = this;
             // 渲染模板
             $('#main-content').empty().html(template.compile(tpls.index)());
             // 控件初始化
@@ -25,9 +28,45 @@ define(function(require, exports, module) {
             map.init('historyMap');
             // 移除鹰眼
             map.removeOverView();
+
             $('#historyLocationList').empty().html(template.compile(tpls.list)());
-            // 获取数据
-            //this.getData();
+
+            this.initMapTime = setInterval(function() {
+                if (map._map.getCenter()) {
+                    clearInterval(me.initMapTime);
+                    me.drawManagerRectangle();
+                }
+            }, 1000);
+        },
+        // 鼠标绘制
+        drawManagerRectangle: function() {
+            var me = this;
+            var styleOptions = {
+                strokeColor: "#ccc", //边线颜色。
+                fillColor: "#fff", //填充颜色。当参数为空时，圆形将没有填充效果。
+                strokeWeight: 1, //边线的宽度，以像素为单位。
+                strokeOpacity: 0.8, //边线透明度，取值范围0 - 1。
+                fillOpacity: 1, //填充的透明度，取值范围0 - 1。
+                strokeStyle: 'solid' //边线的样式，solid或dashed。
+            };
+
+            //实例化鼠标绘制工具
+            this.drawManager = new BMapLib.DrawingManager(map._map, {
+                isOpen: false, //是否开启绘制模式
+                enableDrawingTool: true, //是否显示工具栏
+                drawingToolOptions: {
+                    anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+                    offset: new BMap.Size(5, 5), //偏离值
+                    drawingModes: [BMAP_DRAWING_RECTANGLE]
+                },
+                rectangleOptions: styleOptions //矩形的样式
+            });
+            this.drawManager.addEventListener('overlaycomplete', function(e) {
+                me.overlaycomplete();
+            });
+        },
+        overlaycomplete: function(e) {
+            this.drawManager.close();
         },
         // 获取查询条件
         getParams: function(param) {
@@ -51,16 +90,10 @@ define(function(require, exports, module) {
         },
         event: function() {
             var me = this;
-            /*************顶部工具栏*********/
-            $('.panel-toolbar').off()
-                //查询
-                .on('click', '.js_search', function() {
-                    me.getParams(true);
-                    common.changeHash('#complaintManager/index/', me.searchParam);
-                })
-                //导出
-                .on('click', '.js_export', function() {
-                    //me.export($(this));
+            $('#main-content').off()
+                // 绘制1
+                .on('click', '.js-mark-first', function() {
+
                 });
         },
         getData: function() {

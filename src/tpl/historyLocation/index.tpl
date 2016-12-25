@@ -13,7 +13,7 @@
                                 区域1
                             </h3>
                         <div class="pull-right">
-                            <a class="btn btn-primary relative t6">标注区域</a>
+                            <a class="btn btn-primary relative t6 js-mark-first">标注区域</a>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -133,7 +133,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <div class="h-240">
+                <div class="historyLocList">
                     <div class="panel no-margin flexbox">
                         <div class="panel-heading no-padding datatable-header">
                             <table class="table no-margin">
