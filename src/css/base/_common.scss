@@ -58,6 +58,10 @@
     border-radius: 4px;
 }
 
+.form-group-small-margin .form-group {
+    margin-bottom: 5px !important;
+}
+
 .datatable-header {
     thead {
         >tr {
@@ -233,6 +237,10 @@
     border-left: 0;
 }
 
+.t6 {
+    top: 6px;
+}
+
 .relative {
     position: relative;
 }
@@ -289,6 +297,10 @@
     height: 300px;
 }
 
+.h-240 {
+    height: 240px;
+}
+
 .min-w80 {
     min-width: 80px;
 }
@@ -323,6 +335,10 @@
 
 .m15 {
     margin: 15px !important;
+}
+
+.pb0 {
+    padding-bottom: 0 !important;
 }
 
 .mb0 {

@@ -59,26 +59,30 @@
         height: 300px;
         width: 100%;
     }
-    .engine {
-        color: #7A7A7A;
-    }
-    .status {
-        display: inline-block;
-        width: 22px;
-        height: 22px;
-        line-height: 22px;
-        color: #fff;
-        border-radius: 4px;
-        text-align: center;
-    }
-    .carOpen {
-        @extend .status;
-        background-color: #4f95ff;
-    }
-    .carClose {
-        @extend .status;
-        background-color: #ff6666;
-    }
+}
+
+.status {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    color: #fff;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.carOpen {
+    @extend .status;
+    background-color: #4f95ff;
+}
+
+.carClose {
+    @extend .status;
+    background-color: #ff6666;
+}
+
+.engine {
+    color: #7A7A7A;
 }
 
 // 组织列表
@@ -139,6 +143,14 @@
 
 .pause {
     background-image: url(./../img/btn_Paused.png) !important;
+}
+
+
+/*历史位置查询*/
+
+#historyMap {
+    height: 570px;
+    width: 100%;
 }
 
 

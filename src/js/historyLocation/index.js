@@ -4,26 +4,30 @@ define(function(require, exports, module) {
     var validate = require('validate');
     var common = require('common');
     var api = require('api');
+    var map = require('map');
 
     // 模板
     var tpls = {
-        index: require('../../tpl/complaintManager/list'),
-        list: require('../../tpl/complaintManager/table')
+        index: require('../../tpl/historyLocation/index'),
+        list: require('../../tpl/historyLocation/list')
     };
 
-    var complaintList = function() {
+    var historyLocation = function() {
 
     };
-    $.extend(complaintList.prototype, {
+    $.extend(historyLocation.prototype, {
         init: function(param) {
-            // 获取查询条件
-            this.getParams(param);
             // 渲染模板
-            $('#main-content').empty().html(template.compile(tpls.index)({ searchValue: this.searchParam }));
+            $('#main-content').empty().html(template.compile(tpls.index)());
             // 控件初始化
             this.initControl();
+            // 地图初始化
+            map.init('historyMap');
+            // 移除鹰眼
+            map.removeOverView();
+            $('#historyLocationList').empty().html(template.compile(tpls.list)());
             // 获取数据
-            this.getData();
+            //this.getData();
         },
         // 获取查询条件
         getParams: function(param) {
@@ -43,8 +47,6 @@ define(function(require, exports, module) {
         initControl: function() {
             common.initDateTime('input[name="Start"]', null, false, 'yyyy-MM-dd 00:00');
             common.initDateTime('input[name="End"]', null, false);
-            // 默认选中
-            $('select[name="Feature"]').val(this.searchParam.Feature || 0);
             this.event();
         },
         event: function() {
@@ -104,6 +106,6 @@ define(function(require, exports, module) {
     });
 
     exports.init = function(param) {
-        new complaintList().init(param);
+        new historyLocation().init(param);
     };
 });

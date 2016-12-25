@@ -464,6 +464,9 @@ div.admin .main-fixed {
 .form-control {
   border-radius: 4px; }
 
+.form-group-small-margin .form-group {
+  margin-bottom: 5px !important; }
+
 .datatable-header thead > tr > th.sort:after {
   content: '*'; }
 
@@ -582,6 +585,9 @@ div.admin .main-fixed {
 .border-left-0 {
   border-left: 0; }
 
+.t6 {
+  top: 6px; }
+
 .relative {
   position: relative; }
 
@@ -624,6 +630,9 @@ div.admin .main-fixed {
 .h-300 {
   height: 300px; }
 
+.h-240 {
+  height: 240px; }
+
 .min-w80 {
   min-width: 80px; }
 
@@ -650,6 +659,9 @@ div.admin .main-fixed {
 
 .m15 {
   margin: 15px !important; }
+
+.pb0 {
+  padding-bottom: 0 !important; }
 
 .mb0 {
   margin-bottom: 0 !important; }
@@ -850,20 +862,24 @@ dl dd {
     display: none;
     height: 300px;
     width: 100%; }
-  .monitorList .engine {
-    color: #7A7A7A; }
-  .monitorList .status, .monitorList .carOpen, .monitorList .carClose {
-    display: inline-block;
-    width: 22px;
-    height: 22px;
-    line-height: 22px;
-    color: #fff;
-    border-radius: 4px;
-    text-align: center; }
-  .monitorList .carOpen {
-    background-color: #4f95ff; }
-  .monitorList .carClose {
-    background-color: #ff6666; }
+
+.status, .carOpen, .carClose {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  color: #fff;
+  border-radius: 4px;
+  text-align: center; }
+
+.carOpen {
+  background-color: #4f95ff; }
+
+.carClose {
+  background-color: #ff6666; }
+
+.engine {
+  color: #7A7A7A; }
 
 .vehicle-box {
   display: none;
@@ -914,6 +930,11 @@ dl dd {
 
 .pause {
   background-image: url(./../img/btn_Paused.png) !important; }
+
+/*历史位置查询*/
+#historyMap {
+  height: 570px;
+  width: 100%; }
 
 /*地图信息框样式*/
 .point_info {

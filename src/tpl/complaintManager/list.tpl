@@ -45,14 +45,14 @@
 			</tbody>
 		</table>
 	</div>
-	<div class="panel-toolbar form-inline">
+	<!--<div class="panel-toolbar form-inline">
 		<div class="form-group btn-toolbar">
 			<a class="btn btn-primary js_export">
 				<i class="fa fa-download"></i>
 				导 出
 			</a>
 		</div>
-	</div>
+	</div>-->
 	<div class="panel-body row-container grow">
 		<div class="row row-static">
 			<div id="complaintList" class="col-static col-xs-12 no-padding">

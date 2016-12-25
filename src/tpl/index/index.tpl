@@ -7,11 +7,11 @@
             欢迎您，&nbsp;&nbsp;<span class="ja_userName"></span>
         </div>        
         <div class="logout js_changpwd">
-            <img src="http://dev.demo.cn/JHGPS-Git/src/img/changpwd.png" alt="">
+            <img src="http://120.25.212.193/JHGPS/src/img/changpwd.png" alt="">
             <span>修改密码</span>
         </div>
         <div class="logout js_logout">
-            <img src="http://dev.demo.cn/JHGPS-Git/src/img/logout.png" alt="">
+            <img src="http://120.25.212.193/JHGPS/src/img/logout.png" alt="">
             <span>退出</span>
         </div>
     </div>
@@ -48,7 +48,7 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li>
+                                        <!--<li>
                                             <a href="javascript:" class="dropdown-toggle">
                                                 <i class="menu-icon fa fa-user-secret"></i> 
                                                 <span class="menu-text">角色管理</span> 
@@ -69,7 +69,7 @@
                                                     <a href="">组织用户</a> 
                                                 </li>
                                             </ul> 
-                                        </li>
+                                        </li>-->
                                         <li> 
                                             <a href="javascript:" class="dropdown-toggle">
                                                 <i class="menu-icon fa fa-list"></i> 
@@ -92,7 +92,7 @@
                                                 </li>
                                             </ul> 
                                         </li>
-                                        <li> 
+                                        <!--<li> 
                                             <a href="javascript:" class="dropdown-toggle">
                                                 <i class="menu-icon fa fa-user-circle"></i> 
                                                 <span class="menu-text">坐席管理</span> 
@@ -102,18 +102,18 @@
                                                     <a href="#seatsManager/index">坐席管理</a> 
                                                 </li>
                                             </ul> 
-                                        </li>
-                                        <li> 
+                                        </li>-->
+                                        <!--<li> 
                                             <a href="javascript:" class="dropdown-toggle">
                                                 <i class="menu-icon fa fa-location-arrow"></i> 
                                                 <span class="menu-text">历史位置查询</span> 
                                             </a>
                                             <ul class="submenu">
                                                 <li> 
-                                                    <a href="">历史位置查询</a> 
+                                                    <a href="#historyLocation/index">历史位置查询</a> 
                                                 </li>
                                             </ul> 
-                                        </li>
+                                        </li>-->
                                         <li> 
                                             <a href="javascript:" class="dropdown-toggle">
                                                 <i class="menu-icon fa fa-cog"></i> 

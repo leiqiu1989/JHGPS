@@ -13,7 +13,7 @@ uglify = require('gulp-uglify'),
 var option = {
     cwd: './src',
     dist: './dist',
-    version: '20161123'
+    version: '20161225'
 };
 
 option.tpl = option.cwd + '/tpl';
@@ -27,12 +27,12 @@ gulp.task('transport', function() {
         .pipe(transport())
         .pipe(concatSeajs({
             alias: {
-                page: 'staticBase/common/page.js',
+                page: 'plugin/common/page.js',
                 datepicker: 'plugin/jquery.datetimepicker.js',
                 ajaxform: 'plugin/jquery.form.js',
                 lodash: 'plugin/lodash.min.js',
-                dialog: 'staticBase/common/_dialog.js',
-                validate: 'staticBase/common/validate.js',
+                dialog: 'plugin/common/_dialog.js',
+                validate: 'plugin/common/validate.js',
                 chosen: 'plugin/chosen.jquery.min.js',
                 docEvent: 'common/docEvent.js',
                 app: 'app.js',
@@ -53,17 +53,20 @@ gulp.task('image', function() {
         .pipe(gulp.dest(option.src));
 });
 
-// 模板
-gulp.task('template', function() {
-    return gulp.src(option.cwd + '/docTemplate/*.xls').pipe(gulp.dest(option.src + '/docTemplate'));
-});
-
 //tinyUi
 gulp.task('tinyui', function() {
     return gulp.src(['./src/tiny/**/*.css', './src/tiny/**/*.js',
         './src/tiny/**/*.eot', './src/tiny/**/*.svg', './src/tiny/**/*.ttf',
         './src/tiny/**/*.woff', './src/tiny/**/*.woff2'
     ]).pipe(gulp.dest(option.src + '/tiny'));
+});
+
+//font-awesome
+gulp.task('font-awesome', function() {
+    return gulp.src(['./src/font-awesome/**/*.css',
+        './src/font-awesome/**/*.otf', './src/font-awesome/**/*.eot', './src/font-awesome/**/*.svg',
+        './src/font-awesome/**/*.ttf', './src/font-awesome/**/*.woff', './src/font-awesome/**/*.woff2'
+    ]).pipe(gulp.dest(option.src + '/font-awesome'));
 });
 
 //css合并最新版本
@@ -97,4 +100,4 @@ gulp.task('watch', function() {
 gulp.task('dev', ['tpl']);
 
 //运行他前，先改版本号
-gulp.task('publish', ['tpl', 'transport', 'minify-css', 'image', 'template', 'tinyui', 'tplPub']);
+gulp.task('publish', ['tpl', 'transport', 'minify-css', 'image', 'tinyui', 'font-awesome', 'tplPub']);
