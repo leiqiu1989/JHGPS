@@ -1,16 +1,13 @@
 define("base", [], function() {
     var basicUrl = './js';
 
-    window.DOMAIN = 'http://dev.demo.cn/JHGPS-Git/src/';
+    window.DOMAIN = 'http://120.25.212.193'; //'http://dev.demo.cn/JHGPS-Git/src/';
 
     seajs.config({
         base: basicUrl,
         charset: 'utf-8',
-        paths: {
-            staticBase: 'https://s.56qq.com/staticBase/dist/20160831/js/'
-        },
         alias: {
-            page: 'staticBase/common/page.js',
+            page: 'plugin/common/page.js',
             datepicker: 'plugin/jquery.datetimepicker.js',
             ajaxform: 'plugin/jquery.form.js',
             lodash: 'plugin/lodash.min.js',
@@ -18,8 +15,8 @@ define("base", [], function() {
             excheck: 'plugin/jquery.ztree.excheck.js',
             exhide: 'plugin/jquery.ztree.exhide.min.js',
             eventWrapper: 'plugin/EventWrapper.min.js',
-            dialog: 'staticBase/common/_dialog.js',
-            validate: 'staticBase/common/validate.js',
+            dialog: 'plugin/common/_dialog.js',
+            validate: 'plugin/common/validate.js',
             chosen: 'plugin/chosen.jquery.min.js',
             docEvent: 'common/docEvent.js',
             app: 'app.js',

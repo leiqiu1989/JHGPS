@@ -118,8 +118,8 @@ define(function(require, exports, module) {
     var common = {
         // 初始化日期
         initDateTime: function(el, formatStyle, hasDefValue, defValueformat, timePickerBool, minDate, maxDate) {
-            formatStyle = formatStyle || 'Y/m/d H:i';
-            defValueformat = defValueformat || 'yyyy/MM/dd h:m';
+            formatStyle = formatStyle || 'Y-m-d H:i';
+            defValueformat = defValueformat || 'yyyy-MM-dd h:m';
             var currentDate = new Date().format(defValueformat);
             timePickerBool = (timePickerBool === undefined || timePickerBool === null) ? true : timePickerBool;
             var opts = {

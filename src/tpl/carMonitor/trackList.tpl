@@ -24,12 +24,19 @@
                 <%= item.Speed %>
             </td>
             <td>
-                <%= item.Status %>
+                <% if(item.Status.indexOf('ACC开')){ %>
+                    <span class="engine">发动机</span>&nbsp;<span class="carOpen">开</span>
+                <% } else if(item.Status.indexOf('ACC关')){ %>
+                    <span class="engine">发动机</span>&nbsp;<span class="carClose">关</span>
+                <% } else{ %>
+                    <span class="engine">未知状态</span>
+                <% } %>
             </td>
             <td>
                 <%= item.TotalDistance %>
             </td>
-            <td>                                            
+            <td>
+                <%= item.AlarmInfo %>                                   
             </td>
             <td>
                 <%= item.Location %>

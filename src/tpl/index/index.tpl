@@ -110,7 +110,7 @@
                                             </a>
                                             <ul class="submenu">
                                                 <li> 
-                                                    <a href="">历史位置查询</a> 
+                                                    <a href="#historyLocation/index">历史位置查询</a> 
                                                 </li>
                                             </ul> 
                                         </li>
