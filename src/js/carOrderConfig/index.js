@@ -80,7 +80,7 @@ define(function(require, exports, module) {
                     }));
                     common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
                         me.searchParam.PageIndex = currPage;
-                        common.changeHash('#carManager/index/', me.searchParam);
+                        common.changeHash('#carOrderConfig/index/', me.searchParam);
                     });
                 } else {
                     var msg = res.errorMsg || '系统出错，请联系管理员！';
@@ -154,6 +154,7 @@ define(function(require, exports, module) {
                         SettingRemark: $.trim($dialogContainer.find('#_remark').val()) //备注
                     }, function(res) {
                         if (res.status === 'SUCCESS') {
+                            _dialog.close();
                             common.toast('配置成功','success');
                             me.getParams(true);
                             common.changeHash('#carOrderConfig/index/', me.searchParam);

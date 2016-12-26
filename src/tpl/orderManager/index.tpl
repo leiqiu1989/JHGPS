@@ -51,16 +51,6 @@
 	</div>
 	<div class="panel-toolbar form-inline">
 		<div class="form-group btn-toolbar">
-			<a class="btn btn-primary js_list_add"> <i class="fa fa-plus"></i>
-				新 增
-			</a>
-			<a class="btn btn-primary js_list_stop"> <i class="fa fa-times"></i>
-				删 除
-			</a>
-			<a class="btn btn-primary js_list_import">
-				<i class="fa fa-upload"></i>
-				导 入
-			</a>
 			<a class="btn btn-primary js_list_export">
 				<i class="fa fa-download"></i>
 				导 出
