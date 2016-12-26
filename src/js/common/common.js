@@ -199,7 +199,7 @@ define(function(require, exports, module) {
             });
         },
         directForm: function(data) {
-            var direction = data.Directio;
+            var direction = data.Direction;
             var directionDesc = '',
                 degrees = 0;
             if (direction < 23 || direction > 338) {
