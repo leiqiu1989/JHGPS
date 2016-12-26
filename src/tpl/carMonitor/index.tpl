@@ -10,13 +10,9 @@
                 <span>离线：</span><span class="monitorCarNumberColor js-offLineTotal">0</span>
             </div>
             <div class="monitorCarSearch pull-left">
-                <div class="inline-block">
+                <div class="inline-block mr10">
                     <span>车牌号码：</span>
                     <input type="text" class="normalText" placeholder="请输入车牌号" />
-                </div>
-                <div class="inline-block ml10">
-                    <span>设备编号：</span>
-                    <input type="text" class="normalText" placeholder="请输入设备编号" />
                 </div>
                 <div class="inline-block">
                     <a class="btn-basic-default">
@@ -76,7 +72,7 @@
         </div>
         <div id="vehicleTree" class="vehicle-tree ztree">
         </div>
-        <div class="align-center mt10">
+        <div class="align-center vehicleOK">
             <a class="btn-basic-large w-200 js-vehicle-ok">
                 确 定
             </a>

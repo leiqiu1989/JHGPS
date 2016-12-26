@@ -15,6 +15,8 @@ define(function(require, exports, module) {
         carPositionList: remoteUrl + '/Position/QueryLastPosition',
         // 获取车辆轨迹列表
         carTrackHistory: remoteUrl + '/Position/QueryHistory',
+        // 历史位置查询
+        historyQuery: remoteUrl + '/Position/QueryAcrossHistory',
         // 车辆管理
         carManager: {
             list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo', //车辆管理列表

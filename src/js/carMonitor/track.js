@@ -49,10 +49,10 @@ define(function(require, exports, module) {
                     $('.chosen-container').css('vertical-align', 'bottom');
                     me.getHistory();
                 } else {
+                    common.loading();
                     var msg = res.errorMsg || '系统出错，请联系管理员！';
                     common.toast(msg);
                 }
-                common.loading();
             });
             common.initDateTime('#startDate', null, true, 'yyyy/MM/dd 00:00');
             common.initDateTime('#endDate', null, true);
@@ -76,18 +76,18 @@ define(function(require, exports, module) {
             if (chkResult) {
                 var sTime = startDate + ' :00';
                 var eTime = endDate + ' :59';
+                common.loading('show');
                 common.ajax(api.carTrackHistory, { Vid: vid, STime: sTime, ETime: eTime }, function(res) {
                     if (res && res.status === 'SUCCESS') {
                         var data = res.content;
                         $('#track-history-list').empty().html(template.compile(tpls.trackList)({ data: data }));
-                        me.drawLine(data);
+                        if (data && data.length > 0) {
+                            map.driving(data, function() {
+                                common.loading();
+                            });
+                        }
                     }
                 });
-            }
-        },
-        drawLine: function(data) {
-            if (data && data.length > 0) {
-                map.driving(data);
             }
         },
         back: function() {

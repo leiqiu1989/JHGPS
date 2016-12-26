@@ -23,7 +23,7 @@
                             <label class="col-sm-5 control-label">车牌颜色</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    <%= data.Vehicle.Color %>
+                                    <%= data.Vehicle.ColorString %>
                                 </label>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                             <label class="col-sm-5 control-label">车辆品牌</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    <%= data.Vehicle.Brand %>
+                                    <%= data.Vehicle.BrandString %>
                                 </label>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                             <label class="col-sm-5 control-label">车辆类型</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    <%= data.Vehicle.VehicleType %>
+                                    <%= data.Vehicle.VehicleTypeString %>
                                 </label>
                             </div>
                         </div>
@@ -157,7 +157,7 @@
                             <label class="col-sm-5 control-label">设备类型</label>
                             <div class="col-sm-7">
                                 <label class="control-label-text-bootstrap">
-                                    <%= data.Equipment.EquipmentTypeId %>
+                                    <%= data.Equipment.EquipmentType %>
                                 </label>
                             </div>
                         </div>

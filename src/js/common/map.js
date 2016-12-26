@@ -270,7 +270,7 @@ define(function(require, exports, module) {
             });
             return mapPoints;
         },
-        driving: function(data) {
+        driving: function(data, callback) {
             var me = this;
             // 首个点时间
             $('.track-time').text(data[0].GpsTime);
@@ -285,6 +285,7 @@ define(function(require, exports, module) {
                 me.addTrackLine(mapPoints);
                 // 设置中心点
                 me.setCenterAndZoom(mapPoints);
+                if (callback) callback();
             });
         },
         // 添加折线

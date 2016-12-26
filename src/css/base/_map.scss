@@ -37,7 +37,7 @@
         }
         .monitorCarSearch {
             margin-left: 20px;
-            width: 900px;
+            width: 370px;
             >div input[type="text"] {
                 height: 28px;
             }
@@ -95,8 +95,8 @@
     position: absolute;
     top: 0;
     left: 53px;
-    bottom: 48px;
-    width: 340px;
+    bottom: 35px;
+    width: 355px;
     overflow-y: auto;
     border-right: 1px solid #c9c9c9;
     border-bottom: 1px solid #c9c9c9;
@@ -118,12 +118,22 @@
         }
     }
     .vehicle-search {
-        padding: 10px 10px 0;
+        position: absolute;
+        top: 40px;
+        left: 15px;
     }
     .vehicle-tree {
-        padding-top: 10px;
-        height: 85%;
         overflow-y: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 80px;
+        bottom: 60px;
+    }
+    .vehicleOK {
+        position: absolute;
+        bottom: 15px;
+        left: 60px;
     }
 }
 
@@ -153,13 +163,13 @@
 /*历史位置查询*/
 
 #historyMap {
-    height: 570px;
+    height: 620px;
     width: 100%;
 }
 
 .historyLocList {
     border-top: 1px solid #eee;
-    height: 350px;
+    height: 320px;
 }
 
 

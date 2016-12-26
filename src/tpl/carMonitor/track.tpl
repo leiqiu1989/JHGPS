@@ -21,7 +21,8 @@
                 <a class="btn-basic-default js-search-history"> 查 询 </a>
             </div>
         </div>
-        <div class="track-list">
+    </div>
+    <div class="track-list">
             <div class="track-range">
                 <div class="track-process">
                     <div class="track-range-point"></div>
@@ -77,5 +78,4 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
