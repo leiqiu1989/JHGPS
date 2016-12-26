@@ -132,7 +132,7 @@ define(function(require, exports, module) {
             };
             $(el).datetimepicker(opts);
         },
-        // 检查日期
+        // 检查日期,interVals(间隔天数)
         checkTime: function(dateTime, ct, interVals) {
             if (!dateTime || !ct) {
                 common.toast('日期不能为空！');
@@ -148,13 +148,21 @@ define(function(require, exports, module) {
             } else {
                 ct = Date.parse(ct);
             }
-            var times = interVals * 24 * 60 * 60 * 1000;
             var diffTimes = dateTime - ct;
-            if (diffTimes < 0 || diffTimes > times) {
-                common.toast('时间周期必须小于或等于3天!');
-                return false;
+            if (interVals) {
+                var times = interVals * 24 * 60 * 60 * 1000;
+                if (diffTimes < 0 || diffTimes > times) {
+                    common.toast('时间周期必须小于或等于3天!');
+                    return false;
+                }
+                return true;
+            } else {
+                if (diffTimes < 0) {
+                    common.toast('结束日期必须大于或等于开始日期!');
+                    return false;
+                }
+                return true;
             }
-            return true;
         },
         // 初始化下拉框
         initSelect: function(el, extendOpt, callback, selectedValue, options) {
@@ -199,7 +207,7 @@ define(function(require, exports, module) {
             });
         },
         directForm: function(data) {
-            var direction = data.Directio;
+            var direction = data.Direction;
             var directionDesc = '',
                 degrees = 0;
             if (direction < 23 || direction > 338) {
@@ -419,16 +427,15 @@ define(function(require, exports, module) {
             });
         },
         // 遮罩层
-        loading: function(status, content) {
-            content = content || '加载中...';
+        loading: function(status) {
             status = status || 'hide';
-            if ($('#glb_loading').size() < 1) {
-                $('<div id="glb_loading">' + content + '</div>').appendTo('body');
+            if ($('#loading').size() < 1) {
+                $('<div id="loading"></div>').appendTo('body');
             }
             if (status === 'show') {
-                $('#glb_loading').show();
+                $('#loading').show();
             } else {
-                $('#glb_loading').hide();
+                $('#loading').hide();
             }
         },
         // set cookie

@@ -278,9 +278,6 @@ define(function(require, exports, module) {
                 params.Vid = me.truckId;
             }
             params.OnlyOrgNo = me.orgId;
-            alert('pass');
-            console.log(params);
-            //return;
             common.ajax(url, params, function(res) {
                 if (res && res.status === 'SUCCESS') {
                     common.alert('数据操作成功', 'success', true, function() {

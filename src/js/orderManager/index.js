@@ -28,10 +28,6 @@ define(function(require, exports, module) {
         initControl: function() {
             var me = this;
             this.event();
-            common.tableSort(function(sortParam) {
-                me.sortParam = sortParam;
-                me.getData();
-            });
             common.initDateTime('input[name="start"]', 'Y-m-d H:i', false, 'yyyy-MM-dd h:m', true, false);
             common.initDateTime('input[name="end"]', 'Y-m-d H:i', false, 'yyyy-MM-dd h:m', true, false);
             $('#vehicleType').val(me.searchParam.OrderType);
@@ -49,18 +45,17 @@ define(function(require, exports, module) {
             };
             if (newParams.start) newParams.start = newParams.start;
             if (newParams.end) newParams.end = newParams.end;
-            if(!param){
+            if (!param) {
                 newParams = {};
             }
-            this.searchParam = common.getParams('carSearchParams', param, newParams, true);
+            this.searchParam = common.getParams('orderManagerSearchParams', param, newParams, true);
         },
         getData: function() {
             var me = this;
             var param = this.searchParam;
-            //if (this.searchParam && !_.isEmpty(this.searchParam)) {
-            param = $.extend({}, param, this.sortParam ? this.sortParam : {});
+            param = $.extend({}, param);
             // 将查询条件保存到localStorage里面
-            common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
+            common.setlocationStorage('orderManagerSearchParams', JSON.stringify(this.searchParam));
             common.loading('show');
             common.ajax(api.orderManager.list, param, function(res) {
                 if (res.status === 'SUCCESS') {
@@ -69,7 +64,7 @@ define(function(require, exports, module) {
                         data: data.Page || []
                     }));
                     common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
-                        me.searchParam.pageNumber = currPage;
+                        me.searchParam.PageIndex = currPage;
                         common.changeHash('#orderManager/index/', me.searchParam);
                     });
                 } else {
@@ -118,78 +113,47 @@ define(function(require, exports, module) {
             common.listenOrganization();
             // 查询-事件监听
             $('.panel-toolbar')
-            //重置
-            .on('click', '.js_list_reset', function() {
-                common.removeLocationStorage('carSearchParams'); // 车辆管理
-                me.getParams(false);
-                common.changeHash('#orderManager/index/', me.searchParam);
-            })
-            .on('click', '.js_list_search', function() {
-                me.getParams(true);
-                common.changeHash('#orderManager/index/', me.searchParam);
-            });
+                //重置
+                .on('click', '.js_list_reset', function() {
+                    common.removeLocationStorage('orderManagerSearchParams'); // 车辆管理
+                    me.getParams(false);
+                    common.changeHash('#orderManager/index/', me.searchParam);
+                })
+                .on('click', '.js_list_search', function() {
+                    me.getParams(true);
+                    common.changeHash('#orderManager/index/', me.searchParam);
+                });
             // 事件监听
             $('#main-content').on('click', '.js_list_add', function() {
                     common.changeHash('#carManager/edit');
                 })
-                .on('click', '.js_list_edit', function() {
-                    var tr = $(this).closest('tr');
-                    var truckId = tr.data('truckid');
-                    var orgId = tr.data('orgid');
-                    common.changeHash('#carManager/edit/', { truckId: truckId, orgId: orgId });
+                //播放语音
+                .on('click', '.js_list_playVoice', function() {
+                    var audio = $(this).parent().find('audio');
+                    audio[0].play();
                 })
-                .on('click', '.js_list_import', function() {
-                    common.changeHash('#carManager/import');
-                })
+                //导出
                 .on('click', '.js_list_export', function() {
                     me.exportCarList($(this));
                 })
                 //查看位置
                 .on('click', '.js_list_detail', function() {
-                    var $this = $(this);
-
+                    var lng = $(this).data('lng'); //lng是经度
+                    var lat = $(this).data('lat'); //lat是纬度
                     common.autoAdaptionDialog(template.compile(tpls.map)(), {
                         title: '位置查看'
                     }, function() {
-                        map.init('mymap',new BMap.Point($this.data('Lat'), $this.data('Lng')),null,function(mymap){
-                           
-                            setTimeout(function(){
-                                map.removeOverView();
-                                var new_point = new BMap.Point($this.data('Lat'), $this.data('Lng'));
-                                var marker = new BMap.Marker(new_point);  // 创建标注
-                                mymap.addOverlay(marker);              // 将标注添加到地图中
-                                mymap.panTo(new_point);      
-                            },500);
-                            
+                        map.init('mymap', new BMap.Point(lng,lat), false, function(mymap) {
+                            setTimeout(function() {
+                                var new_point = new BMap.Point(lng,lat);
+                                var marker = new BMap.Marker(new_point); // 创建标注
+                                mymap.addOverlay(marker); // 将标注添加到地图中
+                                mymap.panTo(new_point);
+                                mymap.centerAndZoom(new_point, 14);// 建树点坐标,初始化地图,设置中心点坐标和地图级别。
+                            }, 500);
                         });
-                        
                     });
-                    // var tr = $(this).closest('tr');
-                    // var truckId = tr.data('truckid');
-                    // var orgId = tr.data('orgid');
-                    // var uniqueIds = tr.data('uniqueids');
-                    // common.changeHash('#carManager/detail/', { truckId: truckId, orgId: orgId, uniqueIds: uniqueIds });
 
-                })
-                .on('click', '.js_list_stop', function() {
-                    var truckId = $(this).closest('tr').data('truckid');
-                    var confirmText = '';
-                    if (truckId) {
-                        confirmText = '确定要停用该车辆吗？';
-                    } else {
-                        var chks = $('.datatable-content table > tbody input[name="checkItem"]:checked');
-                        if (chks.size() < 1) {
-                            common.toast('请选择要停用的车辆！');
-                            return false;
-                        }
-                        confirmText = '已选择&nbsp;<span class="red">' + chks.size() + '</span>&nbsp;辆车，是否对车辆停止使用？';
-                        var array = [];
-                        $.each(chks, function(i, item) {
-                            array.push($(item).closest('tr').data('truckid'));
-                        });
-                        truckId = array.join(',');
-                    }
-                    me.stopCar(truckId, confirmText);
                 });
         }
     });

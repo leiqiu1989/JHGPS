@@ -13,7 +13,7 @@
                                 区域1
                             </h3>
                         <div class="pull-right">
-                            <a class="btn btn-primary relative t6 js-mark-first">标注区域</a>
+                            <a class="btn btn-primary relative t6 js-clear-overlay">清除标注</a>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -21,32 +21,28 @@
                             <div class='form-group'>
                                 <label class="col-sm-2 control-label">最小经度</label>
                                 <div class="col-sm-10">
-                                    <label class="form-control">
-                                        113.23123213
+                                    <label class="form-control js-firstPoint">
                                     </label>
                                 </div>
                             </div>
                             <div class='form-group'>
                                 <label class="col-sm-2 control-label">最小维度</label>
                                 <div class="col-sm-10">
-                                    <label class="form-control">
-                                        33.3213
+                                    <label class="form-control js-firstPoint">
                                     </label>
                                 </div>
                             </div>
                             <div class='form-group'>
-                                <label class="col-sm-2 control-label required">最大经度</label>
+                                <label class="col-sm-2 control-label">最大经度</label>
                                 <div class="col-sm-10">
-                                    <label class="form-control">
-                                        33.3213
+                                    <label class="form-control js-firstPoint">
                                     </label>
                                 </div>
                             </div>
                             <div class='form-group'>
-                                <label class="col-sm-2 control-label required">最大维度</label>
+                                <label class="col-sm-2 control-label">最大维度</label>
                                 <div class="col-sm-10">
-                                    <label class="form-control">
-                                        33.3213
+                                    <label class="form-control js-firstPoint">
                                     </label>
                                 </div>
                             </div>
@@ -56,43 +52,36 @@
                 <div class="panel panel-transparent no-margin">
                     <div class="panel-heading clearfix">
                         <h3 class="panel-title pull-left w-150">
-                                区域2
-                            </h3>
-                        <div class="pull-right">
-                            <a class="btn btn-primary relative t6">标注区域</a>
-                        </div>
+                            区域2
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <form class="form-horizontal form-horizontal-patch form-horizontal-lg form-group-small-margin">
                             <div class='form-group'>
                                 <label class="col-sm-2 control-label">最小经度</label>
                                 <div class="col-sm-10">
-                                    <label class="form-control">
-                                        113.23123213
+                                    <label class="form-control js-secondPoint">
                                     </label>
                                 </div>
                             </div>
                             <div class='form-group'>
                                 <label class="col-sm-2 control-label">最小维度</label>
                                 <div class="col-sm-10">
-                                    <label class="form-control">
-                                        33.3213
+                                    <label class="form-control js-secondPoint">
                                     </label>
                                 </div>
                             </div>
                             <div class='form-group'>
-                                <label class="col-sm-2 control-label required">最大经度</label>
+                                <label class="col-sm-2 control-label">最大经度</label>
                                 <div class="col-sm-10">
-                                    <label class="form-control">
-                                        33.3213
+                                    <label class="form-control js-secondPoint">
                                     </label>
                                 </div>
                             </div>
                             <div class='form-group'>
-                                <label class="col-sm-2 control-label required">最大维度</label>
+                                <label class="col-sm-2 control-label">最大维度</label>
                                 <div class="col-sm-10">
-                                    <label class="form-control">
-                                        33.3213
+                                    <label class="form-control js-secondPoint">
                                     </label>
                                 </div>
                             </div>
@@ -103,27 +92,40 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">
                                 时间
-                            </h3>
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <form class="form-horizontal form-horizontal-patch form-horizontal-lg form-group-small-margin">
-                            <div class='form-group'>
-                                <label class="col-sm-2 control-label">开始时间</label>
-                                <div class="col-sm-10">
-                                    <label class="form-control">
-                                        113.23123213
-                                    </label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class='form-group'>
+                                        <label class="col-sm-4 control-label required">开始时间</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control w-200" name="startDate" readonly />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class='form-group'>
-                                <label class="col-sm-2 control-label">结束时间</label>
-                                <div class="col-sm-10">
-                                    <label class="form-control">
-                                        33.3213
-                                    </label>
+                                <div class="col-sm-6">
+                                    <div class='form-group'>
+                                        <label class="col-sm-4 control-label required">结束时间</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control w-200" name="endDate" readonly />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </div>                            
                         </form>
+                    </div>
+                </div>
+                <div class="panel panel-transparent">
+                    <div class="panel-body">
+                        <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-offset-4 col-sm-8">
+                                        <a class="btn btn-primary w-200 js-search">查 询</a>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

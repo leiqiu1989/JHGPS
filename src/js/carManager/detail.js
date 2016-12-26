@@ -23,7 +23,7 @@ define(function(require, exports, module) {
     $.extend(carDetail.prototype, {
         initMap: function() {
             var me = this;
-            map.init('mapContainer', null, null, function() {
+            map.init('mapContainer', null, false, function() {
                 setTimeout(function() {
                     me.getHisotryLocation();
                 }, 1000);

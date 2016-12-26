@@ -15,6 +15,8 @@ define(function(require, exports, module) {
         carPositionList: remoteUrl + '/Position/QueryLastPosition',
         // 获取车辆轨迹列表
         carTrackHistory: remoteUrl + '/Position/QueryHistory',
+        // 历史位置查询
+        historyQuery: remoteUrl + '/Position/QueryAcrossHistory',
         // 车辆管理
         carManager: {
             list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo', //车辆管理列表
@@ -74,6 +76,11 @@ define(function(require, exports, module) {
             list: remoteUrl + '/VehicleOrderType/QueryAllVehicleOrderTypeInfo', //列表
             editVehicleOrder: remoteUrl + '/VehicleOrderType/EditVehicleOrderTypeInfo', //对车辆可接收的订单信息进行配置 
             queryVehicelOrder: remoteUrl + '/VehicleOrderType/QueryVehicleOrderTypeInfoByVid' //根据车辆vid编号获取车辆详情 
+        },
+        //坐席管理
+        seatsManager: {
+            list: remoteUrl + '/SpeetChart/List', //列表
+            add: remoteUrl + '/SpeetChart/List' //列表
         }
     };
     return api;

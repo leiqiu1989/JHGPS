@@ -7,6 +7,7 @@ define(function(require, exports, module) {
     var map = function() {
         // 公共变量
         this._map = null;
+        this.isLoaded = null; // 是否加载完毕
         this.overView = null; //鹰眼
         this.mouseMove_marker = null; //鼠标放在轨迹上显示的轨迹点
         this.mouseMoveClick_marker = null; //鼠标放在轨迹上显示的轨迹点点击
@@ -20,6 +21,7 @@ define(function(require, exports, module) {
     map.prototype = {
         reset: function() {
             this._map = null;
+            this.isLoaded = null;
             this.overView = null;
             this.mouseMove_marker = null;
             this.mouseMoveClick_marker = null;
@@ -39,18 +41,20 @@ define(function(require, exports, module) {
             this.points = [];
             this.selectedMonitorCar = null;
         },
-        init: function(el, defaultPoint, defaultZoom, callback) {
+        init: function(el, defaultPoint, defaultOverView, callback) {
             var me = this;
             this.reset();
             this._map = new BMap.Map(el);
-            if (defaultPoint && defaultZoom) {
-                this._map.centerAndZoom(defaultPoint, defaultZoom);
+            if (defaultPoint) {
+                this.setCenterAndZoom([defaultPoint]);
+                this.isLoaded = true;
             } else {
                 var localCity = new BMap.LocalCity();
                 //根据IP定位地图
                 localCity.get(function(result) {
                     var cityName = result.name;
                     me._map.centerAndZoom(cityName);
+                    me.isLoaded = true;
                 });
             }
             // 最大、最小缩放级别
@@ -60,14 +64,15 @@ define(function(require, exports, module) {
             this._map.enableScrollWheelZoom();
             // 添加地图平移控件
             this._map.addControl(new BMap.NavigationControl());
-            // 添加缩略地图控件
-            this.overView = new BMap.OverviewMapControl({
-                isOpen: true,
-                anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
-                offset: new BMap.Size(0, 37)
-            });
-
-            this._map.addControl(this.overView);
+            if (defaultOverView) {
+                // 添加缩略地图控件
+                this.overView = new BMap.OverviewMapControl({
+                    isOpen: true,
+                    anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+                    offset: new BMap.Size(0, 37)
+                });
+                this._map.addControl(this.overView);
+            }
             if (callback) callback(this._map);
         },
         // 清除所有覆盖物
@@ -265,7 +270,7 @@ define(function(require, exports, module) {
             });
             return mapPoints;
         },
-        driving: function(data) {
+        driving: function(data, callback) {
             var me = this;
             // 首个点时间
             $('.track-time').text(data[0].GpsTime);
@@ -280,6 +285,7 @@ define(function(require, exports, module) {
                 me.addTrackLine(mapPoints);
                 // 设置中心点
                 me.setCenterAndZoom(mapPoints);
+                if (callback) callback();
             });
         },
         // 添加折线

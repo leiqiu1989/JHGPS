@@ -67,7 +67,7 @@ define(function(require, exports, module) {
             // 将查询条件保存到localStorage里面
             common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
             common.loading('show');
-            common.ajax(api.orderManager.list, param, function(res) {
+            common.ajax(api.seatsManager.list, param, function(res) {
                 if (res.status === 'SUCCESS') {
                     var data = res.content;
                     $('#carList').empty().html(template.compile(tpls.carList)({
