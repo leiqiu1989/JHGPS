@@ -149,6 +149,7 @@ define(function(require, exports, module) {
                                 var marker = new BMap.Marker(new_point); // 创建标注
                                 mymap.addOverlay(marker); // 将标注添加到地图中
                                 mymap.panTo(new_point);
+                                mymap.centerAndZoom(new_point, 14);// 建树点坐标,初始化地图,设置中心点坐标和地图级别。
                             }, 500);
                         });
                     });
