@@ -1,7 +1,11 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var remoteUrl = 'http://120.25.212.193:8081';
+    // 测试服地址
+    //var remoteUrl = 'http://120.25.212.193:8081';
+    // 正式地址
+    var remoteUrl = 'http://192.168.1.21:8080';
+
 
     /*接口API*/
     var api = {

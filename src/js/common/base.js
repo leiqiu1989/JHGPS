@@ -1,7 +1,11 @@
 define("base", [], function() {
     var basicUrl = './js';
 
-    window.DOMAIN = 'http://120.25.212.193:8082/'; //'http://120.25.212.193';
+    // 测试地址
+    //window.DOMAIN = 'http://120.25.212.193:8082/';
+
+    // 正式地址
+    window.DOMAIN = 'http://192.168.1.21:8081';
 
     seajs.config({
         base: basicUrl,
