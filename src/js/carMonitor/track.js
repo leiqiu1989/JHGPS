@@ -25,17 +25,15 @@ define(function(require, exports, module) {
             $('#contentBody').empty().html(template.compile(tpls.track)());
             this.id = param.id;
             this.plateNo = param.plateNo;
-            map.init('trackMap');
+            map.init('trackMap', null, false);
             this.initControl();
-            setTimeout(function() {
-                map.removeOverView();
-            }, 1000);
         },
         // 初始化控件
         initControl: function() {
             var me = this;
             // 获取车辆
             var arrVid = common.getCookie('arrVids');
+            common.loading('show');
             common.ajax(api.carPositionList, { ArrVid: arrVid }, function(res) {
                 if (res && res.status === 'SUCCESS') {
                     var data = res.content || [];
@@ -54,6 +52,7 @@ define(function(require, exports, module) {
                     var msg = res.errorMsg || '系统出错，请联系管理员！';
                     common.toast(msg);
                 }
+                common.loading();
             });
             common.initDateTime('#startDate', null, true, 'yyyy/MM/dd 00:00');
             common.initDateTime('#endDate', null, true);

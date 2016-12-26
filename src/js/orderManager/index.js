@@ -49,7 +49,7 @@ define(function(require, exports, module) {
             };
             if (newParams.start) newParams.start = newParams.start;
             if (newParams.end) newParams.end = newParams.end;
-            if(!param){
+            if (!param) {
                 newParams = {};
             }
             this.searchParam = common.getParams('carSearchParams', param, newParams, true);
@@ -118,16 +118,16 @@ define(function(require, exports, module) {
             common.listenOrganization();
             // 查询-事件监听
             $('.panel-toolbar')
-            //重置
-            .on('click', '.js_list_reset', function() {
-                common.removeLocationStorage('carSearchParams'); // 车辆管理
-                me.getParams(false);
-                common.changeHash('#orderManager/index/', me.searchParam);
-            })
-            .on('click', '.js_list_search', function() {
-                me.getParams(true);
-                common.changeHash('#orderManager/index/', me.searchParam);
-            });
+                //重置
+                .on('click', '.js_list_reset', function() {
+                    common.removeLocationStorage('carSearchParams'); // 车辆管理
+                    me.getParams(false);
+                    common.changeHash('#orderManager/index/', me.searchParam);
+                })
+                .on('click', '.js_list_search', function() {
+                    me.getParams(true);
+                    common.changeHash('#orderManager/index/', me.searchParam);
+                });
             // 事件监听
             $('#main-content').on('click', '.js_list_add', function() {
                     common.changeHash('#carManager/edit');
@@ -146,29 +146,20 @@ define(function(require, exports, module) {
                 })
                 //查看位置
                 .on('click', '.js_list_detail', function() {
-                    var $this = $(this);
-
+                    var lng = $(this).data('lng');
+                    var lat = $(this).data('lat');
                     common.autoAdaptionDialog(template.compile(tpls.map)(), {
                         title: '位置查看'
                     }, function() {
-                        map.init('mymap',new BMap.Point($this.data('Lat'), $this.data('Lng')),null,function(mymap){
-                           
-                            setTimeout(function(){
-                                map.removeOverView();
-                                var new_point = new BMap.Point($this.data('Lat'), $this.data('Lng'));
-                                var marker = new BMap.Marker(new_point);  // 创建标注
-                                mymap.addOverlay(marker);              // 将标注添加到地图中
-                                mymap.panTo(new_point);      
-                            },500);
-                            
+                        map.init('mymap', new BMap.Point(lng, lat), false, function(mymap) {
+                            setTimeout(function() {
+                                var new_point = new BMap.Point(lng, lat);
+                                var marker = new BMap.Marker(new_point); // 创建标注
+                                mymap.addOverlay(marker); // 将标注添加到地图中
+                                mymap.panTo(new_point);
+                            }, 500);
                         });
-                        
                     });
-                    // var tr = $(this).closest('tr');
-                    // var truckId = tr.data('truckid');
-                    // var orgId = tr.data('orgid');
-                    // var uniqueIds = tr.data('uniqueids');
-                    // common.changeHash('#carManager/detail/', { truckId: truckId, orgId: orgId, uniqueIds: uniqueIds });
 
                 })
                 .on('click', '.js_list_stop', function() {

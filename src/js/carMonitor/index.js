@@ -24,7 +24,7 @@ define(function(require, exports, module) {
             // 赋值为null是为了,地图infowindow里面的轨迹回放返回,重新加载导致timer计时器未clear
             this.monitorTimer = null;
             $('#main-content').empty().html(template.compile(tpls.index)());
-            map.init('monitorMap');
+            map.init('monitorMap', null, true);
             this.initControl();
         },
         // 初始化控件
@@ -137,6 +137,7 @@ define(function(require, exports, module) {
             var arrVid = arrVids ? arrVids : common.getTreeNodeSelected('vehicleTree');
             common.setCookie('arrVids', arrVid);
             if (arrVid) {
+                common.loading('show');
                 common.ajax(api.carPositionList, { ArrVid: arrVid }, function(res) {
                     if (res && res.status === 'SUCCESS') {
                         var data = res.content || [];
@@ -161,6 +162,7 @@ define(function(require, exports, module) {
                         var msg = res.errorMsg || '系统出错，请联系管理员！';
                         common.toast(msg);
                     }
+                    common.loading();
                 });
             }
         },
@@ -175,16 +177,18 @@ define(function(require, exports, module) {
                 // 切换组织列表
                 .on('click', '.js-origin', function() {
                     $('.vehicle-box').toggle();
+                    $('.js-foldToggle').removeClass('foldDown').addClass('foldUp');
+                    map.moveOverView('down');
                     $('.monitorBody').hide();
                 })
                 // 切换车辆列表
                 .on('click', '.js-foldToggle', function() {
                     var order = '';
-                    if ($(this).hasClass('foldDown')) {
-                        $(this).removeClass('foldDown').addClass('foldUp');
+                    if ($(this).hasClass('foldUp')) {
+                        $(this).removeClass('foldUp').addClass('foldDown');
                         order = 'up';
                     } else {
-                        $(this).removeClass('foldUp').addClass('foldDown');
+                        $(this).removeClass('foldDown').addClass('foldUp');
                         order = 'down';
                     }
                     map.moveOverView(order);
@@ -206,6 +210,8 @@ define(function(require, exports, module) {
                 // 已选组织-确认
                 .on('click', '.js-vehicle-ok', function() {
                     $('.vehicle-box').hide();
+                    $('.js-foldToggle').removeClass('foldUp').addClass('foldDown');
+                    map.moveOverView('up');
                     $('.monitorBody').show();
                     me.stopMonitorTimer();
                     me.getCarPositionList();

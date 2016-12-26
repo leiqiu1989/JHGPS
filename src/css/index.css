@@ -816,6 +816,9 @@ dl dd {
   width: 100%; }
 
 /* 地图样式 */
+.anchorBL {
+  display: none; }
+
 .monitorList {
   position: absolute;
   left: 54px;

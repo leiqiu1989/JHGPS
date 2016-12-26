@@ -6,6 +6,7 @@ define(function(require, exports, module) {
     var api = require('api');
     var map = require('map');
     require('draw');
+    require('lodash');
 
     // 模板
     var tpls = {
@@ -16,6 +17,7 @@ define(function(require, exports, module) {
     var historyLocation = function() {
         this.initMapTime = null;
         this.drawManager = null;
+        this.overlays = [];
     };
     $.extend(historyLocation.prototype, {
         init: function(param) {
@@ -25,18 +27,16 @@ define(function(require, exports, module) {
             // 控件初始化
             this.initControl();
             // 地图初始化
-            map.init('historyMap');
-            // 移除鹰眼
-            map.removeOverView();
+            map.init('historyMap', null, false);
 
             $('#historyLocationList').empty().html(template.compile(tpls.list)());
 
             this.initMapTime = setInterval(function() {
-                if (map._map.getCenter()) {
+                if (map.isLoaded) {
                     clearInterval(me.initMapTime);
                     me.drawManagerRectangle();
                 }
-            }, 1000);
+            }, 500);
         },
         // 鼠标绘制
         drawManagerRectangle: function() {
@@ -62,11 +62,74 @@ define(function(require, exports, module) {
                 rectangleOptions: styleOptions //矩形的样式
             });
             this.drawManager.addEventListener('overlaycomplete', function(e) {
-                me.overlaycomplete();
+                me.overlaycomplete(e);
             });
         },
         overlaycomplete: function(e) {
+            var maxLng = 0,
+                maxLat = 0,
+                minLng = 0,
+                minLat = 0;
+            var overlay = e.overlay;
             this.drawManager.close();
+            var points = overlay.getPath();
+            if (points.length > 0) {
+                var lngs = _.map(points, 'lng');
+                var lats = _.map(points, 'lat');
+                maxLng = _.max(lngs);
+                maxLat = _.max(lats);
+                minLng = _.min(lngs);
+                minLat = _.min(lats);
+            }
+            if (this.overlays.length == 2) {
+                var removeLay = this.overlays.splice(0, 1);
+                map._map.removeOverlay(removeLay[0].overlay);
+            }
+            this.overlays.push({
+                overlay: e.overlay,
+                maxLng: maxLng,
+                maxLat: maxLat,
+                minLng: minLng,
+                minLat: minLat
+            });
+            this.setPointValue(this.overlays);
+        },
+        setPointValue: function(overlays) {
+            var firstItem = null,
+                secondItem = null,
+                firstEl = null,
+                secondEl = null,
+                len = overlays.length;
+            if (len == 1) {
+                firstItem = overlays[0];
+                firstEl = '.js-firstPoint';
+            } else if (len == 2) {
+                firstItem = overlays[0];
+                secondItem = overlays[1];
+                firstEl = '.js-firstPoint';
+                secondEl = '.js-secondPoint';
+            } else {
+                this.clearOverLay();
+                common.toast('标注数据异常!');
+                return false;
+            }
+            $(firstEl).eq(0).text(firstItem.minLng);
+            $(firstEl).eq(1).text(firstItem.minLat);
+            $(firstEl).eq(2).text(firstItem.maxLng);
+            $(firstEl).eq(3).text(firstItem.maxLat);
+            if (secondEl) {
+                $(secondEl).eq(0).text(secondItem.minLng);
+                $(secondEl).eq(1).text(secondItem.minLat);
+                $(secondEl).eq(2).text(secondItem.maxLng);
+                $(secondEl).eq(3).text(secondItem.maxLat);
+            }
+        },
+        clearOverLay: function() {
+            var me = this;
+            $('.js-firstPoint,js-secondPoint').text('');
+            for (var i = 0; i < this.overlays.length; i++) {
+                map._map.removeOverlay(me.overlays[i].overlay);
+            }
         },
         // 获取查询条件
         getParams: function(param) {
@@ -91,9 +154,9 @@ define(function(require, exports, module) {
         event: function() {
             var me = this;
             $('#main-content').off()
-                // 绘制1
-                .on('click', '.js-mark-first', function() {
-
+                // 清除overlay
+                .on('click', '.js-clear-overlay', function() {
+                    me.clearOverLay();
                 });
         },
         getData: function() {

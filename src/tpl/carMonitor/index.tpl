@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="pull-right">
-                <a class="foldDown js-foldToggle"></a>
+                <a class="foldUp js-foldToggle"></a>
             </div>
         </div>
         <div class="monitorBody">
