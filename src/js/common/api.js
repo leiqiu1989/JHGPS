@@ -74,6 +74,11 @@ define(function(require, exports, module) {
             list: remoteUrl + '/VehicleOrderType/QueryAllVehicleOrderTypeInfo', //列表
             editVehicleOrder: remoteUrl + '/VehicleOrderType/EditVehicleOrderTypeInfo', //对车辆可接收的订单信息进行配置 
             queryVehicelOrder: remoteUrl + '/VehicleOrderType/QueryVehicleOrderTypeInfoByVid' //根据车辆vid编号获取车辆详情 
+        },
+        //坐席管理
+        seatsManager: {
+            list: remoteUrl + '/SpeetChart/List', //列表
+            add: remoteUrl + '/SpeetChart/List' //列表
         }
     };
     return api;

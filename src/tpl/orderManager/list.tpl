@@ -41,13 +41,12 @@
 			<% } %>
 		</td>
 		<td>
-			<a href="javascript:" data-path="<%= item.FilePath %>" class="js_list_detail">
-				<% if(item.OrderType == 1||item.OrderType == 4){ %>
-				 <a href="javascript:" class="js_list_detail" data-Lat="<%= item.Lat%>" data-Lng="<%= item.Lng%>">查看位置</a>
-				<% }else if(item.OrderType == 2){%>
-					<audio src="<%= item.FilePath%>" controls="controls">你的浏览器不支持此音频格式</audio>
-				<% } %>
-			</a>
+			<% if(item.OrderType == 1||item.OrderType == 4){ %>
+			 	<a href="javascript:" class="js_list_detail" data-Lat="<%= item.Lat%>" data-Lng="<%= item.Lng%>">查看位置</a>
+			<% }else if(item.OrderType == 2){%>
+				<a href="javascript:" class="js_list_playVoice">播放语音</a>
+				<audio src="<%= item.FilePath%>">你的浏览器不支持此音频格式</audio>
+			<% } %>
 		</td>
 		<td title="<%= item.PlateNo %>">
 			<%= item.PlateNo %>
