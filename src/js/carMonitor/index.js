@@ -16,13 +16,13 @@ define(function(require, exports, module) {
     };
 
     function carMonitor() {
-        this.monitorTimer = null;
+        window.monitorTimer = null;
     }
 
     $.extend(carMonitor.prototype, {
         init: function(param) {
             // 赋值为null是为了,地图infowindow里面的轨迹回放返回,重新加载导致timer计时器未clear
-            this.monitorTimer = null;
+            window.monitorTimer = null;
             $('#main-content').empty().html(template.compile(tpls.index)());
             map.init('monitorMap', null, true);
             this.initControl();
@@ -73,7 +73,7 @@ define(function(require, exports, module) {
                             treeObj.checkNode(node, true, true);
                         }
                         // 获取列表
-                        me.getCarPositionList(arrVids);
+                        me.getCarPositionList(arrVids, true);
                     }
                     // tree查询
                     common.searchTree();
@@ -101,14 +101,11 @@ define(function(require, exports, module) {
         },
         startMonitorTimer: function() {
             var me = this;
-            if (!this.monitorTimer) {
-                this.monitorTimer = setInterval(function() {
+            if (!window.monitorTimer) {
+                window.monitorTimer = setInterval(function() {
                     me.getCarPositionList();
                 }, 30000);
             }
-        },
-        stopMonitorTimer: function() {
-            clearInterval(this.monitorTimer);
         },
         carDetailInfo: function(id) {
             var me = this;
@@ -132,12 +129,13 @@ define(function(require, exports, module) {
             });
         },
         // 获取车辆位置列表
-        getCarPositionList: function(arrVids) {
+        getCarPositionList: function(arrVids, isloading) {
+            var loadStatus = isloading ? 'show' : 'hide';
             var me = this;
             var arrVid = arrVids ? arrVids : common.getTreeNodeSelected('vehicleTree');
             common.setCookie('arrVids', arrVid);
             if (arrVid) {
-                common.loading('show');
+                common.loading(loadStatus);
                 common.ajax(api.carPositionList, { ArrVid: arrVid }, function(res) {
                     if (res && res.status === 'SUCCESS') {
                         var data = res.content || [];
@@ -198,13 +196,13 @@ define(function(require, exports, module) {
                 // 车辆详情
                 .on('click', '.js_car_info', function() {
                     var id = $(this).data('id');
-                    common.carDetailInfo();
+                    me.carDetailInfo();
                 })
                 // 轨迹回放
                 .on('click', '.js_track_replay', function() {
                     var id = $(this).data('id');
                     var plateNo = $(this).data('plate');
-                    me.stopMonitorTimer();
+                    common.stopMonitorTimer();
                     common.changeHash('#carMonitor/track/', { id: id, plateNo: plateNo });
                 })
                 // 已选组织-确认
@@ -213,8 +211,8 @@ define(function(require, exports, module) {
                     $('.js-foldToggle').removeClass('foldUp').addClass('foldDown');
                     map.moveOverView('up');
                     $('.monitorBody').show();
-                    me.stopMonitorTimer();
-                    me.getCarPositionList();
+                    common.stopMonitorTimer();
+                    me.getCarPositionList(null, true);
                 });
         }
     });
@@ -232,7 +230,7 @@ define(function(require, exports, module) {
     };
     //地图信息框点击事件-车辆轨迹
     window.showVehicleTrack = function(id, plateNo) {
-        monitor.stopMonitorTimer();
+        common.stopMonitorTimer();
         common.changeHash('#carMonitor/track/', { id: id, plateNo: plateNo });
     };
 });

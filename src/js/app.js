@@ -44,6 +44,10 @@ define(function(require, exports, module) {
                             me.setUserName();
                             me.changeMenu(href);
                         }
+                        // 清除监控
+                        if (mod !== 'carMonitor') {
+                            common.stopMonitorTimer();
+                        }
                     }
                     return true;
                 }

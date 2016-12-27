@@ -340,8 +340,14 @@ define(function(require, exports, module) {
         changeHash: function(url, param) {
             window.location.hash = url + this.serialParam(param);
         },
+        stopMonitorTimer: function() {
+            if (window.monitorTimer) {
+                clearInterval(window.monitorTimer);
+            }
+        },
         // 清除locationStorage
         clearData: function() {
+            this.stopMonitorTimer();
             common.setCookie('accountid', '', -1);
             common.setCookie('usertype', '', -1);
             common.setCookie('orgno', '', -1);
