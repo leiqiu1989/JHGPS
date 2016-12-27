@@ -9,7 +9,7 @@
 					<div class="panel-heading no-padding datatable-header">
 						<table class="table no-margin">
 							<colgroup>
-							<col width="3%" />
+							<col width="5%" />
 							<col width="8%" />
 							<col width="6%" />
 							<col width="8%" />

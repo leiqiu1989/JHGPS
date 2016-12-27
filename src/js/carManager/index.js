@@ -121,9 +121,9 @@ define(function(require, exports, module) {
                 //编辑车辆
                 .on('click', '.js_list_edit', function() {
                     var tr = $(this).closest('tr');
-                    var truckId = tr.data('truckid');
+                    var id = tr.data('truckid');
                     var orgId = tr.data('orgid');
-                    common.changeHash('#carManager/edit/', { truckId: truckId });
+                    common.changeHash('#carManager/edit/', { vid: id });
                 })
                 .on('click', '.js_list_import', function() {
                     common.changeHash('#carManager/import');

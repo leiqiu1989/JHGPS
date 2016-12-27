@@ -80,7 +80,9 @@ define(function(require, exports, module) {
         //坐席管理
         seatsManager: {
             list: remoteUrl + '/SpeetChart/List', //列表
-            add: remoteUrl + '/SpeetChart/List' //列表
+            changeStatus: remoteUrl + '/SpeetChart/ChangeStatus', //坐席管理-启用/禁用
+            detail: remoteUrl + '/SpeetChart/GetModelById', //详情
+            update: remoteUrl + '/SpeetChart/Update' //编辑
         }
     };
     return api;

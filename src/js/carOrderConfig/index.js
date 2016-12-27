@@ -156,8 +156,8 @@ define(function(require, exports, module) {
                         if (res.status === 'SUCCESS') {
                             _dialog.close();
                             common.toast('配置成功','success');
-                            me.getParams(true);
-                            common.changeHash('#carOrderConfig/index/', me.searchParam);
+                            // 获取数据
+                            me.getData();
                         }else {
                             var msg = res.errorMsg || '请求失败，请联系管理员！';
                             common.toast(msg);

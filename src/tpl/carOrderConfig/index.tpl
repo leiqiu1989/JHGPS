@@ -7,11 +7,6 @@
 			<tbody>
 				<tr>
 					<td>
-						<label class="control-label">车牌号</label>
-						<input type="text" class="form-control w-200" name="PlateNo" placeholder=""
-						value="<%= searchValue.PlateNo %>" />
-					</td>
-					<td>
 						<label class="control-label">可接订单</label>
 						<input type="hidden" name="hi_acceptOrder" value="<%= searchValue.acceptOrderStr %>" />
 						<select class="form-control w-200" multiple name="acceptOrder" data-placeholder="请选择...">
@@ -21,6 +16,13 @@
 							<option value="ControlFlag">调度屏信息</option>
 						</select>
 					</td>
+					<td>
+						<label class="control-label">车牌号</label>
+						<input type="text" class="form-control w-200" name="PlateNo" placeholder=""
+						value="<%= searchValue.PlateNo %>" />
+					</td>
+				</tr>
+				<tr>
 					<td>
 						<label class="control-label">更新时间</label>
 						<div class="clearfix">
