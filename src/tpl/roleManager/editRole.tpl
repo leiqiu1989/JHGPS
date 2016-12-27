@@ -1,18 +1,18 @@
-<div  class="full" style="width:700px;height:400px;">
+<div  class="full" style="width:700px;height:330px;">
     <div class="row-container full">
         <div class="row-container-left">
             <div class="panel-body">
-            <form id="frmaddCar" class="">
+            <form id="frmaddRole" class="">
                 <div class="panel panel-transparent">
                     <div class="panel-body">
                         <div class='row'>
                             <div class='form-group'>
                                 <label for="vehicle_Brand" class="required">角色名称</label>
-                                <input type="text" name="gpsEndTime" maxlength="20" required class="form-control" />
+                                <input type="text" name="RoleName" maxlength="50" required class="form-control" />
                             </div>
                             <div class='form-group'>
-                                <label for="truck_Type" class="required">备注</label>
-                                <textarea class="form-control" maxlength="100" name="Remark" rows="5" id="_remark"></textarea>
+                                <label for="truck_Type">备注</label>
+                                <textarea class="form-control" maxlength="200" name="Remark" rows="5" id="_remark"></textarea>
                             </div>
                         </div>
                     </div>

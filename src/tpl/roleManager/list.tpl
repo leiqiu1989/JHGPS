@@ -11,7 +11,7 @@
 		for(var i = 0 , len = data.length; i < len; i++) {
 			var item = data[i];
 	%>
-	<tr data-truckid="2" data-orgid="<%= item.orgId %>" data-uniqueids="<%= item.uniqueId %>">
+	<tr data-id="<%= item.RoleId%>">
 		<td class="align-center">
 			<input type="checkbox" name="checkItem" />
 		</td>
@@ -25,11 +25,11 @@
 				删 除
 			</a>
 		</td>
-		<td title="<%= item.OrgNo %>">
-			<%= item.OrgNo %>
+		<td title="<%= item.RoleName %>">
+			<%= item.RoleName %>
 		</td>
-		<td title="<%= formateDate(item.ETime) %>" class="<%= endTimeCls %">
-			<%= formateDate(item.ETime) %>
+		<td title="<%= formateDate(item.UpdateTime,'yyyy/MM/dd hh:mm') %>">
+			<%= formateDate(item.UpdateTime,'yyyy/MM/dd hh:mm') %>
 		</td>
 		<td title="<%= item.Remark %>">
 			<%= item.Remark %>

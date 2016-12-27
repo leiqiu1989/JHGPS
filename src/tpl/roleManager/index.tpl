@@ -8,8 +8,8 @@
 				<tr>
 					<td>
 						<label class="control-label">角色名称</label>
-						<input type="text" class="form-control w-200" name="OrderNum" placeholder="输入角色名称后回车搜索"
-						value="<%= searchValue.OrderNum%>" />
+						<input type="text" class="form-control w-200" name="RoleName" placeholder="输入角色名称后回车搜索"
+						value="<%= searchValue.RoleName%>" />
 					</td>
 				</tr>
 			</tbody>

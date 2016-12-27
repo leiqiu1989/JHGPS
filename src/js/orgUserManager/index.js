@@ -6,8 +6,8 @@ define(function(require, exports, module) {
     require('lodash');
     // 模板
     var tpls = {
-        carIndex: require('../../tpl/carManager/index'),
-        carList: require('../../tpl/carManager/list')
+        carIndex: require('../../tpl/orgUserManager/index'),
+        carList: require('../../tpl/orgUserManager/list')
     };
 
     function carList() {}
@@ -44,7 +44,6 @@ define(function(require, exports, module) {
             var newParams = {
                 OnlyOrgNo: common.getElValue(':hidden[name="OnlyOrgNo"]'), //所属机构
                 VehicleType: common.getElValue('select[name="VehicleType"]'), //车辆类型
-                orgName: common.getElValue('input[name="orgName"]'), //机构名称
                 Condition: common.getElValue('input[name="Condition"]') //关键字
             };
             this.searchParam = common.getParams('carManagerParams', param, newParams, true);
