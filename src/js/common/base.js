@@ -7,7 +7,7 @@ define("base", [], function() {
     // 测试地址
     url = 'http://120.25.212.193:8082';
     // 正式版地址
-    // url = '';
+    // url = 'http://192.168.1.21:8081';
     window.DOMAIN = url;
 
     seajs.config({
