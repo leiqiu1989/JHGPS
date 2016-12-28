@@ -24,40 +24,9 @@ define(function(require, exports, module) {
             this.getParams(param);
             // 渲染模板
             $('#main-content').empty().html(template.compile(tpls.carIndex)({ searchValue: this.searchParam }));
-            // 控件初始化
-            this.initControl();
+             this.event();
             // 获取数据
             this.getData();
-        },
-        // 初始化控件
-        initControl: function() {
-            var me = this;
-            this.event();
-            common.tableSort(function(sortParam) {
-                me.sortParam = sortParam;
-                me.getData();
-            });
-            common.initDateTime('input[name="start"]', 'Y-m-d H:i', false, 'yyyy-MM-dd h:m', true, false);
-            common.initDateTime('input[name="end"]', 'Y-m-d H:i', false, 'yyyy-MM-dd h:m', true, false);
-            $('#vehicleType').val(me.searchParam.OrderType);
-        },
-        // 获取查询条件
-        getParams: function(param) {
-            this.sortParam = {};
-            var newParams = {
-                OrderNum: common.getElValue('input[name="OrderNum"]'), //订单编号
-                start: common.getElValue('input[name="start"]'),
-                end: common.getElValue('input[name="end"]'),
-                phone: common.getElValue('input[name="phone"]'),
-                plateNo: common.getElValue('input[name="plateNo"]'),
-                OrderType: common.getElValue('select[name="OrderType"]')
-            };
-            if (newParams.start) newParams.start = newParams.start;
-            if (newParams.end) newParams.end = newParams.end;
-            if(!param){
-                newParams = {};
-            }
-            this.searchParam = common.getParams('carSearchParams', param, newParams, true);
         },
         getData: function() {
             var me = this;
@@ -65,9 +34,9 @@ define(function(require, exports, module) {
             //if (this.searchParam && !_.isEmpty(this.searchParam)) {
             param = $.extend({}, param, this.sortParam ? this.sortParam : {});
             // 将查询条件保存到localStorage里面
-            common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
+            common.setlocationStorage('roleManagerSearchParams', JSON.stringify(this.searchParam));
             common.loading('show');
-            common.ajax(api.orderManager.list, param, function(res) {
+            common.ajax(api.roleManager.list, param, function(res) {
                 if (res.status === 'SUCCESS') {
                     var data = res.content;
                     $('#carList').empty().html(template.compile(tpls.carList)({
@@ -84,6 +53,17 @@ define(function(require, exports, module) {
                 common.loading();
             });
             //}
+        },
+        // 获取查询条件
+        getParams: function(param) {
+            this.sortParam = {};
+            var newParams = {
+                RoleName: common.getElValue('input[name="RoleName"]')
+            };
+            if(!param){
+                newParams = {};
+            }
+            this.searchParam = common.getParams('roleManagerSearchParams', param, newParams, true);
         },
         exportCarList: function(el) {
             this.getParams();
@@ -102,18 +82,21 @@ define(function(require, exports, module) {
             // 查询-事件监听
             $('.panel-toolbar')
             
-            .on('click', '.js_list_search', function() {
-                me.getParams(true);
-                common.changeHash('#orderManager/index/', me.searchParam);
-            });
+            .on('keyup','input[name="RoleName"]',function(event){
+                var keycode = event.keyCode || event.which;
+                if (keycode == 13) {
+                    me.getParams(true);
+                    common.changeHash('#roleManager/index/', me.searchParam);
+                }
+            })
             // 事件监听
-            $('#main-content').on('click', '.js_list_add', function() {
+            $('#main-content').off().on('click', '.js_list_add', function() {
                     common.autoAdaptionDialog(template.compile(tpls.editRole)({data: null || {}}),{
                         title: '新增角色'
                     },function(_dialog){
                         me.initOrgTree(null,function(){
-                            me.validate();
-                            $('#frmaddCar .js_add_cancel').on('click',function(){
+                            me.validate(_dialog);
+                            $('#frmaddRole .js_add_cancel').on('click',function(){
                                 _dialog.close();
                             });
                         });
@@ -121,15 +104,15 @@ define(function(require, exports, module) {
                 })
                 .on('click', '.js_list_edit', function() {
                     var tr = $(this).closest('tr');
-                    var id = tr.data('truckid');
+                    var id = tr.data('id');
 
                     common.autoAdaptionDialog(template.compile(tpls.editRole)({data: null || {}}),{
                         title: '编辑角色'
                     },function(_dialog){
                         me.initOrgTree(id,function(){
-                            me.initEditValue(id);
-                            me.validate();
-                            $('#frmaddCar .js_add_cancel').on('click',function(){
+                            me.initEditValue(id); //初始化表单
+                            me.validate(_dialog,id); //验证
+                            $('#frmaddRole .js_add_cancel').on('click',function(){
                                 _dialog.close();
                             });
                         });
@@ -143,7 +126,7 @@ define(function(require, exports, module) {
                 })
                 //批量、单个删除角色
                 .on('click', '.js_list_delete', function() {
-                    var id = $(this).closest('tr').data('truckid');
+                    var id = $(this).closest('tr').data('id');
                     var confirmText = '';
                     if (id) {
                         confirmText = '确定要删除角色吗？';
@@ -156,7 +139,7 @@ define(function(require, exports, module) {
                         confirmText = '已选择&nbsp;<span class="red">' + chks.size() + '</span>&nbsp;个角色，是否对角色进行删除？';
                         var array = [];
                         $.each(chks, function(i, item) {
-                            array.push($(item).closest('tr').data('truckid'));
+                            array.push($(item).closest('tr').data('id'));
                         });
                         id = array.join(',');
                     }
@@ -195,14 +178,14 @@ define(function(require, exports, module) {
                 data: {
                     simpleData: {
                         enable: true,
-                        idKey: "Id",
-                        pIdKey: "Pid",
+                        idKey: "KeyId",
+                        pIdKey: "ParentId",
                         rootPId: null
                     },
                     key: {
                         name: "Name",
                         children: "children",
-                        checked: "IsCheck"
+                        checked: "Selected"
                     }
                 },
                 callback: {
@@ -215,7 +198,7 @@ define(function(require, exports, module) {
             var $treeContainer = $("#vehicleTree");
             $treeContainer.html('正在请求数据...');
 
-            common.ajax(api.vehicleList, {}, function(res) {
+            common.ajax(api.roleManager.rolePermission, {}, function(res) {
                 if (res && res.status === 'SUCCESS') {
                     var data = res.content || [];
                     if(!res.content||(res.content&&!res.content.length)){
@@ -239,7 +222,7 @@ define(function(require, exports, module) {
         // 初始化表单
         initEditValue: function(id) {
             var me = this;
-            var url = api.roleManage.roleInfo;
+            var url = api.roleManager.roleDetail;
 
             //树上回显已经分配的资源
             var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
@@ -249,42 +232,42 @@ define(function(require, exports, module) {
             treeObj.expandAll(false); //默认收起全部节点
             treeObj.checkAllNodes(false);  //取消所有勾选的节点
             //发起请求
-            me.ajaxPost(url,{id: id},function(res){
+            common.ajax(url,{RoleId: id},function(res){
                 var content = res.content,
                     nodess = treeObj.getNodes(),
-                    resourceIdArr = content.resourceIds || [];
+                    resourceIdArr = content.AllRight || [];
                 //给表单赋值
-                common.setFormData(me.$_container,content);
+                common.setFormData($('#frmaddRole'),content);
                 //给权限树赋值回显
                 if(nodess==null||(nodess!=null&&nodess.length==0)) return;
                     //根据该角色已有的权限进行相应节点的选中操作
                     for (var i = 0,len = nodess.length;i<len;i++) {
                         for(var j = 0,lenj = resourceIdArr.length;j<lenj;j++){
-                            var getNodeByParam= treeObj.getNodeByParam("id",resourceIdArr[j], null);
+                            var getNodeByParam= treeObj.getNodeByParam("KeyId",resourceIdArr[j], null);
                             if(getNodeByParam && getNodeByParam!=null){
                                 treeObj.checkNode(getNodeByParam,true,false); 
                             }
                         }
-                        treeObj.setChkDisabled(nodess[i], true,true,true);
+                        //treeObj.setChkDisabled(nodess[i], true,true,true);
                     };
                     treeObj.expandAll(true); //默认展开全部节点
             });
         },
-        validate: function() {
+        validate: function(diaobj,id) {
             var me = this;
-            validate('#frmaddCar', {
+            validate('#frmaddRole', {
                 subBtn: '.js_add_save',
                 promptPos: 'inline',
                 submit: function() {
-                    me.submitForm();
+                    me.submitForm(diaobj,id);
                 }
             });
         },
-        submitForm: function() {
+        submitForm: function(diaobj,id) {
             var me = this;
-            var url = api.carManager.update;
+            var url = id ? api.roleManager.editRole : api.roleManager.createRole;
            
-            var params = common.getFormData('#frmaddCar');
+            var params = common.getFormData('#frmaddRole');
             var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
             var nodes = [];
             if(treeObj!=null){
@@ -292,21 +275,27 @@ define(function(require, exports, module) {
             }
             var arr = [];
             for (var i = 0,len = nodes.length;i<len;i++) {
-                arr.push(nodes[i].Id);
+                arr.push(nodes[i].KeyId);
             };
-            params.resourceIds = arr.toString();
-            alert('pass');
+            if(id){
+                params.RoleId = id;
+            }
+            params.Permission = arr.toString();
             console.log(params);
-            return;
+            common.loading('show');
             common.ajax(url, params, function(res) {
                 if (res && res.status === 'SUCCESS') {
-                    common.alert('数据操作成功', 'success', true, function() {
-                        common.changeHash('#carManager/index');
-                    });
+                    diaobj.close();
+                    common.toast('数据操作成功','success');
+                    me.getData();
+                    // common.alert('数据操作成功', 'success', true, function() {
+                    //     common.changeHash('#roleManager/index');
+                    // });
                 } else {
                     var msg = res.errorMsg ? res.errorMsg : '服务器问题，请稍后重试';
                     common.alert(msg, 'error');
                 }
+                common.loading();
             });
         },
         //删除角色
@@ -314,8 +303,8 @@ define(function(require, exports, module) {
             var me = this;
             common.confirm(confirmText, function() {
                 common.loading('show', '数据正在处理中...');
-                common.ajax(api.carManager.delete, {
-                    ArrVid: id
+                common.ajax(api.roleManager.deleteRole, {
+                    RoleIds: id
                 }, function(res) {
                     if (res.status === 'SUCCESS') {
                         if (callback) {

@@ -66,7 +66,7 @@
                                             </a>
                                             <ul class="submenu">
                                                 <li> 
-                                                    <a href="">组织用户</a> 
+                                                    <a href="#orgUserManager/index">组织用户</a> 
                                                 </li>
                                             </ul> 
                                         </li>

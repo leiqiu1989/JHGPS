@@ -80,7 +80,18 @@ define(function(require, exports, module) {
         //坐席管理
         seatsManager: {
             list: remoteUrl + '/SpeetChart/List', //列表
-            add: remoteUrl + '/SpeetChart/List' //列表
+            changeStatus: remoteUrl + '/SpeetChart/ChangeStatus', //坐席管理-启用/禁用
+            detail: remoteUrl + '/SpeetChart/GetModelById', //详情
+            update: remoteUrl + '/SpeetChart/Update' //编辑
+        },
+        //角色管理
+        roleManager: {
+            list: remoteUrl + '/Role/QueryAllRole', //列表
+            createRole: remoteUrl + '/Role/CreateRole', //新增角色
+            editRole: remoteUrl + '/Role/EditRole', //编辑角色
+            roleDetail: remoteUrl + '/Role/QueryByRoleId', //角色详情
+            deleteRole: remoteUrl + '/Role/DeleteRole', //角色管理-删除 批量、单个
+            rolePermission: remoteUrl + '/Role/QueryAllPermission' //角色管理-系统功能Ztree
         }
     };
     return api;
