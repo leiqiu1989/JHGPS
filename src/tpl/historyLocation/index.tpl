@@ -6,14 +6,14 @@
     </div>
     <div class="panel-body pb0">
         <div class="row">
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <div class="panel panel-transparent no-margin">
                     <div class="panel-heading clearfix">
                         <h3 class="panel-title pull-left w-150">
                                 区域1
                             </h3>
                         <div class="pull-right">
-                            <a class="btn btn-primary relative t6 js-clear-overlay">清除标注</a>
+                            <a class="btn btn-primary relative t6 js-clear-overlay">清空所有数据</a>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -129,7 +129,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-8">
                 <div id="historyMap" class="full"></div>
             </div>
         </div>

@@ -64,7 +64,7 @@ define(function(require, exports, module) {
                     //展开节点
                     var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
                     treeObj.expandAll(true);
-                    var arrVids = common.getCookie('arrVids');
+                    var arrVids = common.getlocationStorage('arrVids');
                     if (arrVids) {
                         // 取值默认选中tree
                         var ids = arrVids.split(',');
@@ -133,7 +133,7 @@ define(function(require, exports, module) {
             var loadStatus = isloading ? 'show' : 'hide';
             var me = this;
             var arrVid = arrVids ? arrVids : common.getTreeNodeSelected('vehicleTree');
-            common.setCookie('arrVids', arrVid);
+            common.setlocationStorage('arrVids', arrVid);
             if (arrVid) {
                 common.loading(loadStatus);
                 common.ajax(api.carPositionList, { ArrVid: arrVid }, function(res) {

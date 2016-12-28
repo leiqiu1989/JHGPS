@@ -48,6 +48,10 @@ define(function(require, exports, module) {
                         if (mod !== 'carMonitor') {
                             common.stopMonitorTimer();
                         }
+                        // 清除历史位置查询参数
+                        if (mod !== 'historyLocation' && mod !== 'carMonitor') {
+                            common.removeLocationStorage('historyLocationParams');
+                        }
                     }
                     return true;
                 }

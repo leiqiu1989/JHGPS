@@ -352,7 +352,8 @@ define(function(require, exports, module) {
             common.setCookie('usertype', '', -1);
             common.setCookie('orgno', '', -1);
             common.setCookie('token', '', -1);
-            common.setCookie('arrVids', '', -1);
+            common.removeLocationStorage('arrVids');
+            common.removeLocationStorage('historyLocationParams'); // 历史位置查询
             common.removeLocationStorage('carManagerParams'); // 车辆管理
             common.removeLocationStorage('complaintManagerParams'); // 投诉管理
         },
