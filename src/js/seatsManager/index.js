@@ -57,7 +57,7 @@ define(function(require, exports, module) {
             if(!param){
                 newParams = {};
             }
-            this.searchParam = common.getParams('carSearchParams', param, newParams, true);
+            this.searchParam = common.getParams('seatsManagerSearchParams', param, newParams, true);
         },
         getData: function() {
             var me = this;
@@ -65,7 +65,7 @@ define(function(require, exports, module) {
             //if (this.searchParam && !_.isEmpty(this.searchParam)) {
             param = $.extend({}, param, this.sortParam ? this.sortParam : {});
             // 将查询条件保存到localStorage里面
-            common.setlocationStorage('carSearchParams', JSON.stringify(this.searchParam));
+            common.setlocationStorage('seatsManagerSearchParams', JSON.stringify(this.searchParam));
             common.loading('show');
             common.ajax(api.seatsManager.list, param, function(res) {
                 if (res.status === 'SUCCESS') {
