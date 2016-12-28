@@ -18,19 +18,16 @@
 					</td>
 					<td>
 						<label class="control-label">车牌号</label>
-						<input type="text" class="form-control w-200" name="PlateNo" placeholder=""
-						value="<%= searchValue.PlateNo %>" />
+						<input type="text" class="form-control w-150" name="PlateNo" placeholder=""
+							value="<%= searchValue.PlateNo %>" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<label class="control-label">更新时间</label>
-						<div class="clearfix">
-							<input type="text" class="form-control w-150 pull-left" name="StartTime" placeholder="" value="<%= searchValue.StartTime %>" readonly="readonly" />
-							<label class="pull-left control-label" style="margin-left: -48px;margin-right: 16px;">至</label>
-							<input type="text" class="form-control w-150 pull-left" name="EndTime" placeholder=""
-						value="<%= searchValue.EndTime %>" readonly="readonly"  />
-						</div>
+						<label class="control-label">更新时间</label>						
+						<input type="text" class="form-control w-150 inline-block" name="StartTime" value="<%= searchValue.StartTime %>" readonly="readonly" />
+						<span class="p15-lr">至</span>
+						<input type="text" class="form-control w-150 inline-block" name="EndTime" value="<%= searchValue.EndTime %>" readonly="readonly"  />
 					</td>
 					<td class="pl20">
 						<a href="javascript:" class="btn btn-primary js_list_search mr10">查 询</a>
@@ -55,23 +52,23 @@
 					<div class="panel-heading no-padding datatable-header">
 						<table class="table no-margin">
 							<colgroup>
-							<col width="4%" />
-							<col width="6%" />
-							<col width="6%" />
-							<col width="6%" />
-							<col width="6%" />
-							<col width="6%" />
+							<col width="10%" />
+							<col width="12%" />
+							<col width="12%%" />
+							<col width="15%%" />
+							<col width="15%" />
+							<col width="21%" />
 							<col width="12%" />
 						</colgroup>
 						<thead class="thin-border-bottom">
-							<tr>
-								<th>操 作</th>
+							<tr>								
 								<th>车牌号码</th>
 								<th>微信订单</th>
 								<th>位置订单</th>
 								<th>语音订单</th>
 								<th>调度屏消息</th>
 								<th>备注</th>
+								<th>操 作</th>
 							</tr>
 						</thead>
 					</table>

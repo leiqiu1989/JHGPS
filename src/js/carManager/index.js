@@ -112,9 +112,15 @@ define(function(require, exports, module) {
             common.listenOrganization();
             // 查询-事件监听
             $('.panel-toolbar').on('click', '.js_list_search', function() {
-                me.getParams(true);
-                common.changeHash('#carManager/index/', me.searchParam);
-            });
+                    me.getParams(true);
+                    common.changeHash('#carManager/index/', me.searchParam);
+                })
+                //重置
+                .on('click', '.js_list_reset', function() {
+                    common.removeLocationStorage('carManagerParams'); // 车辆管理
+                    me.getParams(false);
+                    common.changeHash('#carManager/index/', me.searchParam);
+                });
             // 事件监听
             $('#main-content').on('click', '.js_list_add', function() {
                     common.changeHash('#carManager/edit');

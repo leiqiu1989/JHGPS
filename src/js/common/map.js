@@ -158,8 +158,8 @@ define(function(require, exports, module) {
                 borderRadius: "4px"
             });
             label.setContent(data.PlateNo);
-            var onlineIcon = new BMap.Icon(window.DOMAIN + "img/green_north.png", new BMap.Size(45, 45));
-            var offLineIcon = new BMap.Icon(window.DOMAIN + "img/grey_north.png", new BMap.Size(45, 45));
+            var onlineIcon = new BMap.Icon(window.DOMAIN + "/img/green_north.png", new BMap.Size(45, 45));
+            var offLineIcon = new BMap.Icon(window.DOMAIN + "/img/grey_north.png", new BMap.Size(45, 45));
             var marker = new BMap.Marker(new BMap.Point(data.Lng, data.Lat), {
                 icon: (data.IsOnline ? onlineIcon : offLineIcon)
             });

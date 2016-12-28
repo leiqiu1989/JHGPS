@@ -5,17 +5,17 @@
             <form id="editSeats_form" class="">
             <!-- //用于阻止 chrome表单自动填充的占位符 -->
             <input class='hide' type="text" />
-            <input class='hide' type="password"/>
+            <input class='hide' type="password" />
             <!-- //用于阻止 chrome表单自动填充的占位符 -->
                 <div class="panel panel-transparent">
                     <div class="panel-body">
                         <div class='row'>
                             <div class='form-group'>
                                 <label>编号：</label>
-                                <label id="js_editSeats_no"></label>
+                                <label class="form-control" id="js_editSeats_no"></label>
                             </div>
                             <div class='form-group'>
-                                <label for="vehicle_Brand" class="required">姓名</label>
+                                <label for="vehicle_Brand" class="required">姓 名</label>
                                 <input type="text" autocomplete="off" name="Name" maxlength="20" required class="form-control" />
                             </div>
                             <div class='form-group'>
@@ -23,7 +23,7 @@
                                 <input type="text" autocomplete="off" data-type="ipaddress" name="Ip" required class="form-control" />
                             </div>
                             <div class='form-group'>
-                                <label for="truck_Type" class="required">密码</label>
+                                <label for="truck_Type" class="required">密 码</label>
                                 <input type="password" autocomplete="off"  maxlength="20" name="Pwd" required class="form-control" />
                             </div>
                         </div>

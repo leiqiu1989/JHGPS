@@ -15,12 +15,15 @@
 						<label class="control-label">接单车辆</label>
 						<input type="text" class="form-control w-200" name="plateNo" placeholder=""
 						value="<%= searchValue.plateNo %>" />
-					</td>
+					</td>					
 					<td>
-						<label class="control-label">客户手机</label>
-						<input type="text" class="form-control w-200" maxlength="11" name="phone" placeholder=""
-						value="<%= searchValue.phone %>" />
-					</td>
+						<label class="control-label">接单时间</label>
+						<input type="text" class="form-control w-150 inline-block" name="start" value="<%= searchValue.start %>" readonly="readonly" />
+						<span class="p15-lr">至</span>
+						<input type="text" class="form-control w-150 inline-block" name="end" value="<%= searchValue.end %>" readonly="readonly"  />
+					</td>					
+				</tr>
+				<tr>
 					<td>
 						<label class="control-label">订单类型</label>
 						<select class="form-control w-200" id="vehicleType" name="OrderType">
@@ -30,32 +33,18 @@
 							<option value="4">微信订单</option>
 						</select>
 					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<div class="clearfix">
-							<label class="control-label">接单时间</label>
-							<input type="text" class="form-control w-200 pull-left" name="start" placeholder="" value="<%= searchValue.start %>" readonly="readonly" />
-							<label class="pull-left control-label" style="margin-left: -48px;margin-right: 16px;">至</label>
-							<input type="text" class="form-control w-200 pull-left" name="end" placeholder=""
-						value="<%= searchValue.end %>" readonly="readonly"  />
-						</div>
+					<td>
+						<label class="control-label">客户手机</label>
+						<input type="text" class="form-control w-200" maxlength="11" name="phone" placeholder=""
+						value="<%= searchValue.phone %>" />
 					</td>
-					<td class="pl0">
+					<td class="pl20">
 						<a href="javascript:" class="btn btn-primary js_list_search mr10">查 询</a>
-						<a href="javascript:" class="btn btn-primary js_list_reset mr10">重 置</a>
+						<a href="javascript:" class="btn btn-primary js_list_reset">重 置</a>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-	</div>
-	<div class="panel-toolbar form-inline">
-		<div class="form-group btn-toolbar">
-			<a class="btn btn-primary js_list_export">
-				<i class="fa fa-download"></i>
-				导 出
-			</a>
-		</div>
 	</div>
 	<div class="panel-body row-container grow">
 		<div class="row row-static">

@@ -92,6 +92,14 @@ define(function(require, exports, module) {
             roleDetail: remoteUrl + '/Role/QueryByRoleId', //角色详情
             deleteRole: remoteUrl + '/Role/DeleteRole', //角色管理-删除 批量、单个
             rolePermission: remoteUrl + '/Role/QueryAllPermission' //角色管理-系统功能Ztree
+        },
+        orgUserManager: {
+            list: remoteUrl + '/Org/List',
+            save: remoteUrl + '/Org/Create',
+            update: remoteUrl + '/Org/Edit',
+            roles: remoteUrl + '/Role/QuertAllRoleAbbr',
+            del: remoteUrl + '/Org/Delete',
+            detail: remoteUrl + '/Org/QueryOrgByOrgId'
         }
     };
     return api;

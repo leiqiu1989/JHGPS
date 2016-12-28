@@ -675,6 +675,21 @@ div.admin .main-fixed {
 .mb0 {
   margin-bottom: 0 !important; }
 
+.mb10 {
+  margin-bottom: 10px !important; }
+
+.user-remind {
+  color: red;
+  font-weight: 700; }
+
+.user-remind-add {
+  cursor: pointer; }
+  .user-remind-add:hover {
+    text-decoration: none; }
+
+.pointer {
+  cursor: pointer; }
+
 .mb30 {
   margin-bottom: 30px !important; }
 

@@ -7,11 +7,11 @@
             欢迎您，&nbsp;&nbsp;<span class="ja_userName"></span>
         </div>        
         <div class="logout js_changpwd">
-            <img src="http://dev.demo.cn/JHGPS/src/img/changpwd.png" alt="">
+            <img src="http://120.25.212.193:8082/img/changpwd.png" alt="">
             <span>修改密码</span>
         </div>
         <div class="logout js_logout">
-            <img src="http://dev.demo.cn/JHGPS/src/img/logout.png" alt="">
+            <img src="http://120.25.212.193:8082/img/logout.png" alt="">
             <span>退出</span>
         </div>
     </div>
@@ -59,7 +59,7 @@
                                                 </li>
                                             </ul> 
                                         </li>
-                                        <li> 
+                                        <!--<li> 
                                             <a href="javascript:" class="dropdown-toggle">
                                                 <i class="menu-icon fa fa-users"></i> 
                                                 <span class="menu-text">组织用户</span> 
@@ -69,7 +69,7 @@
                                                     <a href="#orgUserManager/index">组织用户</a> 
                                                 </li>
                                             </ul> 
-                                        </li>
+                                        </li>-->
                                         <li> 
                                             <a href="javascript:" class="dropdown-toggle">
                                                 <i class="menu-icon fa fa-list"></i> 

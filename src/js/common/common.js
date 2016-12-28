@@ -353,9 +353,13 @@ define(function(require, exports, module) {
             common.setCookie('orgno', '', -1);
             common.setCookie('token', '', -1);
             common.removeLocationStorage('arrVids');
-            common.removeLocationStorage('historyLocationParams'); // 历史位置查询
-            common.removeLocationStorage('carManagerParams'); // 车辆管理
-            common.removeLocationStorage('complaintManagerParams'); // 投诉管理
+            common.removeLocationStorage('historyLocationParams'); //历史位置查询
+            common.removeLocationStorage('carManagerParams'); //车辆管理
+            common.removeLocationStorage('complaintManagerParams'); //投诉管理
+            common.removeLocationStorage('orgUserManagerParams'); //组织用户
+            common.removeLocationStorage('roleManagerSearchParams'); //角色管理
+            common.removeLocationStorage('orderManagerSearchParams'); //订单管理
+            common.removeLocationStorage('carOrderConfigParams'); //车辆订单配置
         },
         // 根据key获取查询条件，param:历史查询参数(传递true则更新为新的查询参数)，
         // newParam：新的查询参数，hasDefaultPage：参数默认传递page参数，默认为true
@@ -552,10 +556,11 @@ define(function(require, exports, module) {
             return deferred.promise();
         },
         // ajax封装
-        ajax: function(url, param, callback, opts) {
+        ajax: function(url, param, callback, opts, ajaxOpt) {
             var me = this;
             param = param || {};
             opts = opts || {};
+            ajaxOpt = ajaxOpt || {};
             // 不是登录，则需要传递sid,st参数
             if (opts.action !== 'login') {
                 param.AccountId = this.getCookie('accountid');
@@ -563,7 +568,7 @@ define(function(require, exports, module) {
                 param.OrgNo = this.getCookie('orgno');
                 param.Token = this.getCookie('token');
             }
-            return $.ajax({
+            return $.ajax($.extend(true, {
                 type: "POST",
                 url: url,
                 data: param,
@@ -602,7 +607,7 @@ define(function(require, exports, module) {
                         }
                     }
                 }
-            });
+            }, ajaxOpt));
         },
         // 所属机构-查询公共组件(callback代表选择了某一项的回调函数)
         listenOrganization: function(callback) {
@@ -621,7 +626,7 @@ define(function(require, exports, module) {
                 common.setElValue(':hidden[name="OnlyOrgNo"]', orgId);
                 common.setElValue('input[name="orgName"]', orgName);
                 $(this).closest('ul.ul-select').addClass('hidden');
-                callback && callback(orgId, orgName);
+                if (callback) callback(orgId, orgName);
             });
         },
         // 所属机构-查询结果列表

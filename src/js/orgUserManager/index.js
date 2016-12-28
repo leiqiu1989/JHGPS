@@ -6,17 +6,17 @@ define(function(require, exports, module) {
     require('lodash');
     // 模板
     var tpls = {
-        carIndex: require('../../tpl/orgUserManager/index'),
-        carList: require('../../tpl/orgUserManager/list')
+        index: require('../../tpl/orgUserManager/index'),
+        list: require('../../tpl/orgUserManager/list')
     };
 
-    function carList() {}
-    $.extend(carList.prototype, {
+    function orgUserManager() {}
+    $.extend(orgUserManager.prototype, {
         init: function(param) {
             // 初始化查询条件参数
             this.getParams(param);
             // 渲染模板
-            $('#main-content').empty().html(template.compile(tpls.carIndex)({ searchValue: this.searchParam }));
+            $('#main-content').empty().html(template.compile(tpls.index)({ searchValue: this.searchParam }));
             // 控件初始化
             this.initControl();
             // 获取数据
@@ -30,62 +30,26 @@ define(function(require, exports, module) {
                 me.sortParam = sortParam;
                 me.getData();
             });
-            common.getSelect({
-                url: api.carManager.carType,
-                obj: $('#vehicleType'),
-                key: ['PKey', 'PValue'],
-                selected: me.searchParam.VehicleType,
-                isall: true
-            });
         },
         // 获取查询条件
         getParams: function(param) {
             this.sortParam = {};
             var newParams = {
                 OnlyOrgNo: common.getElValue(':hidden[name="OnlyOrgNo"]'), //所属机构
-                VehicleType: common.getElValue('select[name="VehicleType"]'), //车辆类型
                 Condition: common.getElValue('input[name="Condition"]') //关键字
             };
-            this.searchParam = common.getParams('carManagerParams', param, newParams, true);
+            this.searchParam = common.getParams('orgUserManagerParams', param, newParams, true);
         },
-        getData: function() {
-            var me = this;
-            var param = this.searchParam;
-            param = $.extend({}, param, this.sortParam ? this.sortParam : {});
-            // 将查询条件保存到localStorage里面
-            common.setlocationStorage('carManagerParams', JSON.stringify(this.searchParam));
-            common.loading('show');
-            common.ajax(api.carManager.list, param, function(res) {
-                if (res.status === 'SUCCESS') {
-                    var data = res.content;
-                    $('#carList').empty().html(template.compile(tpls.carList)({
-                        data: data.Page || []
-                    }));
-                    common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
-                        me.searchParam.PageIndex = currPage;
-                        common.changeHash('#carManager/index/', me.searchParam);
-                    });
-                } else {
-                    var msg = res.errorMsg || '系统出错，请联系管理员！';
-                    common.toast(msg);
-                }
-                common.loading();
-            });
-        },
-        //删除车辆
-        deleteCar: function(truckId, confirmText, callback) {
+        deleteUser: function(orgId, confirmText) {
             var me = this;
             common.confirm(confirmText, function() {
                 common.loading('show', '数据正在处理中...');
-                common.ajax(api.carManager.delete, {
-                    ArrVid: truckId
+                common.ajax(api.orgUserManager.del, {
+                    OrgIds: orgId
                 }, function(res) {
                     if (res.status === 'SUCCESS') {
-                        if (callback) {
-                            callback();
-                        } else {
-                            me.getData();
-                        }
+                        me.getData();
+                        common.toast('删除用户成功!', 'success');
                     } else {
                         var msg = res.errorMsg || '系统出错，请联系管理员！';
                         common.toast(msg);
@@ -94,16 +58,29 @@ define(function(require, exports, module) {
                 });
             });
         },
-        exportCarList: function(el) {
-            this.getParams();
-            var st = common.getCookie('st');
-            var sid = common.getCookie('sid');
-            var src = api.carManager.exportCarList + '?sid=' + sid + '&st=' + st;
-            $.each(this.searchParam, function(key, value) {
-                src += '&' + key + '=' + value;
+        getData: function() {
+            var me = this;
+            var param = this.searchParam;
+            param = $.extend({}, param, this.sortParam ? this.sortParam : {});
+            // 将查询条件保存到localStorage里面
+            common.setlocationStorage('orgUserManagerParams', JSON.stringify(this.searchParam));
+            common.loading('show');
+            common.ajax(api.orgUserManager.list, param, function(res) {
+                if (res.status === 'SUCCESS') {
+                    var data = res.content;
+                    $('#orgUserList').empty().html(template.compile(tpls.list)({
+                        data: data.Page || []
+                    }));
+                    common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
+                        me.searchParam.PageIndex = currPage;
+                        common.changeHash('#orgUserManager/index/', me.searchParam);
+                    });
+                } else {
+                    var msg = res.errorMsg || '系统出错，请联系管理员！';
+                    common.toast(msg);
+                }
+                common.loading();
             });
-            var downSrc = encodeURI(src);
-            $(el).attr('href', downSrc);
         },
         event: function() {
             var me = this;
@@ -112,53 +89,42 @@ define(function(require, exports, module) {
             // 查询-事件监听
             $('.panel-toolbar').on('click', '.js_list_search', function() {
                 me.getParams(true);
-                common.changeHash('#carManager/index/', me.searchParam);
+                common.changeHash('#orgUserManager/index/', me.searchParam);
+            }).on('click', '.js_list_reset', function() {
+                common.removeLocationStorage('orgUserManagerParams'); // 组织用户管理
+                me.getParams(false);
+                common.changeHash('#orgUserManager/index/', me.searchParam);
             });
             // 事件监听
             $('#main-content').on('click', '.js_list_add', function() {
-                    common.changeHash('#carManager/edit');
+                    common.changeHash('#orgUserManager/edit');
                 })
                 //编辑车辆
                 .on('click', '.js_list_edit', function() {
                     var tr = $(this).closest('tr');
-                    var id = tr.data('truckid');
-                    var orgId = tr.data('orgid');
-                    common.changeHash('#carManager/edit/', { vid: id });
+                    var id = tr.data('orgid');
+                    common.changeHash('#orgUserManager/edit/', { id: id });
                 })
-                .on('click', '.js_list_import', function() {
-                    common.changeHash('#carManager/import');
-                })
-                .on('click', '.js_list_export', function() {
-                    me.exportCarList($(this));
-                })
-                // //查看车辆详情：暂时不做
-                // .on('click', '.js_list_detail', function() {
-                //     var tr = $(this).closest('tr');
-                //     var truckId = tr.data('truckid');
-                //     var orgId = tr.data('orgid');
-                //     var uniqueIds = tr.data('uniqueids');
-                //     common.changeHash('#carManager/detail/', { truckId: truckId, orgId: orgId, uniqueIds: uniqueIds });
-                // })
                 //批量、单个删除车辆
                 .on('click', '.js_list_delete', function() {
-                    var truckId = $(this).closest('tr').data('truckid');
+                    var ogrId = $(this).closest('tr').data('orgid');
                     var confirmText = '';
-                    if (truckId) {
-                        confirmText = '确定要删除该车辆吗？';
+                    if (ogrId) {
+                        confirmText = '确定要删除该该用户吗？';
                     } else {
                         var chks = $('.datatable-content table > tbody input[name="checkItem"]:checked');
                         if (chks.size() < 1) {
-                            common.toast('请选择要删除的车辆！');
+                            common.toast('请选择要删除的用户！');
                             return false;
                         }
-                        confirmText = '已选择&nbsp;<span class="red">' + chks.size() + '</span>&nbsp;辆车，是否对车辆进行删除？';
+                        confirmText = '已选择&nbsp;<span class="red">' + chks.size() + '</span>&nbsp;个用户，是否进行删除？';
                         var array = [];
                         $.each(chks, function(i, item) {
-                            array.push($(item).closest('tr').data('truckid'));
+                            array.push($(item).closest('tr').data('orgid'));
                         });
-                        truckId = array.join(',');
+                        ogrId = array.join(',');
                     }
-                    me.deleteCar(truckId, confirmText);
+                    me.deleteUser(ogrId, confirmText);
                 }).on('click', 'input[name="checkAll"]', function() {
                     var isChecked = $(this).is(':checked');
                     if (isChecked) {
@@ -179,6 +145,6 @@ define(function(require, exports, module) {
     });
 
     exports.init = function(param) {
-        new carList().init(param);
+        new orgUserManager().init(param);
     };
 });

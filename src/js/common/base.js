@@ -1,7 +1,14 @@
 define("base", [], function() {
     var basicUrl = './js';
 
-    window.DOMAIN = 'http://dev.demo.cn/JHGPS/src/'; //'http://120.25.212.193';
+    var url;
+    // 本地开发
+    // url = 'http://dev.demo.cn/JHGPS/src';
+    // 测试地址
+    url = 'http://120.25.212.193:8082';
+    // 正式版地址
+    // url = '';
+    window.DOMAIN = url;
 
     seajs.config({
         base: basicUrl,

@@ -1,10 +1,10 @@
 <table class="table table-hover no-margin">
 	<colgroup>
-	<col width="3%" />
-	<col width="5%" />
-	<col width="8%" />
-	<col width="8%" />
-	<col width="12%" />
+	<col width="50px" />
+	<col width="25%" />
+	<col width="25%" />
+	<col width="30%" />
+	<col width="17%" />
 </colgroup>
 <tbody>
 	<% if(data && data.length >	0) {
@@ -14,6 +14,15 @@
 	<tr data-id="<%= item.RoleId%>">
 		<td class="align-center">
 			<input type="checkbox" name="checkItem" />
+		</td>		
+		<td title="<%= item.RoleName %>">
+			<%= item.RoleName %>
+		</td>
+		<td title="<%= formateDate(item.UpdateTime,'yyyy/MM/dd hh:mm') %>">
+			<%= formateDate(item.UpdateTime,'yyyy/MM/dd hh:mm') %>
+		</td>
+		<td title="<%= item.Remark %>">
+			<%= item.Remark %>
 		</td>
 		<td>
 			<a class="td-operator js_list_edit">
@@ -24,15 +33,6 @@
 				<i class="fa fa-times"></i>
 				删 除
 			</a>
-		</td>
-		<td title="<%= item.RoleName %>">
-			<%= item.RoleName %>
-		</td>
-		<td title="<%= formateDate(item.UpdateTime,'yyyy/MM/dd hh:mm') %>">
-			<%= formateDate(item.UpdateTime,'yyyy/MM/dd hh:mm') %>
-		</td>
-		<td title="<%= item.Remark %>">
-			<%= item.Remark %>
 		</td>
 	</tr>
 	<% } } %>

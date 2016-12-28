@@ -24,14 +24,13 @@ define(function(require, exports, module) {
             this.getParams(param);
             // 渲染模板
             $('#main-content').empty().html(template.compile(tpls.carIndex)({ searchValue: this.searchParam }));
-             this.event();
+            this.event();
             // 获取数据
             this.getData();
         },
         getData: function() {
             var me = this;
             var param = this.searchParam;
-            //if (this.searchParam && !_.isEmpty(this.searchParam)) {
             param = $.extend({}, param, this.sortParam ? this.sortParam : {});
             // 将查询条件保存到localStorage里面
             common.setlocationStorage('roleManagerSearchParams', JSON.stringify(this.searchParam));
@@ -60,7 +59,7 @@ define(function(require, exports, module) {
             var newParams = {
                 RoleName: common.getElValue('input[name="RoleName"]')
             };
-            if(!param){
+            if (!param) {
                 newParams = {};
             }
             this.searchParam = common.getParams('roleManagerSearchParams', param, newParams, true);
@@ -80,23 +79,22 @@ define(function(require, exports, module) {
             var me = this;
 
             // 查询-事件监听
-            $('.panel-toolbar')
-            
-            .on('keyup','input[name="RoleName"]',function(event){
-                var keycode = event.keyCode || event.which;
-                if (keycode == 13) {
-                    me.getParams(true);
-                    common.changeHash('#roleManager/index/', me.searchParam);
-                }
-            })
+            $('.panel-toolbar').on('click', '.js_search', function(event) {
+                me.getParams(true);
+                common.changeHash('#roleManager/index/', me.searchParam);
+            }).on('click', '.js_list_reset', function() {
+                common.removeLocationStorage('roleManagerSearchParams'); // 投诉管理
+                me.getParams(false);
+                common.changeHash('#roleManager/index/', me.searchParam);
+            });
             // 事件监听
             $('#main-content').off().on('click', '.js_list_add', function() {
-                    common.autoAdaptionDialog(template.compile(tpls.editRole)({data: null || {}}),{
+                    common.autoAdaptionDialog(template.compile(tpls.editRole)({ data: null || {} }), {
                         title: '新增角色'
-                    },function(_dialog){
-                        me.initOrgTree(null,function(){
+                    }, function(_dialog) {
+                        me.initOrgTree(null, function() {
                             me.validate(_dialog);
-                            $('#frmaddRole .js_add_cancel').on('click',function(){
+                            $('#frmaddRole .js_add_cancel').on('click', function() {
                                 _dialog.close();
                             });
                         });
@@ -106,13 +104,13 @@ define(function(require, exports, module) {
                     var tr = $(this).closest('tr');
                     var id = tr.data('id');
 
-                    common.autoAdaptionDialog(template.compile(tpls.editRole)({data: null || {}}),{
+                    common.autoAdaptionDialog(template.compile(tpls.editRole)({ data: null || {} }), {
                         title: '编辑角色'
-                    },function(_dialog){
-                        me.initOrgTree(id,function(){
+                    }, function(_dialog) {
+                        me.initOrgTree(id, function() {
                             me.initEditValue(id); //初始化表单
-                            me.validate(_dialog,id); //验证
-                            $('#frmaddRole .js_add_cancel').on('click',function(){
+                            me.validate(_dialog, id); //验证
+                            $('#frmaddRole .js_add_cancel').on('click', function() {
                                 _dialog.close();
                             });
                         });
@@ -163,9 +161,8 @@ define(function(require, exports, module) {
                 });
         },
         //初始化树
-        initOrgTree: function(id,callback){
+        initOrgTree: function(id, callback) {
             var me = this;
-             
             //组织列表树设置
             var ztreeSetting = {
                 check: {
@@ -201,14 +198,14 @@ define(function(require, exports, module) {
             common.ajax(api.roleManager.rolePermission, {}, function(res) {
                 if (res && res.status === 'SUCCESS') {
                     var data = res.content || [];
-                    if(!res.content||(res.content&&!res.content.length)){
+                    if (!res.content || (res.content && !res.content.length)) {
                         $treeContainer.html('未查询到相关数据');
                         typeof callback === 'function' && callback();
                         return;
                     }
                     $.fn.zTree.init($treeContainer, ztreeSetting, data);
                     //展开节点
-                    if(!id){
+                    if (!id) {
                         var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
                         treeObj.expandAll(true);
                     }
@@ -226,58 +223,58 @@ define(function(require, exports, module) {
 
             //树上回显已经分配的资源
             var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
-            
-            if(treeObj==null) return;
+
+            if (treeObj == null) return;
 
             treeObj.expandAll(false); //默认收起全部节点
-            treeObj.checkAllNodes(false);  //取消所有勾选的节点
+            treeObj.checkAllNodes(false); //取消所有勾选的节点
             //发起请求
-            common.ajax(url,{RoleId: id},function(res){
+            common.ajax(url, { RoleId: id }, function(res) {
                 var content = res.content,
                     nodess = treeObj.getNodes(),
                     resourceIdArr = content.AllRight || [];
                 //给表单赋值
-                common.setFormData($('#frmaddRole'),content);
+                common.setFormData($('#frmaddRole'), content);
                 //给权限树赋值回显
-                if(nodess==null||(nodess!=null&&nodess.length==0)) return;
-                    //根据该角色已有的权限进行相应节点的选中操作
-                    for (var i = 0,len = nodess.length;i<len;i++) {
-                        for(var j = 0,lenj = resourceIdArr.length;j<lenj;j++){
-                            var getNodeByParam= treeObj.getNodeByParam("KeyId",resourceIdArr[j], null);
-                            if(getNodeByParam && getNodeByParam!=null){
-                                treeObj.checkNode(getNodeByParam,true,false); 
-                            }
+                if (nodess == null || (nodess != null && nodess.length == 0)) return;
+                //根据该角色已有的权限进行相应节点的选中操作
+                for (var i = 0, len = nodess.length; i < len; i++) {
+                    for (var j = 0, lenj = resourceIdArr.length; j < lenj; j++) {
+                        var getNodeByParam = treeObj.getNodeByParam("KeyId", resourceIdArr[j], null);
+                        if (getNodeByParam && getNodeByParam != null) {
+                            treeObj.checkNode(getNodeByParam, true, false);
                         }
-                        //treeObj.setChkDisabled(nodess[i], true,true,true);
-                    };
-                    treeObj.expandAll(true); //默认展开全部节点
+                    }
+                    //treeObj.setChkDisabled(nodess[i], true,true,true);
+                };
+                treeObj.expandAll(true); //默认展开全部节点
             });
         },
-        validate: function(diaobj,id) {
+        validate: function(diaobj, id) {
             var me = this;
             validate('#frmaddRole', {
                 subBtn: '.js_add_save',
                 promptPos: 'inline',
                 submit: function() {
-                    me.submitForm(diaobj,id);
+                    me.submitForm(diaobj, id);
                 }
             });
         },
-        submitForm: function(diaobj,id) {
+        submitForm: function(diaobj, id) {
             var me = this;
             var url = id ? api.roleManager.editRole : api.roleManager.createRole;
-           
+
             var params = common.getFormData('#frmaddRole');
             var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
             var nodes = [];
-            if(treeObj!=null){
+            if (treeObj != null) {
                 nodes = treeObj.getCheckedNodes(true);
             }
             var arr = [];
-            for (var i = 0,len = nodes.length;i<len;i++) {
+            for (var i = 0, len = nodes.length; i < len; i++) {
                 arr.push(nodes[i].KeyId);
             };
-            if(id){
+            if (id) {
                 params.RoleId = id;
             }
             params.Permission = arr.toString();
@@ -286,7 +283,7 @@ define(function(require, exports, module) {
             common.ajax(url, params, function(res) {
                 if (res && res.status === 'SUCCESS') {
                     diaobj.close();
-                    common.toast('数据操作成功','success');
+                    common.toast('数据操作成功', 'success');
                     me.getData();
                     // common.alert('数据操作成功', 'success', true, function() {
                     //     common.changeHash('#roleManager/index');
