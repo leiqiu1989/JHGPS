@@ -101,7 +101,7 @@ define(function(require, exports, module) {
                     },function(_dialog){
                         me.initOrgTree(function(){
                             me.initEditValue(id);
-                            me.validate(id);
+                            me.validate(_dialog,id);
                             $('#frmaddCar .js_add_cancel').on('click',function(){
                                 _dialog.close();
                             });
@@ -208,13 +208,13 @@ define(function(require, exports, module) {
                 }
             });
         },
-        validate: function(id) {
+        validate: function(_dialog,id) {
             var me = this;
             validate('#editSeats_form', {
                 subBtn: '.js_add_save',
                 promptPos: 'inline',
                 submit: function() {
-                        me.submitForm(id);
+                        me.submitForm(_dialog,id);
                     },
                     reg: {
                         'ipaddress':  /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/
@@ -224,7 +224,7 @@ define(function(require, exports, module) {
                     }
             });
         },
-        submitForm: function(id) {
+        submitForm: function(dialogObj,id) {
             var me = this;
             var url = api.seatsManager.update;
            
@@ -240,11 +240,14 @@ define(function(require, exports, module) {
             };
             params.Vids = arr.toString();
             params.Id = id;
+
+            common.loading('show');
             common.ajax(url, params, function(res) {
+                common.loading();
                 if (res && res.status === 'SUCCESS') {
-                    common.alert('编辑成功', 'success', true, function() {
-                        common.changeHash('#seatsManager/index');
-                    });
+                    dialogObj.close();
+                    common.toast('数据操作成功', 'success');
+                    me.getData();
                 } else {
                     var msg = res.errorMsg ? res.errorMsg : '服务器问题，请稍后重试';
                     common.alert(msg, 'error');
