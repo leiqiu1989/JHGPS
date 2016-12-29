@@ -53,15 +53,15 @@
 					<div class="panel-heading no-padding datatable-header">
 						<table class="table no-margin">
 							<colgroup>
-							<col width="8%" />
-							<col width="8%" />
-							<col width="8%" />
-							<col width="8%" />
-							<col width="8%" />
-							<col width="8%" />
+							<col width="15%" />
+							<col width="12%" />
+							<col width="12%" />
+							<col width="9%" />
+							<col width="9%" />
 							<col width="9%" />
 							<col width="12%" />
 							<col width="12%" />
+							<col width="10%" />
 						</colgroup>
 						<thead class="thin-border-bottom">
 							<tr>
