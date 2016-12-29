@@ -606,6 +606,9 @@ div.admin .main-fixed {
 .overflow-y-h {
   overflow-y: hidden !important; }
 
+.overflow-x-h {
+  overflow-x: hidden !important; }
+
 .w-100 {
   width: 100px !important; }
 
@@ -975,11 +978,8 @@ dl dd {
 
 .historyLocList {
   border-top: 1px solid #eee;
-  height: 260px; }
+  height: 350px; }
 
-@media screen and (max-height: 768px), screen and (max-height: 768px) and (min-height: 768px) {
-  .historyLocList {
-    height: 110px; } }
 /*地图信息框样式*/
 .point_info {
   display: inline-block; }

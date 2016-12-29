@@ -37,8 +37,21 @@ define(function(require, exports, module) {
                         if ($('#sidebar-mini > ul.nav-list').length < 1) {
                             require.async('./../tpl/index/index', function(tpl) {
                                 $('#contentBody').empty().html(template.compile(tpl)());
-                                me.setUserName();
-                                me.changeMenu(href);
+                                // 获取用户配置权限，初始化菜单
+                                common.getUserMenu(function(data) {
+                                    if (data.length > 0) {
+                                        require.async('./../tpl/menu/index', function(tpl) {
+                                            $('#sidebar-mini').empty().html(template.compile(tpl)({ data: data }));
+                                            if (href != 'authorize') {
+                                                me.changeMenu(href);
+                                            }
+                                            me.setUserName();
+                                        });
+                                    } else {
+                                        window.location.hash = '#authorize/index';
+                                        return false;
+                                    }
+                                });
                             });
                         } else {
                             me.setUserName();

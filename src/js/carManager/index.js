@@ -10,13 +10,18 @@ define(function(require, exports, module) {
         carList: require('../../tpl/carManager/list')
     };
 
-    function carList() {}
+    var carList = function() {
+        this.addPermission = null;
+        this.editPermission = null;
+        this.delPermission = null;
+    };
     $.extend(carList.prototype, {
         init: function(param) {
             // 初始化查询条件参数
             this.getParams(param);
             // 渲染模板
-            $('#main-content').empty().html(template.compile(tpls.carIndex)({ searchValue: this.searchParam }));
+            this.addPermission = common.getPermission(api.btnCodes.carManager.add);
+            $('#main-content').empty().html(template.compile(tpls.carIndex)({ searchValue: this.searchParam, addPermission: this.addPermission }));
             // 控件初始化
             this.initControl();
             // 获取数据
@@ -59,8 +64,14 @@ define(function(require, exports, module) {
             common.ajax(api.carManager.list, param, function(res) {
                 if (res.status === 'SUCCESS') {
                     var data = res.content;
+                    if (data.Page.length) {
+                        me.editPermission = common.getPermission(api.btnCodes.carManager.edit);
+                        me.delPermission = common.getPermission(api.btnCodes.carManager.del);
+                    }
                     $('#carList').empty().html(template.compile(tpls.carList)({
-                        data: data.Page || []
+                        data: data.Page || [],
+                        editPermission: me.editPermission,
+                        delPermission: me.delPermission
                     }));
                     common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
                         me.searchParam.PageIndex = currPage;

@@ -1,4 +1,4 @@
-<div class="panel panel-transparent no-margin full overflow-h">
+<div class="panel panel-transparent no-margin full overflow-x-h">
     <div class="panel-heading">
         <h3 class="panel-title"> 
             历史位置查询

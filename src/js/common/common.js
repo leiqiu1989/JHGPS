@@ -9,9 +9,125 @@ define(function(require, exports, module) {
     var page = require('page');
     require('lodash');
     require('chosen');
-    // 全局变量
+    // 模块全局变量
     var nodeList;
     var outNodeList;
+    // 系统全局变量
+    var roleCodeList = null; //角色代码列表
+    // 权限数组
+    var rolesMenu = [{
+        name: '车辆监控',
+        code: '00016',
+        url: '#carMonitor/index',
+        groupname: '车辆监控',
+        group: 'carmonitor',
+        icon: 'fa fa-map-marker'
+    }, {
+        name: '历史位置查询',
+        code: '00011',
+        url: '#historyLocation/index',
+        groupname: '车辆监控',
+        group: 'carmonitor',
+        icon: 'fa fa-users'
+    }, {
+        name: '组织用户管理',
+        code: '00007',
+        url: '#orgUserManager/index',
+        groupname: '组织用户',
+        group: 'users',
+        icon: 'fa fa-users'
+    }, {
+        name: '角色管理',
+        code: '00006',
+        url: '#roleManager/index',
+        groupname: '组织用户',
+        group: 'users',
+        icon: 'fa fa-users'
+    }, {
+        name: '订单管理',
+        code: '00018',
+        url: '#orderManager/index',
+        groupname: '订单管理',
+        group: 'order',
+        icon: 'fa fa-list'
+    }, {
+        name: '投诉管理',
+        code: '00009',
+        url: '#complaintManager/index',
+        groupname: '订单管理',
+        group: 'order',
+        icon: 'fa fa-list'
+    }, {
+        name: '坐席管理',
+        code: '00010',
+        url: '#seatsManager/index',
+        groupname: '订单管理',
+        group: 'order',
+        icon: 'fa fa-list'
+    }, {
+        name: '车辆订单配置',
+        code: '00012',
+        url: '#carOrderConfig/index',
+        groupname: '订单管理',
+        group: 'order',
+        icon: 'fa fa-list'
+    }, {
+        name: '车辆管理',
+        code: '00005',
+        url: '#carManager/index',
+        groupname: '资源管理',
+        group: 'resource',
+        icon: 'fa fa-car'
+    }, {
+        name: 'GPS设备管理',
+        code: '00020',
+        url: 'javascript:void(0)',
+        groupname: '资源管理',
+        group: 'resource',
+        icon: 'fa fa-car'
+    }, {
+        name: '通讯卡管理',
+        code: '00021',
+        url: 'javascript:void(0)',
+        groupname: '资源管理',
+        group: 'resource',
+        icon: 'fa fa-car'
+    }, {
+        name: '司机管理',
+        code: '00022',
+        url: 'javascript:void(0)',
+        groupname: '资源管理',
+        group: 'resource',
+        icon: 'fa fa-car'
+    }, {
+        name: '车辆轨迹列表',
+        code: '00024',
+        url: 'javascript:void(0)',
+        groupname: '报表管理',
+        group: 'report',
+        icon: 'fa fa-pie-chart'
+    }, {
+        name: '车辆报警报表',
+        code: '00025',
+        url: 'javascript:void(0)',
+        groupname: '报表管理',
+        group: 'report',
+        icon: 'fa fa-pie-chart'
+    }, {
+        name: '车辆里程统计',
+        code: '00026',
+        url: 'javascript:void(0)',
+        groupname: '报表管理',
+        group: 'report',
+        icon: 'fa fa-pie-chart'
+    }, {
+        name: '设备指令记录',
+        code: '00027',
+        url: 'javascript:void(0)',
+        groupname: '报表管理',
+        group: 'report',
+        icon: 'fa fa-pie-chart'
+    }];
 
     /*js对象扩展*/
     Date.prototype.format = function(format) {
@@ -83,9 +199,6 @@ define(function(require, exports, module) {
     template.helper('carStatus', function(key) {
         return !key ? '' : key == 1 ? '在线' : '离线';
     });
-    template.helper('sellChannel', function(key) {
-        return !key ? '' : key == 1 ? '管理版' : '运营管理平台';
-    });
     template.helper('sliceDate', function(date) {
         return date ? date.slice(0, 10) : '';
     });
@@ -116,6 +229,12 @@ define(function(require, exports, module) {
 
     /*公共js*/
     var common = {
+        getPermission: function(code) {
+            var rt = _.find(roleCodeList, function(item, index) {
+                return item === code;
+            });
+            return !!rt;
+        },
         // 初始化日期
         initDateTime: function(el, formatStyle, hasDefValue, defValueformat, timePickerBool, minDate, maxDate) {
             formatStyle = formatStyle || 'Y-m-d H:i';
@@ -757,7 +876,54 @@ define(function(require, exports, module) {
                     common.toast(msg);
                 }
             });
-        }
+        },
+        // 获取用户权限菜单
+        getUserMenu: function(callback) {
+            var reportArray = [],
+                monitorArray = [],
+                userArray = [],
+                orderArray = [],
+                resourceArray = [],
+                array = [];
+            this.ajax(api.userPermission, {}, function(res) {
+                if (res && res.status === 'SUCCESS') {
+                    var data = res.content || [];
+                    if (data.length > 0) {
+                        // 变量赋值
+                        roleCodeList = data;
+                        for (var i = 0; i < data.length; i++) {
+                            var menu = _.find(rolesMenu, function(item, index) {
+                                return item.code === data[i];
+                            });
+                            if (menu) {
+                                switch (menu.group) {
+                                    case 'carmonitor':
+                                        monitorArray.push(menu);
+                                        break;
+                                    case 'users':
+                                        userArray.push(menu);
+                                        break;
+                                    case 'order':
+                                        orderArray.push(menu);
+                                        break;
+                                    case 'resource':
+                                        resourceArray.push(menu);
+                                        break;
+                                    case 'report':
+                                        reportArray.push(menu);
+                                        break;
+                                }
+                            }
+                        }
+                        array.push(reportArray, monitorArray, userArray, orderArray, resourceArray);
+                    }
+                    if (callback) callback(array);
+                } else {
+                    var msg = res.errorMsg || '权限获取失败,请联系管理员!';
+                    this.toast(msg);
+                }
+            });
+        },
     };
     return common;
 });

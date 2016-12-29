@@ -23,76 +23,53 @@ define(function(require, exports, module) {
             this.orgId = id || null;
             this.initPage();
         },
-        bindEditValue: function(data) {
-            // 数据转换
-            data.OnlyOrgNo = data.ParentOrgNo;
-            $('#main-content').empty().html(template.compile(tpls.add)({ title: '编辑组织用户', data: data, isEdit: this.isEdit }));
-            // checkbox单独处理
-            //$('input[name="needExamined"]').attr('checked', data.needExamined == 1 ? true : false);
-        },
-        initEditValue: function() {
+        renderHtml: function(data) {
             var me = this;
-            common.ajax(api.orgUserManager.detail, {
-                OrgId: me.orgId
-            }, function(res) {
-                if (res.status === 'SUCCESS') {
-                    var data = res.content;
-                    //me.bindEditValue(data);
+            var title = data ? '编辑组织用户' : '新增组织用户';
+            data = data || {};
+            data.Users = data.Users || [];
+            $('#main-content').empty().html(template.compile(tpls.add)({ title: title, data: data, isEdit: this.isEdit }));
+            this.initSelect($('select[name="RoleId"]'), function() {
+                if (me.isEdit) {
+                    var rows = $('#frmUserList > div.row');
+                    $.each(rows, function(i, row) {
+                        $(row).find('select[name="RoleId"]').val(data.Users[i].RoleId);
+                    });
                 }
             });
-        },
-        initEditControl: function(data) {
-            var me = this;
-            $('#plate_Number,#plateNumber_Color').attr({
-                'disabled': true
-            });
-            $('#plateNumber_Color').attr('data-nosubmit', true);
-            $('.js_add_control').remove();
-            $('.js_edit_control').removeClass('hidden');
-            // 获取当前组织机构下的gps设备编号列表并且把当前gps设备编号填充进去
-            this.getGPSNumerList(data.uniqueId, function() {
-                if (data.uniqueId) {
-                    var gpsHtml = '<option value="' + data.uniqueId + '" data-name="' + data.gpsBrand + '" data-endtime="' + data.gpsEndTime + '" data-simcard="' + data.simmcard + '">' + data.uniqueId + '</option>';
-                    $('select[name="uniqueId"]').append(gpsHtml).val(data.uniqueId);
-                }
-            });
-            // 编辑根据返回的车辆类型和品牌自动填充
-            var timer = setInterval(function() {
-                if (me.truckTypeIsLoaded && me.vehicleBrandIsLoaded) {
-                    clearInterval(timer);
-                    // 判断是否存在，不在则添加
-                    if ($('#truck_Type > option:contains("' + data.truckType + '")').size() < 1) {
-                        var truckTypeHtml = '<option value="' + data.truckType + '" data-code="">' + data.truckType + '</option>';
-                        $('#truck_Type').append(truckTypeHtml);
-                        $('#truck_Type').val(data.truckType);
-                    }
-                    if ($('#vehicle_Brand > option:contains("' + data.vehicleBrand + '")').size() < 1) {
-                        var vehicleBrandHtml = '<option value="' + data.vehicleBrand + '">' + data.vehicleBrand + '</option>';
-                        $('#vehicle_Brand').append(vehicleBrandHtml);
-                        $('#vehicle_Brand').val(data.vehicleBrand);
-                    }
-                }
-            }, 500);
-        },
-        initPage: function() {
-            $('#main-content').empty().html(template.compile(tpls.add)({ title: '新增组织用户', data: {} }));
-            // 编辑
-            if (this.isEdit) {
-                this.initEditValue();
-            }
-            this.initSelect($('select[name="RoleId"]'));
             this.validate();
             this.event();
         },
-        initSelect: function(el) {
+        initPage: function() {
+            var me = this;
+            // 编辑
+            if (this.isEdit) {
+                common.loading('show');
+                common.ajax(api.orgUserManager.detail, {
+                    OrgId: me.orgId
+                }, function(res) {
+                    if (res.status === 'SUCCESS') {
+                        var data = res.content;
+                        me.renderHtml(data);
+                    } else {
+                        var msg = res.errorMsg ? res.errorMsg : '服务器问题，请稍后重试';
+                        common.alert(msg, 'error');
+                    }
+                    common.loading();
+                });
+            } else {
+                this.renderHtml();
+            }
+        },
+        initSelect: function(el, callback) {
             //获取角色列表
             this.getSelect({
                 url: api.orgUserManager.roles,
                 obj: el,
                 key: ['RoleId', 'RoleName']
-            });
+            }, callback);
         },
-        getSelect: function(opt) {
+        getSelect: function(opt, callback) {
             var me = this;
             var obj = {
                 url: opt.url,
@@ -101,7 +78,6 @@ define(function(require, exports, module) {
                 key: opt.key || ['id', 'name'],
                 $objs: opt.obj
             };
-            me.truckTypeIsLoaded = false;
             common.ajax(obj.url, obj.params, function(res) {
                 if (res.status === 'SUCCESS') {
                     var data = res.content;
@@ -112,8 +88,8 @@ define(function(require, exports, module) {
                             html += '<option value="' + item[obj.key[0]] + '">' + item[obj.key[1]] + '</option>';
                         });
                     }
-                    me.truckTypeIsLoaded = true;
                     obj.$objs.html(html);
+                    if (callback) callback();
                 } else {
                     var msg = res.errorMsg || obj.errorMsg;
                     common.toast(msg);
@@ -147,29 +123,24 @@ define(function(require, exports, module) {
                 users.push(user);
             }
             params.Users = users;
-            debugger;
             var url = this.isEdit ? api.orgUserManager.update : api.orgUserManager.save;
-            if (this.isEdit) {
-                //params.Vid = me.truckId;
-            }
-            common.ajax(url, params, function(res) {
-                debugger;
+            common.ajax(url, { OrgUser: JSON.stringify(params) }, function(res) {
                 if (res && res.status === 'SUCCESS') {
-                    common.alert('数据操作成功', 'success', true, function() {
-                        common.changeHash('#carManager/index');
-                    });
+                    common.toast('数据操作成功!', 'success');
+                    common.changeHash('#orgUserManager/index');
                 } else {
                     var msg = res.errorMsg ? res.errorMsg : '服务器问题，请稍后重试';
                     common.alert(msg, 'error');
                 }
-            }, null, {
-                data: JSON.stringify(params)
             });
         },
         event: function() {
             var me = this;
             // 所属机构事件监听
-            common.listenOrganization();
+            common.listenOrganization(function(orgId, orgName) {
+                $(':hidden[name="ParentOrgNo"]').val(orgId);
+                $('input[type="ParentOrgName"]').val(orgName);
+            });
             // 事件监听
             $('#main-content').on('click', '.js_add_back', function() {
                     common.changeHash('#orgUserManager/index');

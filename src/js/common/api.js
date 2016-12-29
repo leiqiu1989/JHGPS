@@ -2,9 +2,19 @@ define(function(require, exports, module) {
     'use strict';
 
     var remoteUrl = 'http://120.25.212.193:8081';
+    // 正式接口地址
+    // var remoteUrl = 'http://192.168.1.21:8080';
 
     /*接口API*/
     var api = {
+        // 按钮编码
+        btnCodes: {
+            carManager: {
+                add: '00013',
+                edit: '00014',
+                del: '00015'
+            }
+        },
         //登录
         login: remoteUrl + '/Account/Login',
         // 修改密码
@@ -17,6 +27,8 @@ define(function(require, exports, module) {
         carTrackHistory: remoteUrl + '/Position/QueryHistory',
         // 历史位置查询
         historyQuery: remoteUrl + '/Position/QueryAcrossHistory',
+        // 用户权限
+        userPermission: remoteUrl + '/Role/QueryAccountPermission',
         // 车辆管理
         carManager: {
             list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo', //车辆管理列表

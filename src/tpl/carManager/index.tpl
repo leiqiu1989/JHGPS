@@ -33,9 +33,11 @@
 	</div>
 	<div class="panel-toolbar form-inline">
 		<div class="form-group btn-toolbar">
+			<% if(addPermission){ %>
 			<a class="btn btn-primary js_list_add"> <i class="fa fa-plus"></i>
 				新 增
 			</a>
+			<% } %>
 			<!--<a class="btn btn-primary js_list_stop"> <i class="fa fa-times"></i>
 				删 除
 			</a>-->

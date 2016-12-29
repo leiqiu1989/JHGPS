@@ -14,7 +14,7 @@
     <div class='col-sm-2'>
         <div class='form-group'>
             <label for="" class="required">密 码</label>
-            <input class="form-control" name="Pwd" type="text" required />
+            <input class="form-control" name="Pwd" type="password" required />
         </div>
     </div>
     <div class='col-sm-2'>

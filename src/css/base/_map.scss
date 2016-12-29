@@ -170,14 +170,7 @@
 
 .historyLocList {
     border-top: 1px solid #eee;
-    height: 260px;
-}
-
-@media screen and (max-height:768px),
-screen and (max-height:768px) and (min-height:768px) {
-    .historyLocList {
-        height: 110px;
-    }
+    height: 350px;
 }
 
 

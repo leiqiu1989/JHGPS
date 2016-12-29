@@ -59,14 +59,18 @@
 			<%= item.Remark %>
 		</td>
 		<td>
+			<% if(editPermission){ %>
 			<a class="td-operator js_list_edit">
 				<i class="fa fa-pencil-square-o"></i>
 				编 辑
 			</a>
+			<% } %>
+			<% if(delPermission){ %>
 			<a class="td-operator js_list_delete">
 				<i class="fa fa-times"></i>
 				删 除
 			</a>
+			<% } %>
 		</td>
 	</tr>
 	<% } } %>
