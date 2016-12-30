@@ -204,6 +204,7 @@ define(function(require, exports, module) {
                         return;
                     }
                     $.fn.zTree.init($treeContainer, ztreeSetting, data);
+                    var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
                     //展开节点
                     if (!id) {
                         var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
@@ -240,7 +241,7 @@ define(function(require, exports, module) {
                 //根据该角色已有的权限进行相应节点的选中操作
                 for (var i = 0, len = nodess.length; i < len; i++) {
                     for (var j = 0, lenj = resourceIdArr.length; j < lenj; j++) {
-                        var getNodeByParam = treeObj.getNodeByParam("KeyId", resourceIdArr[j], null);
+                        var getNodeByParam = treeObj.getNodeByParam("RightNo", resourceIdArr[j], null);
                         if (getNodeByParam && getNodeByParam != null) {
                             treeObj.checkNode(getNodeByParam, true, false);
                         }
@@ -272,13 +273,14 @@ define(function(require, exports, module) {
             }
             var arr = [];
             for (var i = 0, len = nodes.length; i < len; i++) {
-                arr.push(nodes[i].KeyId);
+                arr.push(nodes[i].RightNo);
+                //arr.push(nodes[i].KeyId);
             };
             if (id) {
                 params.RoleId = id;
             }
             params.Permission = arr.toString();
-            console.log(params);
+            
             common.loading('show');
             common.ajax(url, params, function(res) {
                 if (res && res.status === 'SUCCESS') {
