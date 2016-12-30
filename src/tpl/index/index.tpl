@@ -7,11 +7,11 @@
             欢迎您，&nbsp;&nbsp;<span class="ja_userName"></span>
         </div>        
         <div class="logout js_changpwd">
-            <img src="http://dev.demo.cn/JHGPS/src/img/changpwd.png" alt="">
+            <img src="http://192.168.1.21:8081/img/changpwd.png" alt="">
             <span>修改密码</span>
         </div>
         <div class="logout js_logout">
-            <img src="http://dev.demo.cn/JHGPS/src/img/logout.png" alt="">
+            <img src="http://192.168.1.21:8081/img/logout.png" alt="">
             <span>退出</span>
         </div>
     </div>
