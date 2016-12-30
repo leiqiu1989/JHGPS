@@ -74,7 +74,18 @@ define(function(require, exports, module) {
                         common.setCookie('usertype', data.UserType);
                         common.setCookie('orgno', data.OrgNo);
                         common.setCookie('token', data.Token);
-                        common.changeHash('#carMonitor/index');
+                        common.getUserMenu(function(data) {
+                            var url = '#authorize/index';
+                            if (data.length > 0) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].length) {
+                                        url = data[i][0].url || '#authorize/index';
+                                        break;
+                                    }
+                                }
+                            }
+                            window.location.hash = url;
+                        });
                     } else {
                         $('#btn-login').removeAttr('disabled', 'disabled');
                         var msg = res.errorMsg;

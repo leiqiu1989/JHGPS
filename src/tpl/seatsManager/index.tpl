@@ -9,21 +9,21 @@
 					<div class="panel-heading no-padding datatable-header">
 						<table class="table no-margin">
 							<colgroup>
-							<col width="3%" />
-							<col width="8%" />
-							<col width="6%" />
-							<col width="8%" />
-							<col width="8%" />
-						</colgroup>
-						<thead class="thin-border-bottom">
-							<tr>
-								<th>操 作</th>
-								<th>座席编号</th>
-								<th>姓名</th>
-								<th>内网IP</th>
-								<th>可操作车辆数</th>
-							</tr>
-						</thead>
+								<col width="30%" />
+								<col width="30%" />
+								<col width="20%" />
+								<col width="10%" />
+								<col width="10%" />
+							</colgroup>
+							<thead class="thin-border-bottom">
+								<tr>
+									<th>座席编号</th>
+									<th>姓名</th>
+									<th>内网IP</th>
+									<th>可操作车辆数</th>
+									<th>操 作</th>
+								</tr>
+							</thead>
 					</table>
 				</div>
 				<div id="carList" class="datatable-content panel-body no-padding grow"></div>

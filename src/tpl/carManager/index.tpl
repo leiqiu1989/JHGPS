@@ -25,6 +25,7 @@
 					</td>
 					<td class="pl20">
 						<a href="javascript:" class="btn btn-primary js_list_search mr10">查 询</a>
+						<a href="javascript:" class="btn btn-primary js_list_reset">重 置</a>
 					</td>
 				</tr>
 			</tbody>
@@ -32,12 +33,14 @@
 	</div>
 	<div class="panel-toolbar form-inline">
 		<div class="form-group btn-toolbar">
+			<% if(addPermission){ %>
 			<a class="btn btn-primary js_list_add"> <i class="fa fa-plus"></i>
 				新 增
 			</a>
-			<a class="btn btn-primary js_list_stop"> <i class="fa fa-times"></i>
+			<% } %>
+			<!--<a class="btn btn-primary js_list_stop"> <i class="fa fa-times"></i>
 				删 除
-			</a>
+			</a>-->
 			<!--<a class="btn btn-primary js_list_import">
 				<i class="fa fa-upload"></i>
 				导 入
@@ -55,10 +58,10 @@
 					<div class="panel-heading no-padding datatable-header">
 						<table class="table no-margin">
 							<colgroup>
-							<col width="50px" />
-							<col width="8%" />
-							<col width="6%" />
-							<col width="8%" />
+							<col width="50px"/>
+							<col width="9%" />
+							<col width="9%" />
+							<col width="9%" />
 							<col width="8%" />
 							<col width="8%" />
 							<col width="8%" />
@@ -66,18 +69,16 @@
 							<col width="8%" />
 							<col width="9%" />
 							<col width="12%" />
-							<col width="12%" />
+							<col width="9%" />
 						</colgroup>
 						<thead class="thin-border-bottom">
 							<tr>
 								<th class="align-center">
 									<input type="checkbox" name="checkAll" />
-								</th>
-								<th>操 作</th>
+								</th>								
 								<th class="sortable string asc" data-sortfield="plateNumber">车牌号码</th>
 								<th>车牌颜色</th>
 								<th>所属机构</th>
-								<!-- <th class="sortable string asc" data-sortfield="state">车辆状态</th> -->
 								<th>GPS设备编号</th>
 								<th>SIM卡号码</th>
 								<th>司机姓名</th>
@@ -85,6 +86,7 @@
 								<th>车辆类型</th>
 								<th>到期时间</th>
 								<th>备注</th>
+								<th>操 作</th>
 							</tr>
 						</thead>
 					</table>

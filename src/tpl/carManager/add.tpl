@@ -1,5 +1,5 @@
 <form id="frmaddCar" class="full">
-	<input type="hidden" name="truckId" />
+	
 	<div class="panel panel-transparent no-margin">
 		<div class="panel-heading">
 			<h3 class="panel-title js_add_title">
@@ -67,8 +67,8 @@
 						<div class='col-sm-3'>
 							<div class='form-group'>
 								<label for="org_name" class="required">所属机构</label>
-								<input type="text" class="form-control" required name="orgName" data-nosubmit="true" placeholder="至少输入3个字符搜索" />
-								<input type="hidden" name="OnlyOrgNo" />
+								<input type="text" class="form-control" value="<%= data.Vehicle.OrgName%>" required name="orgName" data-nosubmit="true" placeholder="至少输入3个字符搜索" />
+								<input type="hidden" name="OnlyOrgNo" value="<%= data.Vehicle.OrgNo%>" />
 								<ul class="ul-select hidden"></ul>
 							</div>
 						</div>						
@@ -93,7 +93,7 @@
 						<div class='col-sm-3'>
 							<div class='form-group'>
 								<label for="master_IdCard" class="required">身份证号码</label>
-								<input class="form-control" value="<%= data.Driver.IDCard%>" required maxlength="20" id="master_IdCard" name="IDCard" type="text" />
+								<input class="form-control" data-type="idcard" value="<%= data.Driver.IDCard%>" required maxlength="20" id="master_IdCard" name="IDCard" type="text" />
 							</div>
 						</div>
 						<div class='col-sm-3'>

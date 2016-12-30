@@ -1,24 +1,19 @@
 <table class="table table-hover no-margin">
 	<colgroup>
-	<col width="4%" />
-	<col width="6%" />
-	<col width="6%" />
-	<col width="6%" />
-	<col width="6%" />
-	<col width="6%" />
-	<col width="12%" />
+		<col width="10%" />
+		<col width="12%" />
+		<col width="12%%" />
+		<col width="15%%" />
+		<col width="15%" />
+		<col width="21%" />
+		<col width="12%" />
 </colgroup>
 <tbody>
 	<% if(data && data.length >	0) {
 		for(var i = 0 , len = data.length; i < len; i++) {
 			var item = data[i];
 	%>
-	<tr data-vid="<%= item.Vid %>" data-plateno="<%= item.PlateNo %>">
-		<td>
-			<a href="javascript:" class="js_list_config">
-				配置
-			</a>
-		</td>
+	<tr data-vid="<%= item.Vid %>" data-plateno="<%= item.PlateNo %>">		
 		<td title="<%= item.PlateNo %>">
 			<%= item.PlateNo %>
 		</td>
@@ -36,6 +31,11 @@
 		</td>
 		<td title="<%= item.SettingRemark %>">
 			<%= item.SettingRemark %>
+		</td>
+		<td>
+			<a href="javascript:" class="js_list_config">
+				配置
+			</a>
 		</td>
 	</tr>
 	<% } } %>

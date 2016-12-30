@@ -17,10 +17,11 @@
 							value="<%= searchValue.From %>" />
 					</td>
 					<td>
-						<label class="control-label">被投诉人</label>
-						<input type="text" class="form-control w-200" name="To" placeholder="请输入被投诉人查询"
-							value="<%= searchValue.To %>" />
-					</td>
+						<label class="control-label">投诉时间</label>
+						<input type="text" name="Start" class="form-control w-150 inline-block" value="<%= searchValue.Start %>" readonly="readonly" id="startDate" />
+						<span class="p15-lr">至</span>
+						<input type="text" name="End" class="form-control w-150 inline-block" value="<%= searchValue.End %>" readonly="readonly" id="endDate" />
+					</td>					
 				</tr>
 				<tr>
 					<td>
@@ -33,26 +34,18 @@
 						</select>
 					</td>
 					<td>
-						<label class="control-label">投诉时间</label>
-						<input type="text" name="Start" class="form-control w-150 inline-block" value="<%= searchValue.Start %>" readonly="readonly" id="startDate" />
-						<span class="p15-lr">至</span>
-						<input type="text" name="End" class="form-control w-150 inline-block" value="<%= searchValue.End %>" readonly="readonly" id="endDate" />
-					</td>	
-					<td class="pl20" colspan="2">
-						<a href="javascript:" class="btn btn-primary js_search">查 询</a>
+						<label class="control-label">被投诉人</label>
+						<input type="text" class="form-control w-200" name="To" placeholder="请输入被投诉人查询"
+							value="<%= searchValue.To %>" />
+					</td>
+					<td class="pl20">
+						<a href="javascript:" class="btn btn-primary mr10 js_search">查 询</a>
+						<a href="javascript:" class="btn btn-primary js_list_reset">重 置</a>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<!--<div class="panel-toolbar form-inline">
-		<div class="form-group btn-toolbar">
-			<a class="btn btn-primary js_export">
-				<i class="fa fa-download"></i>
-				导 出
-			</a>
-		</div>
-	</div>-->
 	<div class="panel-body row-container grow">
 		<div class="row row-static">
 			<div id="complaintList" class="col-static col-xs-12 no-padding">

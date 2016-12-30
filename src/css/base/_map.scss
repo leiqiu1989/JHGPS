@@ -163,13 +163,14 @@
 /*历史位置查询*/
 
 #historyMap {
-    height: 620px;
+    height: 450px;
+    max-height: 450px;
     width: 100%;
 }
 
 .historyLocList {
     border-top: 1px solid #eee;
-    height: 320px;
+    height: 350px;
 }
 
 

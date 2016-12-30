@@ -261,13 +261,13 @@ define(function(require, exports, module) {
                 promptPos: 'inline',
                 submit: function() {
                         me.submitForm();
+                    },
+                    reg: {
+                        'idcard': /^\d{17}[\d|x]|\d{15}$/
+                    },
+                    errorMsg: {
+                        'idcard': '请输入正确的身份证号'
                     }
-                    // reg: {
-                    //     'letternum': /^[0-9a-zA-Z]*$/
-                    // },
-                    // errorMsg: {
-                    //     'letternum': '只能输入字母和数字'
-                    // }
             });
         },
         submitForm: function() {
@@ -277,7 +277,9 @@ define(function(require, exports, module) {
             if (this.isEdit) {
                 params.Vid = me.truckId;
             }
-            params.OnlyOrgNo = me.orgId;
+            if(me.orgId){
+                params.OnlyOrgNo = me.orgId;
+            }
             common.ajax(url, params, function(res) {
                 if (res && res.status === 'SUCCESS') {
                     common.alert('数据操作成功', 'success', true, function() {
@@ -359,6 +361,6 @@ define(function(require, exports, module) {
     });
 
     exports.init = function(param) {
-        new carAdd().init(param.truckId, param.orgId);
+        new carAdd().init(param.vid, param.orgId);
     };
 });

@@ -1,14 +1,20 @@
 define(function(require, exports, module) {
     'use strict';
 
-    // 测试服地址
-    //var remoteUrl = 'http://120.25.212.193:8081';
-    // 正式地址
-    var remoteUrl = 'http://192.168.1.21:8080';
-
+    var remoteUrl = 'http://120.25.212.193:8081';
+    // 正式接口地址
+    // var remoteUrl = 'http://192.168.1.21:8080';
 
     /*接口API*/
     var api = {
+        // 按钮编码
+        btnCodes: {
+            carManager: {
+                add: '00013',
+                edit: '00014',
+                del: '00015'
+            }
+        },
         //登录
         login: remoteUrl + '/Account/Login',
         // 修改密码
@@ -21,6 +27,8 @@ define(function(require, exports, module) {
         carTrackHistory: remoteUrl + '/Position/QueryHistory',
         // 历史位置查询
         historyQuery: remoteUrl + '/Position/QueryAcrossHistory',
+        // 用户权限
+        userPermission: remoteUrl + '/Role/QueryAccountPermission',
         // 车辆管理
         carManager: {
             list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo', //车辆管理列表
@@ -84,7 +92,26 @@ define(function(require, exports, module) {
         //坐席管理
         seatsManager: {
             list: remoteUrl + '/SpeetChart/List', //列表
-            add: remoteUrl + '/SpeetChart/List' //列表
+            changeStatus: remoteUrl + '/SpeetChart/ChangeStatus', //坐席管理-启用/禁用
+            detail: remoteUrl + '/SpeetChart/GetModelById', //详情
+            update: remoteUrl + '/SpeetChart/Update' //编辑
+        },
+        //角色管理
+        roleManager: {
+            list: remoteUrl + '/Role/QueryAllRole', //列表
+            createRole: remoteUrl + '/Role/CreateRole', //新增角色
+            editRole: remoteUrl + '/Role/EditRole', //编辑角色
+            roleDetail: remoteUrl + '/Role/QueryByRoleId', //角色详情
+            deleteRole: remoteUrl + '/Role/DeleteRole', //角色管理-删除 批量、单个
+            rolePermission: remoteUrl + '/Role/QueryAllPermission' //角色管理-系统功能Ztree
+        },
+        orgUserManager: {
+            list: remoteUrl + '/Org/List',
+            save: remoteUrl + '/Org/Create',
+            update: remoteUrl + '/Org/Edit',
+            roles: remoteUrl + '/Role/QuertAllRoleAbbr',
+            del: remoteUrl + '/Org/Delete',
+            detail: remoteUrl + '/Org/QueryOrgByOrgId'
         }
     };
     return api;

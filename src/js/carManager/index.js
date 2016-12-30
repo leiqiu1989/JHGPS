@@ -10,13 +10,18 @@ define(function(require, exports, module) {
         carList: require('../../tpl/carManager/list')
     };
 
-    function carList() {}
+    var carList = function() {
+        this.addPermission = null;
+        this.editPermission = null;
+        this.delPermission = null;
+    };
     $.extend(carList.prototype, {
         init: function(param) {
             // 初始化查询条件参数
             this.getParams(param);
             // 渲染模板
-            $('#main-content').empty().html(template.compile(tpls.carIndex)({ searchValue: this.searchParam }));
+            this.addPermission = common.getPermission(api.btnCodes.carManager.add);
+            $('#main-content').empty().html(template.compile(tpls.carIndex)({ searchValue: this.searchParam, addPermission: this.addPermission }));
             // 控件初始化
             this.initControl();
             // 获取数据
@@ -44,6 +49,7 @@ define(function(require, exports, module) {
             var newParams = {
                 OnlyOrgNo: common.getElValue(':hidden[name="OnlyOrgNo"]'), //所属机构
                 VehicleType: common.getElValue('select[name="VehicleType"]'), //车辆类型
+                orgName: common.getElValue('input[name="orgName"]'), //机构名称
                 Condition: common.getElValue('input[name="Condition"]') //关键字
             };
             this.searchParam = common.getParams('carManagerParams', param, newParams, true);
@@ -58,8 +64,14 @@ define(function(require, exports, module) {
             common.ajax(api.carManager.list, param, function(res) {
                 if (res.status === 'SUCCESS') {
                     var data = res.content;
+                    if (data.Page.length) {
+                        me.editPermission = common.getPermission(api.btnCodes.carManager.edit);
+                        me.delPermission = common.getPermission(api.btnCodes.carManager.del);
+                    }
                     $('#carList').empty().html(template.compile(tpls.carList)({
-                        data: data.Page || []
+                        data: data.Page || [],
+                        editPermission: me.editPermission,
+                        delPermission: me.delPermission
                     }));
                     common.page(data.TotalCount, param.PageSize, param.PageIndex, function(currPage) {
                         me.searchParam.PageIndex = currPage;
@@ -111,9 +123,15 @@ define(function(require, exports, module) {
             common.listenOrganization();
             // 查询-事件监听
             $('.panel-toolbar').on('click', '.js_list_search', function() {
-                me.getParams(true);
-                common.changeHash('#carManager/index/', me.searchParam);
-            });
+                    me.getParams(true);
+                    common.changeHash('#carManager/index/', me.searchParam);
+                })
+                //重置
+                .on('click', '.js_list_reset', function() {
+                    common.removeLocationStorage('carManagerParams'); // 车辆管理
+                    me.getParams(false);
+                    common.changeHash('#carManager/index/', me.searchParam);
+                });
             // 事件监听
             $('#main-content').on('click', '.js_list_add', function() {
                     common.changeHash('#carManager/edit');
@@ -121,9 +139,9 @@ define(function(require, exports, module) {
                 //编辑车辆
                 .on('click', '.js_list_edit', function() {
                     var tr = $(this).closest('tr');
-                    var truckId = tr.data('truckid');
+                    var id = tr.data('truckid');
                     var orgId = tr.data('orgid');
-                    common.changeHash('#carManager/edit/', { truckId: truckId });
+                    common.changeHash('#carManager/edit/', { vid: id });
                 })
                 .on('click', '.js_list_import', function() {
                     common.changeHash('#carManager/import');

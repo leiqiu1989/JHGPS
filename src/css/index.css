@@ -606,6 +606,9 @@ div.admin .main-fixed {
 .overflow-y-h {
   overflow-y: hidden !important; }
 
+.overflow-x-h {
+  overflow-x: hidden !important; }
+
 .w-100 {
   width: 100px !important; }
 
@@ -674,6 +677,21 @@ div.admin .main-fixed {
 
 .mb0 {
   margin-bottom: 0 !important; }
+
+.mb10 {
+  margin-bottom: 10px !important; }
+
+.user-remind {
+  color: red;
+  font-weight: 700; }
+
+.user-remind-add {
+  cursor: pointer; }
+  .user-remind-add:hover {
+    text-decoration: none; }
+
+.pointer {
+  cursor: pointer; }
 
 .mb30 {
   margin-bottom: 30px !important; }
@@ -954,12 +972,13 @@ dl dd {
 
 /*历史位置查询*/
 #historyMap {
-  height: 620px;
+  height: 450px;
+  max-height: 450px;
   width: 100%; }
 
 .historyLocList {
   border-top: 1px solid #eee;
-  height: 320px; }
+  height: 350px; }
 
 /*地图信息框样式*/
 .point_info {

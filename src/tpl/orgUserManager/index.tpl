@@ -1,18 +1,25 @@
 <div class="panel panel-transparent flexbox">
 	<div class="panel-heading">
-		<h3 class="panel-title">角色信息</h3>
+		<h3 class="panel-title">组织用户</h3>
 	</div>
 	<div class="panel-toolbar">
 		<table class="table table-form-horizontal no-margin w-auto table-form-horizontal-patch">
 			<tbody>
 				<tr>
 					<td>
-						<label class="control-label">角色名称</label>
-						<input type="text" class="form-control w-200" name="RoleName" placeholder="请输入角色名称"
-							value="<%= searchValue.RoleName %>" />
+						<label class="control-label">关键字</label>
+						<input type="text" class="form-control w-300" name="Condition"
+						 placeholder="组织名称、用户名、联系人、联系电话搜索" value="<%= searchValue.Condition %>" />
+					</td>
+					<td>
+						<input type="hidden" name="OnlyOrgNo" value="<%= searchValue.OnlyOrgNo %>" />
+						<label class="control-label">所属机构</label>
+						<input type="text" class="form-control w-200" name="orgName" placeholder="至少输入3个字符搜索"
+						value="<%= searchValue.orgName%>" />
+						<ul class="ul-select hidden"></ul>
 					</td>
 					<td class="pl20">
-						<a href="javascript:" class="btn btn-primary mr10 js_search">查 询</a>
+						<a href="javascript:" class="btn btn-primary js_list_search mr10">查 询</a>
 						<a href="javascript:" class="btn btn-primary js_list_reset">重 置</a>
 					</td>
 				</tr>
@@ -34,25 +41,31 @@
 						<table class="table no-margin">
 							<colgroup>
 							<col width="50px" />
-							<col width="25%" />
-							<col width="25%" />
-							<col width="30%" />
-							<col width="17%" />
+							<col width="12%" />
+							<col width="15%" />
+							<col width="12%" />
+							<col width="12%" />
+							<col width="12%" />
+							<col width="24%" />
+							<col width="10%" />
 						</colgroup>
 						<thead class="thin-border-bottom">
 							<tr>
 								<th class="align-center">
 									<input type="checkbox" name="checkAll" />
-								</th>								
-								<th>角色名称</th>
-								<th>更新时间</th>
-								<th>备注</th>
+								</th>
+								<th>组织名称</th>
+								<th>所属机构</th>
+								<th>管理员</th>
+								<th>联系人</th>
+								<th>联系电话</th>
+								<th>用 户</th>
 								<th>操 作</th>
 							</tr>
 						</thead>
 					</table>
 				</div>
-				<div id="carList" class="datatable-content panel-body no-padding grow"></div>
+				<div id="orgUserList" class="datatable-content panel-body no-padding grow"></div>
 				<div class="panel-footer clearfix">
 					<div id="page" class="pull-right"></div>
 				</div>

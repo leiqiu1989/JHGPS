@@ -56,6 +56,12 @@ define(function(require, exports, module) {
                     me.getParams(true);
                     common.changeHash('#complaintManager/index/', me.searchParam);
                 })
+                //重置
+                .on('click', '.js_list_reset', function() {
+                    common.removeLocationStorage('complaintManagerParams'); // 投诉管理
+                    me.getParams(false);
+                    common.changeHash('#complaintManager/index/', me.searchParam);
+                })
                 //导出
                 .on('click', '.js_export', function() {
                     //me.export($(this));

@@ -1,40 +1,37 @@
 <table class="table table-hover no-margin">
 	<colgroup>
-	<col width="5%" />
-	<col width="8%" />
-	<col width="6%" />
-	<col width="8%" />
-	<col width="8%" />
+	<col width="30%" />
+	<col width="30%" />
+	<col width="20%" />
+	<col width="10%" />
+	<col width="10%" />
 </colgroup>
 <tbody>
 	<% if(data && data.length >	0) {
 		for(var i = 0 , len = data.length; i < len; i++) {
 			var item = data[i];
-			var carStatusDesc = item.OrderStatus==1?'停用': '启用';
+			var carStatusDesc = item.Enable==1?'停用': '启用';
 	%>
-	<tr data-truckid="<%= item.Vid %>" data-status="<%= item.OrderStatus %>">
+	<tr data-truckid="<%= item.Id %>" data-status="<%= item.Enable %>">
+		<td title="<%= item.Id %>">
+			<%= item.Id %>
+		</td>
+		<td title="<%= item.Name %>">
+			<%= item.Name %>
+		</td>
+		<td title="<%= item.Ip %>">
+			<%= item.Ip %>
+		</td>
+		<td title="<%= item.VehicleCount %>">
+			<%= item.VehicleCount %>
+		</td>
 		<td>
-			<a class="td-operator js_list_edit">
+			<a href="javascript:;" class="js_list_edit">
 				编 辑
 			</a>
-			<a class="td-operator js_list_setStatus">
+			<a href="javascript:;" class="ml10 js_list_setStatus">
 				<%= carStatusDesc%>
 			</a>
-		</td>
-		<td title="<%= item.PlateNo %>">
-			<!-- <a href="javascript:" class="js_list_detail">
-				<%= item.PlateNo %>
-			</a> -->
-			<%= item.PlateNo %>
-		</td>
-		<td title="<%= item.ColorString %>">
-			<%= item.ColorString %>
-		</td>
-		<td title="<%= item.OrgNo %>">
-			<%= item.OrgNo %>
-		</td>
-		<td title="<%= EquipmentNo %>">
-			<%= EquipmentNo %>
 		</td>
 	</tr>
 	<% } } %>

@@ -19,6 +19,9 @@ define(function(require, exports, module) {
         this.runtimer = null; // 播放标识
         this.index = 0; // 当前点索引
         this.carMarker = null; //移动车
+        this.fTime = null;
+        this.tTime = null;
+        this.isHistoryLocation = null;
     };
     $.extend(carTrack.prototype, {
         init: function(param) {
@@ -26,13 +29,17 @@ define(function(require, exports, module) {
             this.id = param.id;
             this.plateNo = param.plateNo;
             map.init('trackMap', null, false);
+            this.fTime = param.ftime || null;
+            this.tTime = param.ttime || null;
             this.initControl();
         },
+
         // 初始化控件
-        initControl: function() {
+        initControl: function(ftime, ttime) {
             var me = this;
             // 获取车辆
-            var arrVid = common.getCookie('arrVids');
+            var arrVids = common.getlocationStorage('arrVids');
+            var arrVid = arrVids ? arrVids : this.id;
             common.loading('show');
             common.ajax(api.carPositionList, { ArrVid: arrVid }, function(res) {
                 if (res && res.status === 'SUCCESS') {
@@ -54,13 +61,37 @@ define(function(require, exports, module) {
                     common.toast(msg);
                 }
             });
-            common.initDateTime('#startDate', null, true, 'yyyy/MM/dd 00:00');
+            common.initDateTime('#startDate', null, true, 'yyyy-MM-dd 00:00');
             common.initDateTime('#endDate', null, true);
+            // 设置时间
+            this.setTime();
             this.event();
         },
-        // 重置
-        reset: function() {
-
+        setTime: function() {
+            var startDate = null;
+            var endDate = null;
+            if (this.fTime) {
+                startDate = this.fTime;
+                endDate = new Date(this.fTime).format('yyyy-MM-dd') + ' 23:59:59';
+            } else if (this.tTime) {
+                startDate = this.tTime;
+                endDate = (new Date(Date.parse(this.tTime.replace(/-/g, "/")))).format('yyyy-MM-dd') + ' 23:59:59';
+            } else if (this.fTime && this.tTime) {
+                var ftime = new Date(Date.parse(this.fTime.replace(/-/g, "/")));
+                var ttime = new Date(Date.parse(this.tTime.replace(/-/g, "/")));
+                if (ftime >= ttime) {
+                    startDate = ttime.format('yyyy-MM-dd h:m');
+                    endDate = ftime.format('yyyy-MM-dd h:m');
+                } else {
+                    startDate = ftime.format('yyyy-MM-dd h:m');
+                    endDate = ttime.format('yyyy-MM-dd h:m');
+                }
+            }
+            if (startDate) $('#startDate').val(startDate);
+            if (endDate) $('#endDate').val(endDate);
+            if (startDate || endDate) {
+                this.isHistoryLocation = true;
+            }
         },
         // 查询历史轨迹
         getHistory: function() {
@@ -74,8 +105,8 @@ define(function(require, exports, module) {
             var endDate = $('#endDate').val();
             var chkResult = common.checkTime(endDate, startDate, 3);
             if (chkResult) {
-                var sTime = startDate + ' :00';
-                var eTime = endDate + ' :59';
+                var sTime = this.isHistoryLocation ? startDate : startDate + ' :00';
+                var eTime = this.isHistoryLocation ? endDate : endDate + ' :59';
                 common.loading('show');
                 common.ajax(api.carTrackHistory, { Vid: vid, STime: sTime, ETime: eTime }, function(res) {
                     if (res && res.status === 'SUCCESS') {
@@ -95,7 +126,7 @@ define(function(require, exports, module) {
             if (this.runtimer) {
                 clearInterval(this.runtimer);
             }
-            common.changeHash('#carMonitor/index');
+            history.back();
         },
         event: function() {
             var me = this;
@@ -345,6 +376,7 @@ define(function(require, exports, module) {
     });
 
     exports.init = function(param) {
+        debugger;
         new carTrack().init(param);
     };
 });
