@@ -2,7 +2,7 @@
     <div class="row-container full">
         <div class="row-container-left">
             <div class="panel-body">
-            <form id="editSeats_form" class="">
+            <form id="frmSeat">
             <!-- //用于阻止 chrome表单自动填充的占位符 -->
             <input class='hide' type="text" />
             <input class='hide' type="password" />
@@ -29,11 +29,11 @@
                         </div>
                     </div>
                     <div class="panel-footer panel-footer-patch">
-                        <a class="btn btn-primary mr10 js_add_save">
+                        <a class="btn btn-primary mr10 js_save">
                             <i class="fa fa-check"></i>
                             保 存
                         </a>
-                        <a class="btn btn-default js_add_cancel">
+                        <a class="btn btn-default js_cancel">
                             <i class="fa fa-ban"></i>
                             取 消
                         </a>
