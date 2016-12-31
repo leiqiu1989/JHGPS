@@ -12,7 +12,8 @@ define(function(require, exports, module) {
     var tpls = {
         index: require('../../tpl/carMonitor/index'),
         carList: require('../../tpl/carMonitor/list'),
-        carDetail: require('../../tpl/carMonitor/carDetail')
+        carDetail: require('../../tpl/carMonitor/carDetail'),
+        directive: require('../../tpl/carMonitor/directive')
     };
 
     function carMonitor() {
@@ -64,6 +65,7 @@ define(function(require, exports, module) {
                     //展开节点
                     var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
                     treeObj.expandAll(true);
+                    treeObj.checkAllNodes(true);
                     var arrVids = common.getlocationStorage('arrVids');
                     if (arrVids) {
                         // 取值默认选中tree
@@ -74,6 +76,8 @@ define(function(require, exports, module) {
                         }
                         // 获取列表
                         me.getCarPositionList(arrVids, true);
+                    } else {
+                        me.getCarPositionList(null, true);
                     }
                     // tree查询
                     common.searchTree();
@@ -104,7 +108,7 @@ define(function(require, exports, module) {
             if (!window.monitorTimer) {
                 window.monitorTimer = setInterval(function() {
                     me.getCarPositionList();
-                }, 30000);
+                }, 15000);
             }
         },
         carDetailInfo: function(id) {
@@ -164,6 +168,20 @@ define(function(require, exports, module) {
                 });
             }
         },
+        // 发动指令
+        sendCode: function(param, callback) {
+            param = param || {};
+            common.loading('show');
+            common.ajax(api.sendCode, param, function(res) {
+                if (res && res.status === 'SUCCESS') {
+                    if (callback) callback();
+                } else {
+                    var msg = res.errorMsg || '系统出错，请联系管理员！';
+                    common.toast(msg);
+                }
+                common.loading();
+            });
+        },
         event: function() {
             var me = this;
             // 事件监听
@@ -197,6 +215,42 @@ define(function(require, exports, module) {
                 .on('click', '.js_car_info', function() {
                     var id = $(this).data('id');
                     me.carDetailInfo();
+                })
+                // 指令
+                .on('click', '.js_directive', function() {
+                    var vid = $(this).data('id');
+                    var param = {
+                        Vids: vid,
+                    };
+                    common.autoAdaptionDialog(tpls.directive, {
+                        title: '指令'
+                    }, function(_dialog) {
+                        $('.js-setInterval').on('click', function() {
+                            var interval = $.trim($('input[name="txtInterval"]').val());
+                            if (interval && /^\d*$/.test(interval) && interval >= 2 && interval <= 3000) {
+                                param.Cmd = '1013';
+                                param.Args = interval;
+                                me.sendCode(param, function() {
+                                    _dialog.close();
+                                });
+                            } else {
+                                common.toast('不能为空且只能输入整数（2-3000）以内的整数!');
+                            }
+                        });
+                        // 短消息
+                        $('.js-setMessage').on('click', function() {
+                            var message = $.trim($('textarea[name="txtMessage"]').val());
+                            if (message && message.length > 0 && message.length <= 50) {
+                                param.Cmd = '1014';
+                                param.Args = message;
+                                me.sendCode(param, function() {
+                                    _dialog.close();
+                                });
+                            } else {
+                                common.toast('不能为空，且长度必须在50个字符以内!');
+                            }
+                        });
+                    });
                 })
                 // 轨迹回放
                 .on('click', '.js_track_replay', function() {

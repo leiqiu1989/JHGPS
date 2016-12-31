@@ -7,6 +7,7 @@ define(function(require, exports, module) {
     var map = function() {
         // 公共变量
         this._map = null;
+        this.centerPoint = null;
         this.isLoaded = null; // 是否加载完毕
         this.overView = null; //鹰眼
         this.mouseMove_marker = null; //鼠标放在轨迹上显示的轨迹点
@@ -21,6 +22,7 @@ define(function(require, exports, module) {
     map.prototype = {
         reset: function() {
             this._map = null;
+            this.centerPoint = null;
             this.isLoaded = null;
             this.overView = null;
             this.mouseMove_marker = null;
@@ -53,6 +55,7 @@ define(function(require, exports, module) {
                 //根据IP定位地图
                 localCity.get(function(result) {
                     var cityName = result.name;
+                    me.centerPoint = result.center;
                     me._map.centerAndZoom(cityName);
                     me.isLoaded = true;
                 });

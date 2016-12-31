@@ -118,6 +118,7 @@ define(function(require, exports, module) {
                             });
                         }
                     }
+                    common.loading();
                 });
             }
         },
@@ -127,6 +128,24 @@ define(function(require, exports, module) {
                 clearInterval(this.runtimer);
             }
             history.back();
+        },
+        reset: function() {
+            map.clearOverlays();
+            $('.trackPlay-btn').removeClass('pause');
+            if (this.runtimer) {
+                clearInterval(this.runtimer);
+            }
+            this.index = 0;
+            this.speedtime = null;
+            this.carMarker = null;
+            map._map.panTo(map.centerPoint);
+            // 重置速度条
+            this.initSpeed();
+            //重置进度条
+            this.changeProgress(0);
+        },
+        initSpeed: function() {
+            $('span.track-speed-width').css('width', '50%');
         },
         event: function() {
             var me = this;
@@ -376,7 +395,6 @@ define(function(require, exports, module) {
     });
 
     exports.init = function(param) {
-        debugger;
         new carTrack().init(param);
     };
 });

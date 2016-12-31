@@ -54,7 +54,7 @@ define(function(require, exports, module) {
             };
             if (newParams.start) newParams.start = newParams.start;
             if (newParams.end) newParams.end = newParams.end;
-            if(!param){
+            if (!param) {
                 newParams = {};
             }
             this.searchParam = common.getParams('seatsManagerSearchParams', param, newParams, true);
@@ -96,13 +96,13 @@ define(function(require, exports, module) {
                     var tr = $(this).closest('tr');
                     var id = tr.data('truckid');
 
-                    common.autoAdaptionDialog(template.compile(tpls.editSeats)(),{
+                    common.autoAdaptionDialog(template.compile(tpls.editSeats)(), {
                         title: '编辑座席'
-                    },function(_dialog){
-                        me.initOrgTree(function(){
+                    }, function(_dialog) {
+                        me.initOrgTree(function() {
                             me.initEditValue(id);
-                            me.validate(_dialog,id);
-                            $('#frmaddCar .js_add_cancel').on('click',function(){
+                            me.validate(_dialog, id);
+                            $('#frmSeat .js_cancel').on('click', function() {
                                 _dialog.close();
                             });
                         });
@@ -114,7 +114,7 @@ define(function(require, exports, module) {
                     var id = tr.data('truckid');
                     var status = tr.data('status') == 1 ? 0 : 1; //0:禁用  1：启用
 
-                    common.confirm('确定' + (status==1?'启用':'停用') + '此座席信息？', function() {
+                    common.confirm('确定' + (status == 1 ? '启用' : '停用') + '此座席信息？', function() {
                         me._opStatus(id, status);
                     });
                 });
@@ -126,40 +126,40 @@ define(function(require, exports, module) {
 
             //树上回显已经分配的资源
             var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
-            
-            if(treeObj==null) return;
+
+            if (treeObj == null) return;
 
             treeObj.expandAll(false); //默认收起全部节点
-            treeObj.checkAllNodes(false);  //取消所有勾选的节点
+            treeObj.checkAllNodes(false); //取消所有勾选的节点
             //发起请求
             common.loading('show');
-            common.ajax(url,{id: id},function(res){
+            common.ajax(url, { id: id }, function(res) {
                 var content = res.content,
                     nodess = treeObj.getNodes(),
-                    resourceIdArr = (content.Vids&&content.Vids.split(',')) || [];
+                    resourceIdArr = (content.Vids && content.Vids.split(',')) || [];
                 //给表单赋值
-                common.setFormData($('#editSeats_form'),content);
+                common.setFormData($('#frmSeat'), content);
                 $('#js_editSeats_no').text(content.Id);
                 //给权限树赋值回显
-                if(nodess==null||(nodess!=null&&nodess.length==0)) return;
-                    //根据该角色已有的权限进行相应节点的选中操作
-                    for (var i = 0,len = nodess.length;i<len;i++) {
-                        for(var j = 0,lenj = resourceIdArr.length;j<lenj;j++){
-                            var getNodeByParam= treeObj.getNodeByParam("Id",resourceIdArr[j], null);
-                            if(getNodeByParam && getNodeByParam!=null){
-                                treeObj.checkNode(getNodeByParam,true,false); 
-                            }
+                if (nodess == null || (nodess != null && nodess.length == 0)) return;
+                //根据该角色已有的权限进行相应节点的选中操作
+                for (var i = 0, len = nodess.length; i < len; i++) {
+                    for (var j = 0, lenj = resourceIdArr.length; j < lenj; j++) {
+                        var getNodeByParam = treeObj.getNodeByParam("Id", resourceIdArr[j], null);
+                        if (getNodeByParam && getNodeByParam != null) {
+                            treeObj.checkNode(getNodeByParam, true, false);
                         }
-                        //treeObj.setChkDisabled(nodess[i], true,true,true);
-                    };
-                    treeObj.expandAll(true); //默认展开全部节点
+                    }
+                    //treeObj.setChkDisabled(nodess[i], true,true,true);
+                };
+                treeObj.expandAll(true); //默认展开全部节点
                 common.loading();
             });
         },
         //初始化树
-        initOrgTree: function(callback){
+        initOrgTree: function(callback) {
             var me = this;
-             
+
             //组织列表树设置
             var ztreeSetting = {
                 check: {
@@ -186,13 +186,13 @@ define(function(require, exports, module) {
                     }
                 }
             };
-             var $treeContainer = $("#vehicleTree");
+            var $treeContainer = $("#vehicleTree");
             $treeContainer.html('正在请求数据...');
 
             common.ajax(api.vehicleList, {}, function(res) {
                 if (res && res.status === 'SUCCESS') {
-                     var data = res.content || [];
-                    if(!data.length){
+                    var data = res.content || [];
+                    if (!data.length) {
                         $treeContainer.html('未查询到相关数据');
                         typeof callback === 'function' && callback();
                         return;
@@ -208,34 +208,34 @@ define(function(require, exports, module) {
                 }
             });
         },
-        validate: function(_dialog,id) {
+        validate: function(_dialog, id) {
             var me = this;
-            validate('#editSeats_form', {
-                subBtn: '.js_add_save',
+            validate('#frmSeat', {
+                subBtn: '.js_save',
                 promptPos: 'inline',
                 submit: function() {
-                        me.submitForm(_dialog,id);
-                    },
-                    reg: {
-                        'ipaddress':  /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/
-                    },
-                    errorMsg: {
-                        'ipaddress': '请输入正确的ip地址'
-                    }
+                    me.submitForm(_dialog, id);
+                },
+                reg: {
+                    'ipaddress': /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/
+                },
+                errorMsg: {
+                    'ipaddress': '请输入正确的ip地址'
+                }
             });
         },
-        submitForm: function(dialogObj,id) {
+        submitForm: function(dialogObj, id) {
             var me = this;
             var url = api.seatsManager.update;
-           
-            var params = common.getFormData('#editSeats_form');
+
+            var params = common.getFormData('#frmSeat');
             var treeObj = $.fn.zTree.getZTreeObj("vehicleTree");
             var nodes = [];
-            if(treeObj!=null){
+            if (treeObj != null) {
                 nodes = treeObj.getCheckedNodes(true);
             }
             var arr = [];
-            for (var i = 0,len = nodes.length;i<len;i++) {
+            for (var i = 0, len = nodes.length; i < len; i++) {
                 arr.push(nodes[i].Id);
             };
             params.Vids = arr.toString();
@@ -254,7 +254,7 @@ define(function(require, exports, module) {
                 }
             });
         },
-         //停用、启用坐席信息
+        //停用、启用坐席信息
         _opStatus: function(id, status) {
             var me = this;
 
@@ -265,7 +265,7 @@ define(function(require, exports, module) {
             }, function(data) {
                 common.loading();
                 if (data.status == 'SUCCESS') {
-                    common.toast('成功' + (status==1?'启用':'停用') + '座席信息', 'success');
+                    common.toast('成功' + (status == 1 ? '启用' : '停用') + '座席信息', 'success');
                     //common.changeHash('#seatsManager/index');
                     me.init();
                 } else {
