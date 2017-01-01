@@ -82,6 +82,20 @@
     position: relative;
 }
 
+.row-container-small-left {
+    width: 30%;
+    float: left;
+    height: 100%;
+    position: relative;
+}
+
+.row-container-small-right {
+    width: 70%;
+    float: left;
+    height: 100%;
+    position: relative;
+}
+
 .list-group-patch {
     .list-group-item-patch {
         padding: 9.5px 15px;

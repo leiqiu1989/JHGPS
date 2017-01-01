@@ -22,6 +22,7 @@ define("base", [], function() {
             excheck: 'plugin/jquery.ztree.excheck.js',
             exhide: 'plugin/jquery.ztree.exhide.min.js',
             eventWrapper: 'plugin/EventWrapper.min.js',
+            marktool: 'plugin/MarkerTool.js',
             draw: 'plugin/DrawingManager.js',
             dialog: 'plugin/_dialog.js',
             validate: 'plugin/validate.js',

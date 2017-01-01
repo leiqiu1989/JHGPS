@@ -4,12 +4,12 @@
             var subMenus= data[i];
             if(subMenus.length > 0) {
                 var icon= subMenus[0].icon;
-                var name= subMenus[0].name;
+                var groupname= subMenus[0].groupname;
     %>
     <li>
         <a href="javascript:" class="dropdown-toggle">
             <i class="menu-icon <%= icon %>"></i>
-            <span class="menu-text"><%= name %></span>
+            <span class="menu-text"><%= groupname %></span>
         </a>        
         <ul class="submenu">
             <% 

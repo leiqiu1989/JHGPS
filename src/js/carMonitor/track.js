@@ -33,7 +33,6 @@ define(function(require, exports, module) {
             this.tTime = param.ttime || null;
             this.initControl();
         },
-
         // 初始化控件
         initControl: function(ftime, ttime) {
             var me = this;
@@ -64,19 +63,15 @@ define(function(require, exports, module) {
             common.initDateTime('#startDate', null, true, 'yyyy-MM-dd 00:00');
             common.initDateTime('#endDate', null, true);
             // 设置时间
-            this.setTime();
+            if (this.fTime || this.tTime) {
+                this.setTime();
+            }
             this.event();
         },
         setTime: function() {
             var startDate = null;
             var endDate = null;
-            if (this.fTime) {
-                startDate = this.fTime;
-                endDate = new Date(this.fTime).format('yyyy-MM-dd') + ' 23:59:59';
-            } else if (this.tTime) {
-                startDate = this.tTime;
-                endDate = (new Date(Date.parse(this.tTime.replace(/-/g, "/")))).format('yyyy-MM-dd') + ' 23:59:59';
-            } else if (this.fTime && this.tTime) {
+            if (this.fTime && this.tTime) {
                 var ftime = new Date(Date.parse(this.fTime.replace(/-/g, "/")));
                 var ttime = new Date(Date.parse(this.tTime.replace(/-/g, "/")));
                 if (ftime >= ttime) {
@@ -86,6 +81,12 @@ define(function(require, exports, module) {
                     startDate = ftime.format('yyyy-MM-dd h:m');
                     endDate = ttime.format('yyyy-MM-dd h:m');
                 }
+            } else if (this.fTime) {
+                startDate = this.fTime;
+                endDate = new Date(this.fTime).format('yyyy-MM-dd') + ' 23:59:59';
+            } else if (this.tTime) {
+                startDate = this.tTime;
+                endDate = (new Date(Date.parse(this.tTime.replace(/-/g, "/")))).format('yyyy-MM-dd') + ' 23:59:59';
             }
             if (startDate) $('#startDate').val(startDate);
             if (endDate) $('#endDate').val(endDate);
@@ -329,7 +330,7 @@ define(function(require, exports, module) {
             // 添加小车
             if (!this.carMarker) {
                 this.carMarker = new BMap.Marker(new BMap.Point(allPoints[0].Lng, allPoints[0].Lat), {
-                    icon: new BMap.Icon(window.DOMAIN + "/img/big_blue.png", new BMap.Size(20, 44), {
+                    icon: new BMap.Icon(window.DOMAIN + "/img/green_north.png", new BMap.Size(20, 44), {
                         imageOffset: new BMap.Size(0, 0)
                     })
                 });
