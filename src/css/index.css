@@ -477,6 +477,18 @@ div.admin .main-fixed {
   height: 100%;
   position: relative; }
 
+.row-container-small-left {
+  width: 30%;
+  float: left;
+  height: 100%;
+  position: relative; }
+
+.row-container-small-right {
+  width: 70%;
+  float: left;
+  height: 100%;
+  position: relative; }
+
 .list-group-patch .list-group-item-patch {
   padding: 9.5px 15px;
   font-weight: 700;
@@ -969,6 +981,37 @@ dl dd {
 
 .pause {
   background-image: url(./../img/btn_Paused.png) !important; }
+
+.mapToolbar {
+  position: absolute;
+  top: 30px;
+  left: 90px;
+  z-index: 1; }
+  .mapToolbar .mapText {
+    line-height: 30px;
+    width: 300px;
+    height: 30px;
+    padding-left: 5px;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 5px #a19f9e; }
+  .mapToolbar .mapBtn, .mapToolbar .mapBtnSearch, .mapToolbar .mapBtnText {
+    display: block;
+    float: right;
+    padding: 6px 12px;
+    border: 1px solid #4fa0fb;
+    box-shadow: 1px 1px 5px #4fa0fb; }
+  .mapToolbar .mapBtnSearch {
+    width: 12px;
+    height: 30px;
+    margin-right: 30px;
+    background: #4fa0fb url(./../img/seek.png) no-repeat 50% center; }
+  .mapToolbar a:hover {
+    text-decoration: none; }
+  .mapToolbar .mapBtnText {
+    height: 30px;
+    margin-right: 15px;
+    color: #fff;
+    background-color: #4fa0fb; }
 
 /*历史位置查询*/
 #historyMap {

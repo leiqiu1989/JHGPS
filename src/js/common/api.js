@@ -107,6 +107,7 @@ define(function(require, exports, module) {
             deleteRole: remoteUrl + '/Role/DeleteRole', //角色管理-删除 批量、单个
             rolePermission: remoteUrl + '/Role/QueryAllPermission' //角色管理-系统功能Ztree
         },
+        // 用户管理
         orgUserManager: {
             list: remoteUrl + '/Org/List',
             save: remoteUrl + '/Org/Create',
@@ -114,6 +115,14 @@ define(function(require, exports, module) {
             roles: remoteUrl + '/Role/QuertAllRoleAbbr',
             del: remoteUrl + '/Org/Delete',
             detail: remoteUrl + '/Org/QueryOrgByOrgId'
+        },
+        // 地标点管理
+        landMarkPointManager: {
+            list: remoteUrl + '/LandMark/QueryAllLandMark',
+            add: remoteUrl + '/LandMark/Create',
+            update: remoteUrl + '/LandMark/Edit',
+            del: remoteUrl + '/LandMark/Delete',
+            detail: remoteUrl + '/LandMark/QueryDetailById'
         }
     };
     return api;

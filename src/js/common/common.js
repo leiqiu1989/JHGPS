@@ -30,17 +30,24 @@ define(function(require, exports, module) {
         group: 'carmonitor',
         icon: 'fa fa-users'
     }, {
+        name: '地标点管理',
+        code: '00030',
+        url: '#landmarkPointManager/index',
+        groupname: '车辆监控',
+        group: 'carmonitor',
+        icon: 'fa fa-users'
+    }, {
         name: '组织用户管理',
         code: '00007',
         url: '#orgUserManager/index',
-        groupname: '组织用户',
+        groupname: '组织管理',
         group: 'users',
         icon: 'fa fa-users'
     }, {
         name: '角色管理',
         code: '00006',
         url: '#roleManager/index',
-        groupname: '组织用户',
+        groupname: '组织管理',
         group: 'users',
         icon: 'fa fa-users'
     }, {
@@ -96,6 +103,13 @@ define(function(require, exports, module) {
         name: '司机管理',
         code: '00022',
         url: 'javascript:void(0)',
+        groupname: '资源管理',
+        group: 'resource',
+        icon: 'fa fa-car'
+    }, {
+        name: '指令发送',
+        code: '00029',
+        url: '#sendCode/index',
         groupname: '资源管理',
         group: 'resource',
         icon: 'fa fa-car'
@@ -479,6 +493,7 @@ define(function(require, exports, module) {
             common.removeLocationStorage('roleManagerSearchParams'); //角色管理
             common.removeLocationStorage('orderManagerSearchParams'); //订单管理
             common.removeLocationStorage('carOrderConfigParams'); //车辆订单配置
+            common.removeLocationStorage('landMarkPointParams'); //地标点管理
         },
         // 根据key获取查询条件，param:历史查询参数(传递true则更新为新的查询参数)，
         // newParam：新的查询参数，hasDefaultPage：参数默认传递page参数，默认为true
@@ -697,18 +712,6 @@ define(function(require, exports, module) {
                     if (callback && typeof callback === 'function') {
                         callback.call(this, res);
                     }
-                    // if (res.status == 'ERROR') {
-                    //     if (!me.sessionExpire) {
-                    //         me.sessionExpire = true;
-                    //         me.alert(res.errorMsg, 'error', true, function() {
-                    //             me.loading();
-                    //             me.clearData();
-                    //             window.location.hash = '#login/login';
-                    //         });
-                    //     }
-                    // } else {
-                    //     me.sessionExpire = false;
-                    // }
                 },
                 //若异常，则弹窗提示
                 error: function(xmlHttpRequest) {
@@ -718,9 +721,11 @@ define(function(require, exports, module) {
                         me.loading();
                         me.toast('请求失败，请联系管理员！');
                         // 如果sid，st为null，则跳转到登录页
-                        var sid = me.getCookie('sid');
-                        var st = me.getCookie('st');
-                        if (!sid || !st) {
+                        var accountid = me.getCookie('accountid');
+                        var usertype = me.getCookie('usertype');
+                        var orgno = me.getCookie('orgno');
+                        var token = me.getCookie('token');
+                        if (!accountid || !usertype || !orgno || !token) {
                             me.clearData();
                             window.location.hash = '#login/login';
                         }
