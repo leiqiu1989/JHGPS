@@ -71,8 +71,8 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <a class="btn btn-primary w-200 mr10 js-save">保 存</a>
-                                <a class="btn btn-primary w-200 js-cancel">取 消</a>
+                                <a class="btn btn-primary mr10 js-save">保 存</a>
+                                <a class="btn btn-primary  js-cancel">取 消</a>
                             </div>
                         </div>
                     </div>
