@@ -33,7 +33,7 @@ define(function(require, exports, module) {
             this.initMapTime = setInterval(function() {
                 if (map.isLoaded) {
                     clearInterval(me.initMapTime);
-                    if (data) {
+                    if (data && !$.isEmptyObject(data)) {
                         me.bindMapData(data.Lng, data.Lat);
                     }
                 }
