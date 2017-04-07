@@ -9,7 +9,7 @@ define(function(require, exports, module) {
     function authorize() {}
     $.extend(authorize.prototype, {
         init: function() {
-            // 渲染模板，看看
+            // 渲染模板
             $('#main-content').empty().html(template.compile(tpls.index)());
         }
     });
