@@ -31,6 +31,7 @@ define(function(require, exports, module) {
             common.initDateTime('input[name="start"]', 'Y-m-d H:i', false, 'yyyy-MM-dd h:m', true, false);
             common.initDateTime('input[name="end"]', 'Y-m-d H:i', false, 'yyyy-MM-dd h:m', true, false);
             $('#vehicleType').val(me.searchParam.OrderType);
+            $('#Seat').val(me.searchParam.Seat);
         },
         // 获取查询条件
         getParams: function(param) {
@@ -41,7 +42,8 @@ define(function(require, exports, module) {
                 end: common.getElValue('input[name="end"]'),
                 phone: common.getElValue('input[name="phone"]'),
                 plateNo: common.getElValue('input[name="plateNo"]'),
-                OrderType: common.getElValue('select[name="OrderType"]')
+                OrderType: common.getElValue('select[name="OrderType"]'),
+                Seat: common.getElValue('select[name="Seat"]')
             };
             if (newParams.start) newParams.start = newParams.start;
             if (newParams.end) newParams.end = newParams.end;
@@ -143,13 +145,13 @@ define(function(require, exports, module) {
                     common.autoAdaptionDialog(template.compile(tpls.map)(), {
                         title: '位置查看'
                     }, function() {
-                        map.init('mymap', new BMap.Point(lng,lat), false, function(mymap) {
+                        map.init('mymap', new BMap.Point(lng, lat), false, function(mymap) {
                             setTimeout(function() {
-                                var new_point = new BMap.Point(lng,lat);
+                                var new_point = new BMap.Point(lng, lat);
                                 var marker = new BMap.Marker(new_point); // 创建标注
                                 mymap.addOverlay(marker); // 将标注添加到地图中
                                 mymap.panTo(new_point);
-                                mymap.centerAndZoom(new_point, 14);// 建树点坐标,初始化地图,设置中心点坐标和地图级别。
+                                mymap.centerAndZoom(new_point, 14); // 建树点坐标,初始化地图,设置中心点坐标和地图级别。
                             }, 500);
                         });
                     });

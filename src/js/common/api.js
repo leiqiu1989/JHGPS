@@ -31,6 +31,8 @@ define(function(require, exports, module) {
         userPermission: remoteUrl + '/Role/QueryAccountPermission',
         // 发送指令
         sendCode: remoteUrl + '/Command/SendGeneralByVid',
+        // 区域查车
+        areaQuery: remoteUrl + '/position/QueryVehicleByRectangle',
         // 车辆管理
         carManager: {
             list: remoteUrl + '/Vehicle/QueryAllVehicleAbbrInfo', //车辆管理列表
@@ -123,6 +125,15 @@ define(function(require, exports, module) {
             update: remoteUrl + '/LandMark/Edit',
             del: remoteUrl + '/LandMark/Delete',
             detail: remoteUrl + '/LandMark/QueryDetailById'
+        },
+        // 系统日志
+        sysLogManager: {
+            list: remoteUrl + '/Log/query'
+        },
+        // 订单统计
+        orderSummary: {
+            list: remoteUrl + '/Order/SuccessStatistic',
+            orderExport: remoteUrl + '/Order/SuccessStatisticExport'
         }
     };
     return api;

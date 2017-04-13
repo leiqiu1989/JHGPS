@@ -79,6 +79,20 @@ define(function(require, exports, module) {
         group: 'order',
         icon: 'fa fa-list'
     }, {
+        name: '车辆订单统计',
+        code: '00031',
+        url: '#orderSummary/index',
+        groupname: '订单管理',
+        group: 'order',
+        icon: 'fa fa-list'
+    }, {
+        name: '系统日志',
+        code: '00032',
+        url: '#log/index',
+        groupname: '订单管理',
+        group: 'order',
+        icon: 'fa fa-list'
+    }, {
         name: '车辆管理',
         code: '00005',
         url: '#carManager/index',
@@ -260,6 +274,7 @@ define(function(require, exports, module) {
                 value: hasDefValue ? currentDate : null,
                 timepicker: timePickerBool,
                 format: formatStyle,
+                step: 1,
                 minDate: minDate || false,
                 maxDate: maxDate || false
             };
@@ -494,6 +509,8 @@ define(function(require, exports, module) {
             common.removeLocationStorage('orderManagerSearchParams'); //订单管理
             common.removeLocationStorage('carOrderConfigParams'); //车辆订单配置
             common.removeLocationStorage('landMarkPointParams'); //地标点管理
+            common.removeLocationStorage('logManagerSearchParams'); //系统日志
+            common.removeLocationStorage('orderSummaryParams'); // 订单统计
         },
         // 根据key获取查询条件，param:历史查询参数(传递true则更新为新的查询参数)，
         // newParam：新的查询参数，hasDefaultPage：参数默认传递page参数，默认为true
