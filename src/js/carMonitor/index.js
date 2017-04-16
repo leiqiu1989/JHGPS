@@ -221,6 +221,15 @@ define(function(require, exports, module) {
                     map.moveOverView('down');
                     $('.monitorBody').hide();
                 })
+                // 查询
+                .on('click', '.js-carmonitor-search', function() {
+                    var plateNo = $.trim($('input[name="plateNo"]').val());
+                    var list = $('#carMonitorList').find('tr[plateno*="' + plateNo + '"]');
+                    if (list.size() > 0) {
+                        var defRow = $(list).eq(0);
+                        alert($(defRow).scrollTop());
+                    }
+                })
                 // 切换车辆列表
                 .on('click', '.js-foldToggle', function() {
                     var order = '';
