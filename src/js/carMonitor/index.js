@@ -37,6 +37,27 @@ define(function(require, exports, module) {
             this.event();
             this.initZTree();
         },
+        // 初始化车辆监控列表
+        initCarMonitorList: function(data, monitorStart) {
+            var me = this;
+            $('#carMonitorList').empty().html(template.compile(tpls.carList)({
+                data: data
+            }));
+            // 清除数据
+            map.clearData();
+            for (var i = 0; i < data.length; i++) {
+                data[i] = common.directForm(data[i]);
+                map.addTrackMark(data[i]);
+            }
+            // 绑定监控表格行单击事件
+            map.bindMonitorListEvent();
+            // 统计
+            me.monitorSummary(data);
+            if (data.length > 0 && monitorStart) {
+                // 开启监控
+                me.startMonitorTimer();
+            }
+        },
         getDrawData: function(param) {
             var me = this;
             param = param || {};
@@ -44,12 +65,7 @@ define(function(require, exports, module) {
             common.ajax(api.areaQuery, param, function(res) {
                 if (res && res.status === 'SUCCESS') {
                     var data = res.content || [];
-                    $('#carMonitorList').empty().html(template.compile(tpls.carList)({
-                        data: data
-                    }));
-                    if (data.length > 0) {
-                        me.processMapData(data);
-                    }
+                    me.initCarMonitorList(data);
                 } else {
                     var msg = res.errorMsg || '系统出错，请联系管理员！';
                     common.toast(msg);
@@ -132,7 +148,7 @@ define(function(require, exports, module) {
             if (!window.monitorTimer) {
                 window.monitorTimer = setInterval(function() {
                     me.getCarPositionList();
-                }, 3000000);
+                }, 15000);
             }
         },
         carDetailInfo: function(id) {
@@ -156,20 +172,6 @@ define(function(require, exports, module) {
                 }
             });
         },
-        // 处理数据
-        processMapData: function(data) {
-            var me = this;
-            // 清除数据
-            map.clearData();
-            for (var i = 0; i < data.length; i++) {
-                data[i] = common.directForm(data[i]);
-                map.addTrackMark(data[i]);
-            }
-            // 绑定监控表格行单击事件
-            map.bindMonitorListEvent();
-            // 统计
-            me.monitorSummary(data);
-        },
         // 获取车辆位置列表
         getCarPositionList: function(arrVids, isloading) {
             var loadStatus = isloading ? 'show' : 'hide';
@@ -181,14 +183,7 @@ define(function(require, exports, module) {
                 common.ajax(api.carPositionList, { ArrVid: arrVid }, function(res) {
                     if (res && res.status === 'SUCCESS') {
                         var data = res.content || [];
-                        $('#carMonitorList').empty().html(template.compile(tpls.carList)({
-                            data: data
-                        }));
-                        if (data.length > 0) {
-                            me.processMapData(data);
-                            // 开启监控
-                            me.startMonitorTimer();
-                        }
+                        me.initCarMonitorList(data, true);
                     } else {
                         var msg = res.errorMsg || '系统出错，请联系管理员！';
                         common.toast(msg);
