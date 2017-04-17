@@ -1,8 +1,8 @@
 var gulp = require('gulp');
 
 //引用外包
-var tpl = require('gulp-tpl');
-uglify = require('gulp-uglify'),
+var tpl = require('gulp-tpl'),
+    uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
     watch = require('gulp-watch'),
     minifyCss = require('gulp-minify-css'),

@@ -12,10 +12,10 @@
             <div class="monitorCarSearch pull-left">
                 <div class="inline-block mr10">
                     <span>车牌号码：</span>
-                    <input type="text" class="normalText" placeholder="请输入车牌号" />
+                    <input type="text" class="normalText" name="plateNo" placeholder="请输入车牌号" />
                 </div>
                 <div class="inline-block">
-                    <a class="btn-basic-default">
+                    <a class="btn-basic-default js-carmonitor-search">
                         查 询
                     </a>
                 </div>
@@ -52,7 +52,7 @@
                         </thead>
                     </table>
                 </div>
-                <div id="carMonitorList" class="datatable-content panel-body no-padding grow">                    
+                <div id="carMonitorList" class="datatable-content panel-body no-padding grow">
                 </div>
             </div>
         </div>
