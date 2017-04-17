@@ -227,7 +227,9 @@ define(function(require, exports, module) {
                     var list = $('#carMonitorList').find('tr[plateno*="' + plateNo + '"]');
                     if (list.size() > 0) {
                         var defRow = $(list).eq(0);
-                        alert($(defRow).scrollTop());
+                        $(defRow).addClass('monitor-active').siblings().removeClass('monitor-active');
+                        $('#carMonitorList').scrollTop($(defRow).index() * 36);
+                        $(defRow).click();
                     }
                 })
                 // 切换车辆列表
