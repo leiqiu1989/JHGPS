@@ -30,13 +30,14 @@ define(function(require, exports, module) {
         },
         // 获取查询条件
         getParams: function(param) {
+            debugger;
             this.sortParam = {};
             var newParams = {
                 OrgNo: common.getElValue(':hidden[name="OrgNo"]'), //所属机构
                 PlateNo: common.getElValue('input[name="PlateNo"]'), //车牌号码
                 orgName: common.getElValue('input[name="orgName"]'), //机构名称
                 Stime: common.getElValue('input[name="Stime"]'),
-                Etime: common.getElValue('input[name="Stime"]')
+                Etime: common.getElValue('input[name="Etime"]')
             };
             this.searchParam = common.getParams('orderSummaryParams', param, newParams);
             if (!this.searchParam.Stime) {
